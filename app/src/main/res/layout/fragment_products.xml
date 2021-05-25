@@ -1,13 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.fragments.Products">
+    android:theme="@style/NestedScrollBarStyle">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="@color/light_grey"
+        tools:context=".controllers.launcher">
 
-</FrameLayout>
+
+        <RelativeLayout
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <FrameLayout
+                android:id="@+id/appbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_200sdp"
+                android:background="@drawable/product_top">
+                <LinearLayout
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:weightSum="3"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="@string/_24days"
+                            android:textColor="@color/white"
+                            android:drawableTint="@color/white"
+                            android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
+                            android:textSize="@dimen/_15sdp"
+                            />
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="@string/_82Humidity"
+                            android:textColor="@color/white"
+                            android:drawableTint="@color/white"
+                            android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
+                            android:textSize="@dimen/_15sdp"
+                            />
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="@string/_24days"
+                            android:textColor="@color/white"
+                            android:drawableTint="@color/white"
+                            android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
+                            android:textSize="@dimen/_15sdp"
+                            />
+                    </LinearLayout>
+                    <TextView
+                        android:layout_below="@+id/appbar"
+                        android:background="@drawable/bg_border_square_black"
+                        android:layout_weight="5"
+                        android:id="@+id/orderItems"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_3sdp"
+                        android:gravity="center_horizontal"
+                        android:text="@string/add_to_cart"
+                        android:alpha="0.8"
+                        android:padding="@dimen/_10sdp"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:paddingRight="@dimen/_2sdp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_15sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </LinearLayout>
+
+            </FrameLayout>
+
+
+        </RelativeLayout>
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"></include>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

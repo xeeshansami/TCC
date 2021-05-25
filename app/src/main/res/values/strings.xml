@@ -88,4 +88,8 @@
     <string name="fullName">Full Name</string>
     <string name="updateProfile">Update Profile</string>
     <string name="change_photo">Change Photo</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="_24days">24\nDays</string>
+    <string name="_82Humidity">82\nHumidity</string>
+    <string name="_42Diameter">42\nDiameter</string>
 </resources>

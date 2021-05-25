@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
@@ -36,7 +37,10 @@ class Products : Fragment(), View.OnClickListener {
     fun init(view: View?) {
         sessionManager = SessionManager(activity)
         backBtn.setOnClickListener(this)
+        backBtn.setColorFilter(ContextCompat.getColor(activity as CIFRootActivity, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN);
+        header.setTextColor(resources!!.getColor(R.color.white))
         header.text = getText(R.string.product)
+        starBtn.visibility=View.VISIBLE
     }
 
     override fun onClick(v: View) {

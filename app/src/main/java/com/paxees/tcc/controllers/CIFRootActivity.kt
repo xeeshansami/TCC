@@ -92,7 +92,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
-                setOf(R.id.navigation_home, R.id.navigation_profile,R.id.navigation_strains), drawerLayout
+                setOf(R.id.navigation_home, R.id.navigation_profile,R.id.navigation_strains,R.id.navigation_products), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
@@ -109,6 +109,10 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
                 R.id.navigation_strains -> {
                     toolbar.visibility = View.GONE
                     tvTitle.text = "Strains"
+                }
+                R.id.navigation_products -> {
+                    toolbar.visibility = View.GONE
+                    tvTitle.text = "Product"
                 }
             }
         }
@@ -190,6 +194,10 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
             }
             getString(R.string.strains) -> {
                 switchFragment(R.id.navigation_strains)
+                drawer_layout.closeDrawer(Gravity.START, true)
+            }
+            getString(R.string.product) -> {
+                switchFragment(R.id.navigation_products)
                 drawer_layout.closeDrawer(Gravity.START, true)
             }
         }
