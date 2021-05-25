@@ -13,7 +13,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.dk.tengerms"
+        applicationId "com.paxees.tcc"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1

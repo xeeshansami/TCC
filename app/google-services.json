@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:894517479554:android:df3f64711c744d4b1d8c9b",
         "android_client_info": {
-          "package_name": "com.dk.tengerm"
+          "package_name": "com.paxees.tcc"
         }
       },
       "oauth_client": [
@@ -38,7 +38,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:894517479554:android:986f244810730f6c1d8c9b",
         "android_client_info": {
-          "package_name": "com.dk.tengerms"
+          "package_name": "com.paxees.tccs"
         }
       },
       "oauth_client": [

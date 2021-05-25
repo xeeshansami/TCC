@@ -41,7 +41,7 @@ android:orientation="vertical">
         <TextView android:layout_gravity="center" android:textSize="@dimen/_15sdp" android:gravity="center" android:text="Please Enter Branch Code" android:layout_width="match_parent"
             android:layout_height="wrap_content"></TextView>
 
-        <com.dk.tengerms.utils.OtpEditText android:id="@+id/txt_pin_entry"
+        <com.paxees.tcc.utils.OtpEditText android:id="@+id/txt_pin_entry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_10sdp"

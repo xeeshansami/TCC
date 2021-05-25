@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.dk.tengerms.views.fragments.home.HomeFragment"
+        android:name="com.paxees.tcc.views.fragments.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/navigation_brands"
-        android:name="com.dk.tengerms.views.fragments.Brands"
+        android:name="com.paxees.tcc.views.fragments.Brands"
         android:label="@string/popularBrands"
         tools:layout="@layout/fragment_brands" >
         <action
@@ -50,13 +50,13 @@
 
     <fragment
         android:id="@+id/navigation_buyoffers"
-        android:name="com.dk.tengerms.views.fragments.BuyOffer"
+        android:name="com.paxees.tcc.views.fragments.BuyOffer"
         android:label="@string/BuyOffer"
         tools:layout="@layout/fragment_buy_offer" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.dk.tengerms.views.fragments.Profile"
+        android:name="com.paxees.tcc.views.fragments.Profile"
         android:label="@string/myProfile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -105,37 +105,37 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_checkout"
-        android:name="com.dk.tengerms.views.fragments.Checkout"
+        android:name="com.paxees.tcc.views.fragments.Checkout"
         android:label="@string/checkout"
         tools:layout="@layout/fragment_checkout" />
     <fragment
         android:id="@+id/navigation_change_password"
-        android:name="com.dk.tengerms.views.fragments.ChangePassword"
+        android:name="com.paxees.tcc.views.fragments.ChangePassword"
         android:label="@string/changePwd"
         tools:layout="@layout/fragment_change_pwd" />
     <fragment
         android:id="@+id/navigation_myprofile"
-        android:name="com.dk.tengerms.views.fragments.MyProfile"
+        android:name="com.paxees.tcc.views.fragments.MyProfile"
         android:label="@string/myProfile"
         tools:layout="@layout/fragment_myprofile" />
     <fragment
         android:id="@+id/navigation_refer_a_friend"
-        android:name="com.dk.tengerms.views.fragments.ReferAFriend"
+        android:name="com.paxees.tcc.views.fragments.ReferAFriend"
         android:label="@string/referAFriend"
         tools:layout="@layout/fragment_refer_a_friend" />
     <fragment
         android:id="@+id/navigation_coupon_redemption"
-        android:name="com.dk.tengerms.views.fragments.CouponRedemption"
+        android:name="com.paxees.tcc.views.fragments.CouponRedemption"
         android:label="@string/couponRedeemption"
         tools:layout="@layout/fragment_coupons_redeem" />
     <activity
         android:id="@+id/navigation_launchers"
-        android:name="com.dk.tengerms.controllers.launcher"
+        android:name="com.paxees.tcc.controllers.launcher"
         android:label="launcher"
         tools:layout="@layout/activity_main"></activity>
     <activity
         android:id="@+id/navigation_map"
-        android:name="com.dk.tengerms.controllers.MapsActivity"
+        android:name="com.paxees.tcc.controllers.MapsActivity"
         android:label="MapsActivity"
         tools:layout="@layout/activity_maps"></activity>
 </navigation>

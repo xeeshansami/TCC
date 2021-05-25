@@ -6,7 +6,7 @@
     app:startDestination="@id/splashScreen">
     <fragment
         android:id="@+id/splashScreen"
-        android:name="com.dk.tengerms.views.fragments.SplashScreen"
+        android:name="com.paxees.tcc.views.fragments.SplashScreen"
         android:label="SplashScreen"
         tools:layout="@layout/fragment_splash_screen">
         <action
@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/slider"
-        android:name="com.dk.tengerms.views.fragments.Slider"
+        android:name="com.paxees.tcc.views.fragments.Slider"
         android:label="Slider"
         tools:layout="@layout/fragment_slider">
         <action
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/login"
-        android:name="com.dk.tengerms.views.fragments.Login"
+        android:name="com.paxees.tcc.views.fragments.Login"
         android:label="Login"
         tools:layout="@layout/fragment_login">
         <action
@@ -69,7 +69,7 @@
     </fragment>
     <fragment
         android:id="@+id/register"
-        android:name="com.dk.tengerms.views.fragments.Register"
+        android:name="com.paxees.tcc.views.fragments.Register"
         android:label="Register"
         tools:layout="@layout/fragment_register">
         <action
@@ -83,7 +83,7 @@
     </fragment>
     <activity
         android:id="@+id/navigation_dashboard"
-        android:name="com.dk.tengerms.controllers.Dashboard"
+        android:name="com.paxees.tcc.controllers.Dashboard"
         android:label="Dashboard"
         tools:layout="@layout/activity_dashboard"></activity>
 </navigation>
