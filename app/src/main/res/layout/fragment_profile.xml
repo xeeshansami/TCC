@@ -8,150 +8,166 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/light_grey"
         tools:context=".controllers.launcher">
-        <TextView android:id="@+id/header"
+
+        <include android:id="@+id/toolbar" layout="@layout/toolbar"></include>
+
+
+        <FrameLayout
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            android:id="@+id/imageSectorLY"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/profile"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_20sdp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:text="@string/change_photo"
+                android:layout_gravity="bottom"
+                android:elevation="@dimen/_10sdp"
+                android:background="@drawable/bg_border_square_black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></TextView>
+            <ImageView
+                android:id="@+id/ivProfile"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:src="@drawable/image"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter"
+                android:padding="@dimen/_10sdp"
+                android:background="@drawable/circle_img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+        </FrameLayout>
+
+        <TextView
+            android:paddingLeft="@dimen/_10sdp"
+            android:id="@+id/fullNameLbl"
+            android:layout_marginLeft="@dimen/_40sdp"
+            android:layout_marginRight="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_120sdp"
+            android:textSize="@dimen/_15sdp"
             android:textStyle="bold"
+            android:text="@string/fullName"
+            app:layout_constraintTop_toBottomOf="@+id/imageSectorLY"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+        <EditText
+            android:maxLines="1"
+            android:singleLine="true"
+            android:padding="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_40sdp"
+            android:layout_marginRight="@dimen/_40sdp"
+            android:background="@drawable/edittext_border"
+            android:id="@+id/fullName"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold"
+            android:hint="@string/ZeeshanSami"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></TextView>
-        <LinearLayout android:id="@+id/profileTag"
+            app:layout_constraintTop_toBottomOf="@+id/fullNameLbl"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_150sdp"
-            android:layout_margin="@dimen/_5sdp"
-            android:background="@drawable/card_border"
-            android:orientation="horizontal"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header">
+            android:layout_height="wrap_content"></EditText>
 
-            <ImageView android:id="@+id/imgid"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_100sdp"
-                android:padding="@dimen/_2sdp"
-                android:scaleType="fitXY"
-                android:src="@drawable/image5"></ImageView>
 
-            <LinearLayout android:layout_width="wrap_content"
+        <TextView
+            android:paddingLeft="@dimen/_10sdp"
+            android:id="@+id/emailLabel"
+            android:layout_marginLeft="@dimen/_40sdp"
+            android:layout_marginRight="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold"
+            android:text="@string/email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fullName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+        <EditText
+            android:maxLines="1"
+            android:singleLine="true"
+            android:padding="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_40sdp"
+            android:layout_marginRight="@dimen/_40sdp"
+            android:background="@drawable/edittext_border"
+            android:id="@+id/emailEt"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold"
+            android:hint="@string/sampleEmail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emailLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></EditText>
+
+        <TextView
+            android:paddingLeft="@dimen/_10sdp"
+            android:id="@+id/passwordLabel"
+            android:layout_marginLeft="@dimen/_40sdp"
+            android:layout_marginRight="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold"
+            android:text="@string/phoneNumber"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emailEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:maxLines="1"
+            android:singleLine="true"
+            android:layout_marginRight="@dimen/_40sdp"
+            android:layout_marginLeft="@dimen/_40sdp"
+            android:id="@+id/etPasswordLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/passwordLabel"
+            app:passwordToggleEnabled="false"
+            app:passwordToggleTint="@color/grey">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:padding="@dimen/_10sdp"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:id="@+id/etPassword"
+                android:background="@drawable/edittext_border"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_5sdp"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/header">
-
-                <TextView android:id="@+id/tvId"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="@string/ZeeshanSami"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold"></TextView>
-
-                <TextView android:id="@+id/txtRating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/desc"
-                    android:textSize="@dimen/_10sdp"></TextView>
-            </LinearLayout>
-        </LinearLayout>
-        <TextView
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:id="@+id/tvCoupons"
+                android:textColor="@color/grey"
+                android:inputType="number"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:hint="@string/number"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <Button
+            android:id="@+id/updateProfileBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/MyCoupons"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:textColor="@color/black"
-            android:background="@drawable/clickable_list_button"
-            android:textSize="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_40sdp"
+            android:layout_marginLeft="@dimen/_40sdp"
+            android:text="@string/updateProfile"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:background="@drawable/button_border"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profileTag"></TextView>
-        <TextView
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:id="@+id/tvChangePwd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/changePwd"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:textColor="@color/black"
-            android:background="@drawable/clickable_list_button"
-            android:textSize="@dimen/_15sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvCoupons"></TextView>
-
-        <TextView
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:id="@+id/tvMyProfile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/myProfile"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:textColor="@color/black"
-            android:background="@drawable/clickable_list_button"
-            android:textSize="@dimen/_15sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvChangePwd"></TextView>
-        <TextView
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:id="@+id/tvReferAFriend"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/referAFriend"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:textColor="@color/black"
-            android:background="@drawable/clickable_list_button"
-            android:textSize="@dimen/_15sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvMyProfile"></TextView>
-        <TextView
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:id="@+id/tvCouponsRedemption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/couponRedeemption"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:textColor="@color/black"
-            android:background="@drawable/clickable_list_button"
-            android:textSize="@dimen/_15sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvReferAFriend"></TextView>
-
-        <TextView
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:id="@+id/tvLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/logout"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:textColor="@color/black"
-            android:background="@drawable/clickable_list_button"
-            android:textSize="@dimen/_15sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvCouponsRedemption"></TextView>
-
-
+            app:layout_constraintTop_toBottomOf="@+id/etPasswordLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

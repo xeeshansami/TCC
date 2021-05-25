@@ -1,394 +1,329 @@
-package com.paxees.tcc.views.fragments;
+package com.paxees.tcc.views.fragments
 
-import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.graphics.Paint
+import android.os.Bundle
+import android.os.Handler
+import android.text.TextUtils
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
+import com.facebook.*
+import com.facebook.login.LoginResult
+import com.facebook.login.widget.LoginButton
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.GoogleSignInResult
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.GoogleApiClient
+import com.paxees.tcc.R
+import com.paxees.tcc.controllers.launcher
+import com.paxees.tcc.network.networkmodels.request.LoginRequest
+import com.paxees.tcc.utils.Constants
+import com.paxees.tcc.utils.SessionManager
+import com.paxees.tcc.utils.ToastUtils
+import kotlinx.android.synthetic.main.fragment_login.*
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
-
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.paxees.tcc.R;
-import com.paxees.tcc.controllers.launcher;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.LoginCallBack;
-import com.paxees.tcc.network.enums.RetrofitEnums;
-import com.paxees.tcc.network.networkmodels.request.LoginRequest;
-import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse;
-import com.paxees.tcc.network.networkmodels.response.baseResponses.LoginResponse;
-import com.paxees.tcc.network.networkmodels.response.models.Brand;
-import com.paxees.tcc.network.store.TenGermsStore;
-import com.paxees.tcc.utils.Constants;
-import com.paxees.tcc.utils.SessionManager;
-import com.paxees.tcc.utils.ToastUtils;
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-
-import org.json.JSONObject;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
-
-
-public class Login extends Fragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
-    Button bt_login;
-    TextView register;
-    LoginRequest request;
-    EditText emailEt, etPassword;
-    LoginButton facebook_login_btn;
-    private CallbackManager callbackManager;
-    FrameLayout facebookBtn;
-    private GoogleApiClient mGoogleApiClient;
-    GoogleSignInClient mGoogleSignInClient;
-    ImageView gmail;
-    SessionManager sessionManager;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+    var bt_login: Button? = null
+    var register: TextView? = null
+    var request: LoginRequest? = null
+    var emailEt: EditText? = null
+    var etPassword: EditText? = null
+    private var callbackManager: CallbackManager? = null
+    var facebookBtn: Button? = null
+    var gmail: Button? = null
+    private var mGoogleApiClient: GoogleApiClient? = null
+    var mGoogleSignInClient: GoogleSignInClient? = null
+    var facebook: LoginButton? = null
+    var sessionManager: SessionManager? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        init(view);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        init(view)
     }
 
-    public void init(View view) {
-        sessionManager=new SessionManager(getActivity());
-        bt_login = view.findViewById(R.id.bt_login);
-        facebookBtn = view.findViewById(R.id.facebookBtn);
-        register = view.findViewById(R.id.register);
-        emailEt = view.findViewById(R.id.emailEt);
-        gmail = view.findViewById(R.id.gmail);
-        facebook_login_btn = (LoginButton) view.findViewById(R.id.facebook_login_btn);
-        etPassword = view.findViewById(R.id.etPassword);
-        facebookBtn.setOnClickListener(this);
-        register.setOnClickListener(this);
-        gmail.setOnClickListener(this);
-        facebook_login_btn.setOnClickListener(this);
-        bt_login.setOnClickListener(this);
-        gmailConnect();
-        setupGoogleClient();
-        facebook();
+    fun init(view: View) {
+        sessionManager = SessionManager(activity)
+        bt_login = view.findViewById(R.id.bt_login)
+        facebookBtn = view.findViewById(R.id.facebookBtn)
+        facebook = view.findViewById(R.id.facebookBtnLogin)
+        register = view.findViewById(R.id.register)
+        emailEt = view.findViewById(R.id.emailEt)
+        gmail = view.findViewById(R.id.gmailBtn)
+        etPassword = view.findViewById(R.id.etPassword)
+        facebookBtn!!.setOnClickListener(this)
+        register!!.setOnClickListener(this)
+        gmail!!.setOnClickListener(this)
+        facebook!!.setOnClickListener(this)
+        bt_login!!.setOnClickListener(this)
+       signupBtn.paintFlags = signupBtn.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+        gmailConnect()
+        setupGoogleClient()
+        facebook()
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.bt_login:
-                if (validation()) {
-                    login();
-                }
-                break;
-            case R.id.gmail:
-                signIn();
-                break;
-            case R.id.facebookBtn:
-                facebook_login_btn.performClick();
-                break;
-            case R.id.register:
-                register();
-                break;
-
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.bt_login -> if (validation()) {
+                login()
+            }
+            R.id.gmailBtn -> signIn()
+            R.id.facebookBtn -> facebook!!.performClick()
+            R.id.register -> register()
         }
     }
 
-    private void register() {
-        NavHostFragment.findNavController(Login.this).navigate(R.id.login_to_register);
+    private fun register() {
+        NavHostFragment.findNavController(this@Login).navigate(R.id.login_to_register)
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        gmailConnect();
+    override fun onStart() {
+        super.onStart()
+        gmailConnect()
     }
 
-    public void gmailConnect(){
-        if(mGoogleApiClient == null || !mGoogleApiClient.isConnected()){
+    fun gmailConnect() {
+        if (mGoogleApiClient == null || !mGoogleApiClient!!.isConnected) {
             try {
-                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                         .requestEmail()
-                        .build();
-                mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                        .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                        .build()
+                mGoogleApiClient = GoogleApiClient.Builder(activity!!)
+                        .enableAutoManage(activity!! /* FragmentActivity */, this /* OnConnectionFailedListener */)
                         .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                        .build();
-                mGoogleApiClient.connect();
-            } catch (Exception e) {
-                e.printStackTrace();
+                        .build()
+                mGoogleApiClient!!.connect()
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mGoogleApiClient.stopAutoManage(getActivity());
-        mGoogleApiClient.disconnect();
+
+    override fun onDetach() {
+        super.onDetach()
+        mGoogleApiClient!!.stopAutoManage(activity!!)
+        mGoogleApiClient!!.disconnect()
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mGoogleApiClient.stopAutoManage(getActivity());
-        mGoogleApiClient.disconnect();
+    override fun onDestroy() {
+        super.onDestroy()
+        mGoogleApiClient!!.stopAutoManage(activity!!)
+        mGoogleApiClient!!.disconnect()
     }
 
-    public boolean validation() {
-        String email = emailEt.getText().toString().trim();
-        String pwd = etPassword.getText().toString().trim();
-        if (TextUtils.isEmpty(email)) {
-            emailEt.setError("Email should not be empty");
-            emailEt.requestFocus();
-            return false;
+    fun validation(): Boolean {
+        val email = emailEt!!.text.toString().trim { it <= ' ' }
+        val pwd = etPassword!!.text.toString().trim { it <= ' ' }
+        return if (TextUtils.isEmpty(email)) {
+            emailEt!!.error = "Email should not be empty"
+            emailEt!!.requestFocus()
+            false
         } else if (!email.matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+")) {
-            emailEt.setError("Email should be valid");
-            emailEt.requestFocus();
-            return false;
+            emailEt!!.error = "Email should be valid"
+            emailEt!!.requestFocus()
+            false
         } else if (TextUtils.isEmpty(pwd)) {
-            etPassword.setError("Password should not be empty");
-            etPassword.requestFocus();
-            return false;
+            etPassword!!.error = "Password should not be empty"
+            etPassword!!.requestFocus()
+            false
         } else {
-            return true;
+            true
         }
     }
 
     /*facebookLogin*/
-    public void facebook() {
-        callbackManager = CallbackManager.Factory.create();
-        facebook_login_btn.setReadPermissions("email", "public_profile");
-        facebook_login_btn.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-                    @Override
-                    public void onCompleted(JSONObject object, GraphResponse response) {
-                        ((launcher) getActivity()).globalClass.hideLoader();
-                        Log.i("Facebook", "facebook response" + response.toString() + "\n" + loginResult.getAccessToken());
-//                        getFacebookDetails(loginResult.getAccessToken());
-                    }
-                });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email");
-                request.setParameters(parameters);
-                request.executeAsync();
+    fun facebook() {
+        callbackManager = CallbackManager.Factory.create()
+        facebook!!.setReadPermissions("email", "public_profile")
+        facebook!!.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+            override fun onSuccess(loginResult: LoginResult) {
+                val request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken()) { `object`, response ->
+                    (activity as launcher?)!!.globalClass.hideLoader()
+                    Log.i("Facebook", """
+     facebook response$response
+     ${loginResult.accessToken}
+     """.trimIndent())
+                    //                        getFacebookDetails(loginResult.getAccessToken());
+                }
+                val parameters = Bundle()
+                parameters.putString("fields", "id,name,email")
+                request.parameters = parameters
+                request.executeAsync()
             }
 
-            @Override
-            public void onCancel() {
-                ((launcher) getActivity()).globalClass.hideLoader();
-                Log.i("cancel", "cancel");
+            override fun onCancel() {
+                (activity as launcher?)!!.globalClass.hideLoader()
+                Log.i("cancel", "cancel")
             }
 
-            @Override
-            public void onError(FacebookException error) {
-                Log.i("FacebookException", error.getMessage());
-                Log.i("FacebookException", error.getCause() + "");
+            override fun onError(error: FacebookException) {
+                Log.i("FacebookException", error.message!!)
+                Log.i("FacebookException", error.cause.toString() + "")
             }
-        });
+        })
     }
 
-    private void login() {
-        String email = emailEt.getText().toString().trim();
-        String pwd = etPassword.getText().toString().trim();
-        ((launcher) getActivity()).globalClass.showDialog(getActivity());
-        request = new LoginRequest();
-        request.setEmail(email);
-        request.setPassword(pwd);
-        TenGermsStore.getInstance().getLogin(RetrofitEnums.URL_HBL, request, new LoginCallBack() {
-            @Override
-            public void LoginSuccess(LoginResponse response) {
-//                if (response.getStatus()) {
-                getActivity().finish();
-                sessionManager.setLogin(true);
-                Brand getBundle = getActivity().getIntent().getExtras().getParcelable(Constants.BRAND);
-                Bundle bundle=new Bundle();
-                bundle.putParcelable(Constants.BRAND,getBundle);
-                bundle.putInt(Constants.BRAND_OPEN,1);
-                NavHostFragment.findNavController(Login.this).navigate(R.id.login_to_dashboard,bundle);
-//                }
-                ToastUtils.showToastWith(getActivity(), response.getMsg());
-                ((launcher) getActivity()).globalClass.hideLoader();
-            }
-
-            @Override
-            public void LoginFailure(BaseResponse baseResponse) {
-                ToastUtils.showToastWith(getActivity(), baseResponse.getMsg(), "");
-                ((launcher) getActivity()).globalClass.hideLoader();
-            }
-        });
+    private fun login() {
+        val email = emailEt!!.text.toString().trim { it <= ' ' }
+        val pwd = etPassword!!.text.toString().trim { it <= ' ' }
+        (activity as launcher?)!!.globalClass.showDialog(activity)
+        val handler = Handler()
+        handler.postDelayed({
+            (activity as launcher?)!!.globalClass.hideLoader()
+            NavHostFragment.findNavController(this@Login).navigate(R.id.login_to_dashboard)
+        }, 2000)
     }
 
-    private void setupGoogleClient() {
+    private fun setupGoogleClient() {
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestProfile()
-                .build();
-        FacebookSdk.sdkInitialize(getApplicationContext());
+                .build()
+        FacebookSdk.sdkInitialize(FacebookSdk.getApplicationContext())
         // Build a GoogleSignInClient with the options specified by gso.
-        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(activity!!, gso)
     }
 
-    private void signIn() {
-        ((launcher) getActivity()).globalClass.showDialog(getActivity());
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, Constants.RC_SIGN_IN);
+    private fun signIn() {
+        (activity as launcher?)!!.globalClass.showDialog(activity)
+        val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
+        startActivityForResult(signInIntent, Constants.RC_SIGN_IN)
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        callbackManager!!.onActivityResult(requestCode, resultCode, data)
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == Constants.RC_SIGN_IN) {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
-            ((launcher) getActivity()).globalClass.hideLoader();
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            getGmailDetails(result);
+            (activity as launcher?)!!.globalClass.hideLoader()
+            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+            getGmailDetails(result)
         }
     }
 
     /*Gmail login*/
-    private void getGmailDetails(GoogleSignInResult completedTask) {
+    private fun getGmailDetails(completedTask: GoogleSignInResult) {
         try {
-            GoogleSignInAccount account = completedTask.getSignInAccount();
-            String email = account.getEmail();
-            String first_name = account.getDisplayName();
-            String last_name = account.getFamilyName();
-//            String fcm = SharedPreferenceManager.getInstance(LoginActivity.this).getFcmToken();
-            String app = "consumer";
-            String password = "Dusky123";
-//            String gmailToken = account.getId();
-            String gmail = "google";
-            Log.i("GoogleMail", " gmail login email success fully" + email);
+            val account = completedTask.signInAccount
+            val email = account!!.email
+            val first_name = account.displayName
+            val last_name = account.familyName
+            //            String fcm = SharedPreferenceManager.getInstance(LoginActivity.this).getFcmToken();
+            val app = "consumer"
+            val password = "Dusky123"
+            //            String gmailToken = account.getId();
+            val gmail = "google"
+            Log.i("GoogleMail", " gmail login email success fully$email")
 
 
             // Signed in successfully, show authenticated UI.
-        } catch (IndexOutOfBoundsException e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
-        } catch (NumberFormatException e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
-        } catch (ActivityNotFoundException e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
-        } catch (SecurityException e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
-        } catch (IllegalStateException e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
-        } catch (NullPointerException e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
-        } catch (OutOfMemoryError e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
-        } catch (RuntimeException e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
-        } catch (Exception e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
+        } catch (e: IndexOutOfBoundsException) {
+            Log.e("ExceptionError", " = " + e.message)
+        } catch (e: NumberFormatException) {
+            Log.e("ExceptionError", " = " + e.message)
+        } catch (e: IllegalArgumentException) {
+            Log.e("ExceptionError", " = " + e.message)
+        } catch (e: ActivityNotFoundException) {
+            Log.e("ExceptionError", " = " + e.message)
+        } catch (e: SecurityException) {
+            Log.e("ExceptionError", " = " + e.message)
+        } catch (e: IllegalStateException) {
+            Log.e("ExceptionError", " = " + e.message)
+        } catch (e: NullPointerException) {
+            Log.e("ExceptionError", " = " + e.message)
+        } catch (e: OutOfMemoryError) {
+            Log.e("ExceptionError", " = " + e.message)
+        } catch (e: RuntimeException) {
+            Log.e("ExceptionError", " = " + e.message)
+        } catch (e: Exception) {
+            Log.e("ExceptionError", " = " + e.message)
         } finally {
-            Log.e("ExceptionError", " = Finally");
+            Log.e("ExceptionError", " = Finally")
         }
     }
 
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        ((launcher) getActivity()).globalClass.hideLoader();
-        ToastUtils.showToastWith(getActivity(), connectionResult.getErrorMessage(), "");
+    override fun onConnectionFailed(connectionResult: ConnectionResult) {
+        (activity as launcher?)!!.globalClass.hideLoader()
+        ToastUtils.showToastWith(activity, connectionResult.errorMessage, "")
     }
 
     /*Facebook login*/
-    private void getFacebookDetails(AccessToken token) {
+    private fun getFacebookDetails(token: AccessToken) {
         try {
-            GraphRequest request = GraphRequest.newMeRequest(token, new GraphRequest.GraphJSONObjectCallback() {
-                @Override
-                public void onCompleted(JSONObject object, GraphResponse response) {
-                    try {
-                        String email = object.optString("email");
-                        String first_name = object.optString("first_name");
-                        String last_name = object.optString("last_name");
-//                        String fcm = SharedPreferenceManager.getInstance(LoginActivity.this).getFcmToken();
-                        String password = "Dusky123";
-                        String app = "consumer";
-                        String fbToken = token.getToken();
-                        String facebook = "facebook";
-
-                        Log.i("Facebook", token.getToken() + "\\n"
-                                + email + "\\n"
-                                + last_name + "\\n"
-//                                + fcm + "\\n"
-                                + password + "\\n"
-                                + app + "\\n"
-                                + fbToken);
-
-                    } catch (Exception e) {
-                        ToastUtils.showToastWith(getActivity(), getResources().getString(R.string.somethingWentWrong), "");
-                        Log.e("error", e.getMessage());
-                    }
+            val request = GraphRequest.newMeRequest(token) { `object`, response ->
+                try {
+                    val email = `object`.optString("email")
+                    val first_name = `object`.optString("first_name")
+                    val last_name = `object`.optString("last_name")
+                    //                        String fcm = SharedPreferenceManager.getInstance(LoginActivity.this).getFcmToken();
+                    val password = "Dusky123"
+                    val app = "consumer"
+                    val fbToken = token.token
+                    val facebook = "facebook"
+                    Log.i("Facebook", token.token + "\\n"
+                            + email + "\\n"
+                            + last_name + "\\n" //                                + fcm + "\\n"
+                            + password + "\\n"
+                            + app + "\\n"
+                            + fbToken)
+                } catch (e: Exception) {
+                    ToastUtils.showToastWith(activity, resources.getString(R.string.somethingWentWrong), "")
+                    Log.e("error", e.message!!)
                 }
-            });
-        } catch (IndexOutOfBoundsException e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
-        } catch (NumberFormatException e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
-        } catch (ActivityNotFoundException e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
-        } catch (SecurityException e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
-        } catch (IllegalStateException e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
-        } catch (NullPointerException e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
-        } catch (OutOfMemoryError e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
-        } catch (RuntimeException e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
-        } catch (Exception e) {
-            Log.e("ExceptionError", " = " + e.getMessage());
+            }
+        } catch (e: IndexOutOfBoundsException) {
+            Log.e("ExceptionError", " = " + e.message)
+        } catch (e: NumberFormatException) {
+            Log.e("ExceptionError", " = " + e.message)
+        } catch (e: IllegalArgumentException) {
+            Log.e("ExceptionError", " = " + e.message)
+        } catch (e: ActivityNotFoundException) {
+            Log.e("ExceptionError", " = " + e.message)
+        } catch (e: SecurityException) {
+            Log.e("ExceptionError", " = " + e.message)
+        } catch (e: IllegalStateException) {
+            Log.e("ExceptionError", " = " + e.message)
+        } catch (e: NullPointerException) {
+            Log.e("ExceptionError", " = " + e.message)
+        } catch (e: OutOfMemoryError) {
+            Log.e("ExceptionError", " = " + e.message)
+        } catch (e: RuntimeException) {
+            Log.e("ExceptionError", " = " + e.message)
+        } catch (e: Exception) {
+            Log.e("ExceptionError", " = " + e.message)
         } finally {
-            Log.e("ExceptionError", " = Finally");
+            Log.e("ExceptionError", " = Finally")
         }
     }
+}
+
+private fun String.matches(regex: String): Boolean {
+        return regex=="[a-zA-Z0-9._-]+@[a-z]+.[a-z]+"
 }

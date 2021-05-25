@@ -9,14 +9,7 @@
         android:name="com.paxees.tcc.views.fragments.SplashScreen"
         android:label="SplashScreen"
         tools:layout="@layout/fragment_splash_screen">
-        <action
-            android:id="@+id/splash_to_slider"
-            app:destination="@id/slider"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popUpToInclusive="true"
-            app:popExitAnim="@android:anim/slide_out_right"></action>
+
         <action
             android:id="@+id/splash_to_login"
             app:destination="@id/login"
@@ -83,7 +76,7 @@
     </fragment>
     <activity
         android:id="@+id/navigation_dashboard"
-        android:name="com.paxees.tcc.controllers.Dashboard"
-        android:label="Dashboard"
+        android:name="com.paxees.tcc.controllers.CIFRootActivity"
+        android:label="CIFRootActivity"
         tools:layout="@layout/activity_dashboard"></activity>
 </navigation>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">tengerms</string>
+    <string name="app_name">TCC</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="skip">SKIP</string>
@@ -71,4 +71,21 @@
     <string name="search_address">Search places...</string>
     <string name="google_places_key">AIzaSyDA8SNeuphjP8KV-jDGJoBycezwAILsh-Y</string>
     <string name="imhere">Your location</string>
+    <string name="GetStarted">Get Started</string>
+    <string name="welcome">Welcome</string>
+    <string name="facebook">facebook</string>
+    <string name="google">Google</string>
+    <string name="discovry">Discovery</string>
+    <string name="strains">Strains</string>
+    <string name="product">Product</string>
+    <string name="Locations">Locations</string>
+    <string name="Videos">Videos</string>
+    <string name="Blog">Blog</string>
+    <string name="Diagnose">Diagnostics</string>
+    <string name="my_wishlist">My Wishlist</string>
+    <string name="settings">Setting</string>
+    <string name="request_form">Request Form</string>
+    <string name="fullName">Full Name</string>
+    <string name="updateProfile">Update Profile</string>
+    <string name="change_photo">Change Photo</string>
 </resources>

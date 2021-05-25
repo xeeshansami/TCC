@@ -1,94 +1,84 @@
-package com.paxees.tcc.views.fragments;
+package com.paxees.tcc.views.fragments
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Bundle
+import android.os.Handler
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import com.paxees.tcc.utils.ToastUtils
+import androidx.navigation.fragment.NavHostFragment
+import com.paxees.tcc.R
+import com.paxees.tcc.controllers.launcher
+import com.paxees.tcc.utils.Constants
+import com.paxees.tcc.utils.SessionManager
+import kotlinx.android.synthetic.main.fragment_splash_screen.*
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
-
-import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.paxees.tcc.R;
-import com.paxees.tcc.utils.Constants;
-import com.paxees.tcc.utils.SessionManager;
-import com.paxees.tcc.utils.ToastUtils;
-
-public class SplashScreen extends Fragment {
-    SessionManager sessionManager;
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+class SplashScreen : Fragment(), View.OnClickListener {
+    var sessionManager: SessionManager? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
-    int PERMISSION_ALL = 1;
-    String[] PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}; // List of permissions required
 
-    public void askPermission()
-    {
-        for (String permission : PERMISSIONS) {
-            if (ActivityCompat.checkSelfPermission(getActivity(), permission) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(PERMISSIONS, PERMISSION_ALL);
-                return;
-            }else{
-                doWork();
+    var PERMISSION_ALL = 1
+    var PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE) // List of permissions required
+
+    fun askPermission() {
+        for (permission in PERMISSIONS) {
+            if (ActivityCompat.checkSelfPermission((activity as launcher), permission) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(PERMISSIONS, PERMISSION_ALL)
+                return
+            } else {
+                init()
             }
-
         }
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                           int[] grantResults) {
+    fun init(){
+        skipBtn.setOnClickListener(this)
+        btnGetStarted.setOnClickListener(this)
+    }
 
-        switch (requestCode) {
-            case 1: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
+                                            grantResults: IntArray) {
+        when (requestCode) {
+            1 -> {
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     //Do your work.
-                    doWork();
+                    init()
                 } else {
-                    ToastUtils.showToastWith(getActivity(), "Until you grant the permission, we cannot proceed further", "");
+                    ToastUtils.showToastWith(activity, "Until you grant the permission, we cannot proceed further", "")
                 }
-                return;
+                return
             }
         }
     }
 
-    private void doWork() {
-        if (!sessionManager.isSliders()) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    NavHostFragment.findNavController(SplashScreen.this).navigate(R.id.splash_to_slider);
-                }
-            }, Constants.SPLASH_DURATION);
-        } else {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    NavHostFragment.findNavController(SplashScreen.this).navigate(R.id.splash_to_dashboard);
-                }
-            }, Constants.SPLASH_DURATION);
-        }
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_splash_screen, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_splash_screen, container, false)
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        sessionManager = new SessionManager(getActivity());
-        askPermission();
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        sessionManager = SessionManager(activity)
+        askPermission()
+    }
+
+    override fun onClick(v: View?) {
+        when(v!!.id){
+            R.id.skipBtn->{
+            NavHostFragment.findNavController(this@SplashScreen).navigate(R.id.splash_to_login)
+            }
+            R.id.btnGetStarted->{
+            NavHostFragment.findNavController(this@SplashScreen).navigate(R.id.splash_to_login)
+            }
+        }
+
     }
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="dashboard_spacing">0</integer>
+    <integer name="drawer_column_count">1</integer>
+
+
+</resources>

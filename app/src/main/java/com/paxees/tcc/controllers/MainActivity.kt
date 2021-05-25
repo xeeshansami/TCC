@@ -8,7 +8,7 @@ import com.paxees.tcc.R
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main2)
+        setContentView(R.layout.activity_dashboard)
     }
     private fun switchFragment(startDestId: Int) {
 //        val fragmentContainer = view?.findViewById<View>(R.id.nav_host)

@@ -59,7 +59,6 @@ public class MyProfile extends Fragment implements View.OnClickListener {
             @Override
             public void run() {
                 ((Dashboard)getActivity()).globalClass.hideLoader();
-                NavHostFragment.findNavController(MyProfile.this).navigate(R.id.profile_to_myProfile);
             }
         }, 1500);
     }
