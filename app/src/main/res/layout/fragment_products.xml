@@ -12,80 +12,630 @@
         tools:context=".controllers.launcher">
 
 
-        <RelativeLayout
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+        <LinearLayout android:id="@+id/bodyLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <FrameLayout
-                android:id="@+id/appbar"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topLayout">
+
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_10sdp"
+                android:orientation="horizontal"
+                android:weightSum="5">
+
+                <LinearLayout
+                    android:layout_weight="4"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="@string/black_russain"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_15sdp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:gravity="left"
+                        android:text="@string/indoor_plant"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/_10sdp" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="left"
+                    android:text="@string/_36"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="@string/_18"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
+
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/desc"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/_15sdp" />
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/body2Layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bodyLayout">
+
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_10sdp"
+                android:weightSum="5">
+
+                <TextView android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:gravity="left"
+                    android:text="@string/all_you_need_to_know"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp" />
+
+
+            </LinearLayout>
+
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/desc"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/_15sdp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:id="@+id/body3Layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200sdp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/bg_border_cart"
+            app:layout_constraintTop_toBottomOf="@+id/body2Layout">
+
+            <LinearLayout
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_border_button"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="@dimen/_40sdp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/grwoth_information"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
+
+
+            <!--Grow Difficulty-->
+            <LinearLayout
+                android:weightSum="5"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_height="@dimen/_40sdp">
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/grow_difficulty"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp" />
+                <View
+                    android:background="@color/grey"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"></View>
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/medium"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
+            <View
+                android:background="@color/grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"></View>
+            <!--Flowwring type-->
+            <LinearLayout
+                android:weightSum="5"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_height="@dimen/_40sdp">
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/flowring_type"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp" />
+                <View
+                    android:background="@color/grey"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"></View>
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/photo_period"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
+            <View
+                android:background="@color/grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"></View>
+            <!--Flowwring Time-->
+            <LinearLayout
+                android:weightSum="5"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_height="@dimen/_40sdp">
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/flowring_time"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp" />
+                <View
+                    android:background="@color/grey"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"></View>
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/_7_8_weeks"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
+            <View
+                android:background="@color/grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"></View>
+            <!--Harvest Time-->
+            <LinearLayout
+                android:weightSum="5"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_height="@dimen/_40sdp">
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/harvest_time"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp" />
+                <View
+                    android:background="@color/grey"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"></View>
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/end_of_sep_oct"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
+            <View
+                android:background="@color/grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"></View>
+            <!--Yield-->
+            <LinearLayout
+                android:weightSum="5"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_height="@dimen/_40sdp">
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/medium"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp" />
+                <View
+                    android:background="@color/grey"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"></View>
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/shorts"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
+            <View
+                android:background="@color/grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"></View>
+            <!--Height-->
+            <LinearLayout
+                android:weightSum="5"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_height="@dimen/_40sdp">
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/grwoth_information"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp" />
+                <View
+                    android:background="@color/grey"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"></View>
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/grwoth_information"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
+            <View
+                android:background="@color/grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"></View>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:id="@+id/body4Layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200sdp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/bg_border_cart"
+            app:layout_constraintTop_toBottomOf="@+id/body3Layout">
+
+            <LinearLayout
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_border_button"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="@dimen/_40sdp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/grwoth_information"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
+
+
+            <!--Grow Difficulty-->
+            <LinearLayout
+                android:weightSum="5"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_height="@dimen/_40sdp">
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/grow_difficulty"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp" />
+                <View
+                    android:background="@color/grey"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"></View>
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/medium"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
+            <View
+                android:background="@color/grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"></View>
+            <!--Flowwring type-->
+            <LinearLayout
+                android:weightSum="5"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_height="@dimen/_40sdp">
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/flowring_type"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp" />
+                <View
+                    android:background="@color/grey"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"></View>
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/photo_period"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
+            <View
+                android:background="@color/grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"></View>
+            <!--Flowwring Time-->
+            <LinearLayout
+                android:weightSum="5"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_height="@dimen/_40sdp">
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/flowring_time"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp" />
+                <View
+                    android:background="@color/grey"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"></View>
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/_7_8_weeks"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
+            <View
+                android:background="@color/grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"></View>
+            <!--Harvest Time-->
+            <LinearLayout
+                android:weightSum="5"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_height="@dimen/_40sdp">
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/harvest_time"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp" />
+                <View
+                    android:background="@color/grey"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"></View>
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/end_of_sep_oct"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
+            <View
+                android:background="@color/grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"></View>
+            <!--Yield-->
+            <LinearLayout
+                android:weightSum="5"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_height="@dimen/_40sdp">
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/medium"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp" />
+                <View
+                    android:background="@color/grey"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"></View>
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/shorts"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
+            <View
+                android:background="@color/grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"></View>
+            <!--Height-->
+            <LinearLayout
+                android:weightSum="5"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_height="@dimen/_40sdp">
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/grwoth_information"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp" />
+                <View
+                    android:background="@color/grey"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"></View>
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/grwoth_information"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
+            <View
+                android:background="@color/grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"></View>
+
+        </LinearLayout>
+        <RelativeLayout android:id="@+id/topLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <FrameLayout android:id="@+id/appbar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_200sdp"
                 android:background="@drawable/product_top">
-                <LinearLayout
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:weightSum="3"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:layout_gravity="bottom|center_horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
 
-                        <TextView
-                            android:layout_weight="1"
-                            android:layout_width="0dp"
+                <LinearLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:orientation="vertical">
+
+                    <LinearLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:weightSum="3">
+
+                        <TextView android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
+                            android:layout_weight="1"
+                            android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
+                            android:drawableTint="@color/white"
+                            android:gravity="left"
                             android:text="@string/_24days"
                             android:textColor="@color/white"
-                            android:drawableTint="@color/white"
-                            android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
-                            android:textSize="@dimen/_15sdp"
-                            />
-                        <TextView
-                            android:layout_weight="1"
-                            android:layout_width="0dp"
+                            android:textSize="@dimen/_15sdp" />
+
+                        <TextView android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
+                            android:layout_weight="1"
+                            android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
+                            android:drawableTint="@color/white"
+                            android:gravity="left"
                             android:text="@string/_82Humidity"
                             android:textColor="@color/white"
-                            android:drawableTint="@color/white"
-                            android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
-                            android:textSize="@dimen/_15sdp"
-                            />
-                        <TextView
-                            android:layout_weight="1"
-                            android:layout_width="0dp"
+                            android:textSize="@dimen/_15sdp" />
+
+                        <TextView android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
+                            android:layout_weight="1"
+                            android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
+                            android:drawableTint="@color/white"
+                            android:gravity="left"
                             android:text="@string/_24days"
                             android:textColor="@color/white"
-                            android:drawableTint="@color/white"
-                            android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
-                            android:textSize="@dimen/_15sdp"
-                            />
+                            android:textSize="@dimen/_15sdp" />
                     </LinearLayout>
-                    <TextView
-                        android:layout_below="@+id/appbar"
-                        android:background="@drawable/bg_border_square_black"
-                        android:layout_weight="5"
-                        android:id="@+id/orderItems"
+
+                    <TextView android:id="@+id/orderItems"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_below="@+id/appbar"
                         android:layout_marginStart="@dimen/_3sdp"
+                        android:layout_weight="5"
+                        android:alpha="0.9"
+                        android:background="@drawable/bg_border_square_black"
                         android:gravity="center_horizontal"
-                        android:text="@string/add_to_cart"
-                        android:alpha="0.8"
                         android:padding="@dimen/_10sdp"
                         android:paddingLeft="@dimen/_2sdp"
                         android:paddingRight="@dimen/_2sdp"
+                        android:text="@string/add_to_cart"
                         android:textColor="@color/white"
-                        android:textStyle="bold"
                         android:textSize="@dimen/_15sdp"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -97,8 +647,7 @@
 
         </RelativeLayout>
 
-        <include
-            android:id="@+id/toolbar"
+        <include android:id="@+id/toolbar"
             layout="@layout/toolbar"></include>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
