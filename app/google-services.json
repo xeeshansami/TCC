@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "894517479554",
+    "project_id": "tengerms",
+    "storage_bucket": "tengerms.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:894517479554:android:df3f64711c744d4b1d8c9b",
+        "android_client_info": {
+          "package_name": "com.dk.tengerm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "894517479554-r3l9n8n5hsrphacq8a4rnpb8navlm0eh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIkSAafE_RrDEc7NqsZ2lvqqdiEhsuUaQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "894517479554-r3l9n8n5hsrphacq8a4rnpb8navlm0eh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:894517479554:android:986f244810730f6c1d8c9b",
+        "android_client_info": {
+          "package_name": "com.dk.tengerms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "894517479554-r3l9n8n5hsrphacq8a4rnpb8navlm0eh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIkSAafE_RrDEc7NqsZ2lvqqdiEhsuUaQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "894517479554-r3l9n8n5hsrphacq8a4rnpb8navlm0eh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,2 @@
+include ':app',':mkLoaderView'
+rootProject.name = "tengerms"

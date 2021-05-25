@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_grey"
+    tools:context=".controllers.launcher">
+
+    <LinearLayout android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150sdp"
+        android:background="@color/colorTheme"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/changePwd"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_30sdp"
+            android:textStyle="bold"></TextView>
+
+    </LinearLayout>
+
+    <TextView
+        android:paddingLeft="@dimen/_10sdp"
+        android:id="@+id/passwordLabel"
+        android:layout_marginLeft="@dimen/_40sdp"
+        android:layout_marginRight="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold"
+        android:text="@string/currentPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></TextView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:maxLines="1"
+        android:singleLine="true"
+        android:layout_marginRight="@dimen/_40sdp"
+        android:layout_marginLeft="@dimen/_40sdp"
+        android:id="@+id/etPasswordLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordLabel"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/grey">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:id="@+id/etPassword"
+            android:password="true"
+            android:background="@drawable/edittext_border"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:hint="@string/samplePassword"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <TextView
+        android:paddingLeft="@dimen/_10sdp"
+        android:id="@+id/tvNewPasswordLabel"
+        android:layout_marginLeft="@dimen/_40sdp"
+        android:layout_marginRight="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold"
+        android:text="@string/newPwd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etPasswordLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></TextView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:maxLines="1"
+        android:singleLine="true"
+        android:layout_marginRight="@dimen/_40sdp"
+        android:layout_marginLeft="@dimen/_40sdp"
+        android:id="@+id/etNewPasswordLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNewPasswordLabel"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/grey">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:id="@+id/etNewPassword"
+            android:password="true"
+            android:background="@drawable/edittext_border"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:hint="@string/samplePassword"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:paddingLeft="@dimen/_10sdp"
+        android:id="@+id/tvConfirmPasswordLabel"
+        android:layout_marginLeft="@dimen/_40sdp"
+        android:layout_marginRight="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold"
+        android:text="@string/newConfirmPwd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etNewPasswordLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></TextView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:maxLines="1"
+        android:singleLine="true"
+        android:layout_marginRight="@dimen/_40sdp"
+        android:layout_marginLeft="@dimen/_40sdp"
+        android:id="@+id/etNewConfirmPasswordLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvConfirmPasswordLabel"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/grey">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:id="@+id/etConfirmNewPassword"
+            android:password="true"
+            android:background="@drawable/edittext_border"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:hint="@string/samplePassword"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <Button
+        android:id="@+id/bt_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_40sdp"
+        android:layout_marginLeft="@dimen/_40sdp"
+        android:text="@string/update"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:background="@drawable/button_border"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etNewConfirmPasswordLayout" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

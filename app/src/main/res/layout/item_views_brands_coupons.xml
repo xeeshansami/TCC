@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_5sdp"
+    android:background="@drawable/bg_border"
+    tools:context=".controllers.launcher">
+    <FrameLayout
+        android:id="@+id/imageSectorLY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@color/white"
+            android:text="30% OFF"
+            android:layout_gravity="bottom"
+            android:elevation="@dimen/_10sdp"
+            android:padding="@dimen/_10sdp"
+            android:background="@drawable/saleoff_border"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></TextView>
+        <ImageView
+            android:id="@+id/imgid"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:scaleType="fitXY"
+            android:padding="5dp"
+            android:src="@drawable/coupons"
+            ></ImageView>
+    </FrameLayout>
+
+
+    <LinearLayout android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="2"
+        android:layout_marginLeft="@dimen/_10sdp"
+        app:layout_constraintLeft_toRightOf="@+id/imageSectorLY"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView android:id="@+id/tvId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:maxLines="2"
+            android:text="Vegetable Salad"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13sdp"
+            ></TextView>
+
+
+        <LinearLayout android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView android:id="@+id/txtTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:maxLines="2"
+                android:text="Price. 152.00"
+                android:textSize="@dimen/_12sdp"></TextView>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+
+            <TextView android:id="@+id/txtRating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="In Pizza Mania"
+                android:maxLines="2"
+                android:textSize="@dimen/_12sdp"></TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

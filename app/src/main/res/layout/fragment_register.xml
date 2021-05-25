@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/NestedScrollBarStyle">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/light_grey"
+    tools:context=".controllers.launcher">
+    <ImageView
+        android:rotation="180"
+        android:background="@drawable/bottom_bg"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150sdp"></ImageView>
+    <LinearLayout android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_140sdp"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/regisration"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_30sdp"
+            android:textStyle="bold"></TextView>
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/accountAccess"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_20sdp"
+            android:textStyle="bold"></TextView>
+    </LinearLayout>
+
+
+
+   <TextView
+       android:paddingLeft="@dimen/_10sdp"
+       android:id="@+id/emailLabel"
+       android:layout_marginLeft="@dimen/_40sdp"
+       android:layout_marginRight="@dimen/_40sdp"
+       android:layout_marginTop="@dimen/_40sdp"
+       android:textSize="@dimen/_15sdp"
+       android:textStyle="bold"
+       android:text="@string/phoneNumber"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/header"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"></TextView>
+    <EditText
+        android:maxLines="1"
+        android:singleLine="true"
+        android:inputType="number"
+        android:digits="0123456789"
+        android:padding="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_40sdp"
+        android:layout_marginRight="@dimen/_40sdp"
+        android:background="@drawable/edittext_border"
+        android:id="@+id/numberEt"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold"
+        android:hint="@string/phoneNumberHint"
+        android:maxLength="13"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></EditText>
+
+    <TextView
+        android:paddingLeft="@dimen/_10sdp"
+        android:id="@+id/passwordLabel"
+        android:layout_marginLeft="@dimen/_40sdp"
+        android:layout_marginRight="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold"
+        android:text="@string/promo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/numberEt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></TextView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:maxLines="1"
+        android:singleLine="true"
+        android:layout_marginRight="@dimen/_40sdp"
+        android:layout_marginLeft="@dimen/_40sdp"
+        android:id="@+id/etPasswordLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordLabel"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/grey">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:id="@+id/promoEt"
+            android:password="true"
+            android:background="@drawable/edittext_border"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey"
+            android:inputType="textPassword"
+            android:maxLength="6"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:hint="@string/code"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <RadioGroup
+        android:layout_marginRight="@dimen/_40sdp"
+        android:layout_marginLeft="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:id="@+id/genderLayout"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etPasswordLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/genderLbl"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold"
+            android:text="@string/gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></TextView>
+        <RadioButton
+            android:id="@+id/maleRB"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:text="Male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></RadioButton>
+        <RadioButton android:id="@+id/femaleRB"  android:text="Female" android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></RadioButton>
+    </RadioGroup>
+    <Button
+        android:id="@+id/bt_registration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_40sdp"
+        android:layout_marginLeft="@dimen/_40sdp"
+        android:text="@string/regisration"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:background="@drawable/button_border"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genderLayout" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

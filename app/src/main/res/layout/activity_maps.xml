@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="2">
+
+    <fragment
+        android:id="@+id/mapview"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp"
+        android:weightSum="5"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_border"
+      >
+
+        <fragment
+            android:id="@+id/autocomplete_fragment"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_weight="5" />
+
+        <ImageView
+            android:id="@+id/done"
+            android:padding="@dimen/_3sdp"
+            android:tint="@color/colorTheme"
+            android:src="@drawable/ic_baseline_done_24"
+            android:layout_toRightOf="@+id/autocomplete_fragment" android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"></ImageView>
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>

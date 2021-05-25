@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.dk.tengerms.views.fragments.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/home_to_brands"
+            app:destination="@+id/navigation_brands"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"></action>
+        <action
+            android:id="@+id/home_to_maps"
+            app:destination="@+id/navigation_map"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"></action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_brands"
+        android:name="com.dk.tengerms.views.fragments.Brands"
+        android:label="@string/popularBrands"
+        tools:layout="@layout/fragment_brands" >
+        <action
+            android:id="@+id/brands_to_buy"
+            app:destination="@+id/navigation_buyoffers"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"></action>
+        <action
+            android:id="@+id/brands_to_loggin"
+            app:destination="@+id/navigation_launchers"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"></action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_buyoffers"
+        android:name="com.dk.tengerms.views.fragments.BuyOffer"
+        android:label="@string/BuyOffer"
+        tools:layout="@layout/fragment_buy_offer" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.dk.tengerms.views.fragments.Profile"
+        android:label="@string/myProfile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/profile_to_checkout"
+            app:destination="@+id/navigation_checkout"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"></action>
+        <action
+            android:id="@+id/profile_to_change_pwd"
+            app:destination="@+id/navigation_change_password"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"></action>
+        <action
+            android:id="@+id/profile_to_myProfile"
+            app:destination="@+id/navigation_myprofile"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"></action>
+        <action
+            android:id="@+id/profile_to_refer_a_friend"
+            app:destination="@+id/navigation_refer_a_friend"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"></action>
+        <action
+            android:id="@+id/profile_to_coupon_redemption"
+            app:destination="@+id/navigation_coupon_redemption"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"></action>
+        <action
+            android:id="@+id/profile_to_logout_loginscreen"
+            app:destination="@+id/navigation_launchers"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"></action>
+
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_checkout"
+        android:name="com.dk.tengerms.views.fragments.Checkout"
+        android:label="@string/checkout"
+        tools:layout="@layout/fragment_checkout" />
+    <fragment
+        android:id="@+id/navigation_change_password"
+        android:name="com.dk.tengerms.views.fragments.ChangePassword"
+        android:label="@string/changePwd"
+        tools:layout="@layout/fragment_change_pwd" />
+    <fragment
+        android:id="@+id/navigation_myprofile"
+        android:name="com.dk.tengerms.views.fragments.MyProfile"
+        android:label="@string/myProfile"
+        tools:layout="@layout/fragment_myprofile" />
+    <fragment
+        android:id="@+id/navigation_refer_a_friend"
+        android:name="com.dk.tengerms.views.fragments.ReferAFriend"
+        android:label="@string/referAFriend"
+        tools:layout="@layout/fragment_refer_a_friend" />
+    <fragment
+        android:id="@+id/navigation_coupon_redemption"
+        android:name="com.dk.tengerms.views.fragments.CouponRedemption"
+        android:label="@string/couponRedeemption"
+        tools:layout="@layout/fragment_coupons_redeem" />
+    <activity
+        android:id="@+id/navigation_launchers"
+        android:name="com.dk.tengerms.controllers.launcher"
+        android:label="launcher"
+        tools:layout="@layout/activity_main"></activity>
+    <activity
+        android:id="@+id/navigation_map"
+        android:name="com.dk.tengerms.controllers.MapsActivity"
+        android:label="MapsActivity"
+        tools:layout="@layout/activity_maps"></activity>
+</navigation>

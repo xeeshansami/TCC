@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/NestedScrollBarStyle">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_grey"
+    tools:context=".controllers.launcher">
+
+    <LinearLayout android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150sdp"
+        android:background="@color/colorTheme"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/couponRedeemption"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_30sdp"
+            android:textStyle="bold"></TextView>
+
+    </LinearLayout>
+    <LinearLayout android:id="@+id/profileTag"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150sdp"
+        android:layout_margin="@dimen/_5sdp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="@drawable/bg_border"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header">
+
+        <ImageView android:id="@+id/imgid"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_120sdp"
+            android:padding="@dimen/_2sdp"
+            android:scaleType="fitXY"
+            android:src="@drawable/image5"></ImageView>
+
+        <LinearLayout android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header">
+            <TextView android:id="@+id/userID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@string/userid"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold"></TextView>
+
+            <TextView android:id="@+id/tvId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@string/ZeeshanSami"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:layout_marginTop="@dimen/_10sdp"
+                android:id="@+id/tvUserEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="UserEmail: sample@email.com"
+                android:textSize="@dimen/_13sdp"></TextView>
+            <TextView android:id="@+id/tvUserPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone: 03412030258"
+                android:textSize="@dimen/_13sdp"></TextView>
+            <TextView android:id="@+id/tvUserCoupon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Coupon: 50% on All"
+                android:textSize="@dimen/_13sdp"></TextView>
+            <TextView android:id="@+id/tvUserRedeemDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Redeem: 12-09-2021"
+                android:textSize="@dimen/_13sdp"></TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
