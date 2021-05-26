@@ -53,26 +53,32 @@
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right"></action>
         <action
+            android:id="@+id/login_to_forget"
+            app:destination="@id/forgetPwd"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"></action>
+        <action
             android:id="@+id/login_to_register"
             app:destination="@id/register"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right"></action>
+
+    </fragment>
+    <fragment
+        android:id="@+id/forgetPwd"
+        android:name="com.paxees.tcc.views.fragments.ForgotPassword"
+        android:label="ForgotPassword"
+        tools:layout="@layout/fragment_forget">
     </fragment>
     <fragment
         android:id="@+id/register"
-        android:name="com.paxees.tcc.views.fragments.Register"
-        android:label="Register"
-        tools:layout="@layout/fragment_register">
-        <action
-            android:id="@+id/register_to_login"
-            app:destination="@id/login"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right"></action>
-
+        android:name="com.paxees.tcc.views.fragments.CreateAccount"
+        android:label="CreateAccount"
+        tools:layout="@layout/fragment_create_account">
     </fragment>
     <activity
         android:id="@+id/navigation_dashboard"

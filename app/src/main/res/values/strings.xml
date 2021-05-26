@@ -24,7 +24,7 @@
     <string name="search">Search</string>
     <string name="pizzaHut">Pizza Hut</string>
     <string name="moreInfo">More Info</string>
-    <string name="desc">"Pizza Hut is an American restaurant chain and international franchise founded in 1958 in Wichita, Kansas by Dan and Frank Carney. It provides pizza and other Italian-American dishes, including pasta, side dishes and desserts. "</string>
+    <string name="desc">Plants are multicellular organisms in the kingdom Plantae that use photosynthesis to make their own food. There are over 300,000 species of plants; common examples of plants include grasses, trees, and shrubs.</string>
     <string name="CouponsAvailable">Coupons Available</string>
     <string name="Branches">Branches</string>
     <string name="couponsuccess">Coupon Redeem Successfully</string>
@@ -32,10 +32,10 @@
     <string name="BuyOffer">Buy Offer</string>
     <string name="BuyOfferDesc">Treat yourself to the best pizza, sides and desserts from your nearest Pizza Hut. Treat is due? Treat your friends and family to our yummy pizzas! Oven Hot Pizza. Fast Delivery. Deals For All. Order Online.</string>
     <string name="checkout">Checkout</string>
-    <string name="firstname">FirstName*</string>
+    <string name="firstname">FirstName</string>
     <string name="ZeeshanSami">Zeeshan Sami</string>
     <string name="emailAddress">Email Address</string>
-    <string name="phoneNumber">Phone*</string>
+    <string name="phoneNumber">Phone</string>
     <string name="number">923412030258</string>
     <string name="Country">Country*</string>
     <string name="Countryhint">Pakistan</string>
@@ -51,7 +51,7 @@
     <string name="update">Update Password</string>
     <string name="Sami">Sami</string>
     <string name="Zeeshan">Zeeshan</string>
-    <string name="lastName">Last Name*</string>
+    <string name="lastName">Last Name</string>
     <string name="userid">User0921#1</string>
     <string name="userId">kanas9192@gmail.com</string>
     <string name="userPwd">ibmdellsony</string>
@@ -107,4 +107,10 @@
     <string name="harvest_time">HARVEST TIME</string>
     <string name="_7_8_weeks">7 - 8 WEEKS</string>
     <string name="flowring_time">FLOWRING TIME</string>
+    <string name="effectiveness">Effectiveness</string>
+    <string name="submit">SUBMIT</string>
+    <string name="forgetPwd">Forgot Password?</string>
+    <string name="create_account">Create Account</string>
+    <string name="re_type_password">Re-Type Password</string>
+    <string name="enter">034102030258</string>
 </resources>

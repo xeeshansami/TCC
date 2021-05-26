@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class BranchAdapter extends RecyclerView.Adapter<BranchAdapter.ViewHolder> {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
     private int row_index;
     private ArrayList<Branch> mData;
     private LayoutInflater mInflater;
@@ -24,11 +24,10 @@ public class BranchAdapter extends RecyclerView.Adapter<BranchAdapter.ViewHolder
     private String branchImage;
 
     // data is passed into the constructor
-    public BranchAdapter(Context context, ArrayList<Branch> data, String brandBanner) {
+    public ProductAdapter(Context context, ArrayList<Branch> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
-        this.branchImage=brandBanner;
     }
 
     // inflates the row layout from xml when needed
@@ -42,10 +41,20 @@ public class BranchAdapter extends RecyclerView.Adapter<BranchAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Branch data = mData.get(position);
-        Glide.with(context).load(branchImage).into(  holder.img);
-        holder.txt.setText("Name: "+data.getBranchName());
-        holder.txtRating.setText("Address: "+data.getBranchLocality());
-        holder.txtTime.setText("ID: "+data.getBranchId());
+        if (position == 0) {
+            holder.titleLbl.setText("Growth Difficulty");
+        } else if (position == 1) {
+            holder.titleLbl.setText("Flowering Type");
+        } else if (position == 2) {
+            holder.titleLbl.setText("Flowering Time");
+        } else if (position == 3) {
+            holder.titleLbl.setText("Harvest Time");
+        } else if (position == 4) {
+            holder.titleLbl.setText("Yield");
+        } else if (position == 5) {
+            holder.titleLbl.setText("Height");
+        }
+        holder.titleValue.setText(data.getBranchName());
 //        holder.itemView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -70,15 +79,12 @@ public class BranchAdapter extends RecyclerView.Adapter<BranchAdapter.ViewHolder
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView img;
-        TextView txt,txtRating,txtTime;
+        TextView titleLbl, titleValue;
 
         ViewHolder(View itemView) {
             super(itemView);
-            img = itemView.findViewById(R.id.imgid);
-            txtRating = itemView.findViewById(R.id.txtRating);
-            txtTime = itemView.findViewById(R.id.txtTime);
-            txt = itemView.findViewById(R.id.tvId);
+            titleLbl = itemView.findViewById(R.id.titleLbl);
+            titleValue = itemView.findViewById(R.id.titleValue);
             itemView.setOnClickListener(this);
         }
 

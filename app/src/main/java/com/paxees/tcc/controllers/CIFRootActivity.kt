@@ -200,6 +200,11 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
                 switchFragment(R.id.navigation_products)
                 drawer_layout.closeDrawer(Gravity.START, true)
             }
+
+            getString(R.string.Locations) -> {
+                switchFragment(R.id.navigation_map)
+                drawer_layout.closeDrawer(Gravity.START, true)
+            }
         }
     }
 

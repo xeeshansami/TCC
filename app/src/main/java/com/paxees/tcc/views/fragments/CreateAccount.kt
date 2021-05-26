@@ -33,9 +33,11 @@ import com.paxees.tcc.network.networkmodels.request.LoginRequest
 import com.paxees.tcc.utils.Constants
 import com.paxees.tcc.utils.SessionManager
 import com.paxees.tcc.utils.ToastUtils
-import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_create_account.*
+import kotlinx.android.synthetic.main.toolbar.*
 
-class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+class CreateAccount : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+
     private var callbackManager: CallbackManager? = null
     private var mGoogleApiClient: GoogleApiClient? = null
     var mGoogleSignInClient: GoogleSignInClient? = null
@@ -47,7 +49,7 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        return inflater.inflate(R.layout.fragment_create_account, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,33 +59,25 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
 
     fun init(view: View) {
         sessionManager = SessionManager(activity)
-        facebookBtn!!.setOnClickListener(this)
-        gmailBtn!!.setOnClickListener(this)
-        facebookBtn!!.setOnClickListener(this)
-        bt_login!!.setOnClickListener(this)
-        signupBtn!!.setOnClickListener(this)
-        forgetPwd!!.setOnClickListener(this)
-        signupBtn.paintFlags = signupBtn.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-        gmailConnect()
-        setupGoogleClient()
-        facebook()
+        backBtn.setOnClickListener(this)
+        header!!.text = getText(R.string.create_account)
+        bt_create_account!!.setOnClickListener(this)
+        signInBtn!!.setOnClickListener(this)
+        signInBtn!!.paintFlags = signInBtn.paintFlags or Paint.UNDERLINE_TEXT_FLAG
     }
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.bt_login -> if (validation()) {
-                login()
+            R.id.bt_create_account -> if (validation()) {
             }
             R.id.gmailBtn -> signIn()
-            R.id.forgetPwd -> forgetPwd()
-            R.id.facebookBtn -> facebookBtnLogin!!.performClick()
-            R.id.signupBtn -> register()
-            R.id.backBtn -> {
-                switchFragment(R.id.login)
-            }
+            R.id.signInBtn -> register()
         }
     }
 
+    private fun register() {
+        switchFragment(R.id.login)
+    }
     private fun switchFragment(startDestId: Int) {
 //        val fragmentContainer = view?.findViewById<View>(R.id.nav_host)
 //        val navController = Navigation.findNavController(fragmentContainer!!)
@@ -93,66 +87,21 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
         graph.startDestination = startDestId
         navController.graph = graph
     }
-    private fun register() {
-        NavHostFragment.findNavController(this@Login).navigate(R.id.login_to_register)
-    }
 
-    private fun forgetPwd() {
-        NavHostFragment.findNavController(this@Login).navigate(R.id.login_to_forget)
-    }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
 
-    override fun onStart() {
-        super.onStart()
-        gmailConnect()
-    }
 
-    fun gmailConnect() {
-        if (mGoogleApiClient == null || !mGoogleApiClient!!.isConnected) {
-            try {
-                val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestEmail()
-                        .build()
-                mGoogleApiClient = GoogleApiClient.Builder(requireActivity())
-                        .enableAutoManage(requireActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                        .build()
-                mGoogleApiClient!!.connect()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        if(mGoogleApiClient!!.isConnected) {
-        mGoogleApiClient!!.stopAutoManage(requireActivity())
-        mGoogleApiClient!!.disconnect()
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if(mGoogleApiClient!!.isConnected) {
-            mGoogleApiClient!!.stopAutoManage(requireActivity())
-            mGoogleApiClient!!.disconnect()
-        }
-    }
 
     fun validation(): Boolean {
-        val email = emailEt!!.text.toString().trim { it <= ' ' }
+        val email = firstNameEt!!.text.toString().trim { it <= ' ' }
         val pwd = etPassword!!.text.toString().trim { it <= ' ' }
         return if (TextUtils.isEmpty(email)) {
-            emailEt!!.error = "Email should not be empty"
-            emailEt!!.requestFocus()
+            firstNameEt!!.error = "Email should not be empty"
+            firstNameEt!!.requestFocus()
             false
         } else if (!email.matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+")) {
-            emailEt!!.error = "Email should be valid"
-            emailEt!!.requestFocus()
+            firstNameEt!!.error = "Email should be valid"
+            firstNameEt!!.requestFocus()
             false
         } else if (TextUtils.isEmpty(pwd)) {
             etPassword!!.error = "Password should not be empty"
@@ -163,48 +112,9 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
         }
     }
 
-    /*facebookLogin*/
-    fun facebook() {
-        callbackManager = CallbackManager.Factory.create()
-        facebookBtnLogin!!.setReadPermissions("email", "public_profile")
-        facebookBtnLogin!!.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
-            override fun onSuccess(loginResult: LoginResult) {
-                val request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken()) { `object`, response ->
-                    (activity as launcher?)!!.globalClass.hideLoader()
-                    Log.i("Facebook", """
-     facebook response$response
-     ${loginResult.accessToken}
-     """.trimIndent())
-                    //                        getFacebookDetails(loginResult.getAccessToken());
-                }
-                val parameters = Bundle()
-                parameters.putString("fields", "id,name,email")
-                request.parameters = parameters
-                request.executeAsync()
-            }
 
-            override fun onCancel() {
-                (activity as launcher?)!!.globalClass.hideLoader()
-                Log.i("cancel", "cancel")
-            }
 
-            override fun onError(error: FacebookException) {
-                Log.i("FacebookException", error.message!!)
-                Log.i("FacebookException", error.cause.toString() + "")
-            }
-        })
-    }
 
-    private fun login() {
-        val email = emailEt!!.text.toString().trim { it <= ' ' }
-        val pwd = etPassword!!.text.toString().trim { it <= ' ' }
-        (activity as launcher?)!!.globalClass.showDialog(activity)
-        val handler = Handler()
-        handler.postDelayed({
-            (activity as launcher?)!!.globalClass.hideLoader()
-            NavHostFragment.findNavController(this@Login).navigate(R.id.login_to_dashboard)
-        }, 2000)
-    }
 
     private fun setupGoogleClient() {
         // Configure sign-in to request the user's ID, email address, and basic
@@ -214,7 +124,7 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
                 .build()
         FacebookSdk.sdkInitialize(FacebookSdk.getApplicationContext())
         // Build a GoogleSignInClient with the options specified by gso.
-        mGoogleSignInClient = GoogleSignIn.getClient(activity!!, gso)
+        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
     }
 
     private fun signIn() {

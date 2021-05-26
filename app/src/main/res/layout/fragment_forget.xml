@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/NestedScrollBarStyle">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/loginbg"
+        tools:context=".controllers.launcher">
+
+        <include android:id="@+id/toolbar" layout="@layout/toolbar"></include>
+
+
+        <TextView
+            android:paddingLeft="@dimen/_10sdp"
+            android:id="@+id/emailLabel"
+            android:layout_marginLeft="@dimen/_40sdp"
+            android:layout_marginRight="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_120sdp"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold"
+            android:text="@string/email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+        <EditText
+            android:maxLines="1"
+            android:singleLine="true"
+            android:padding="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_40sdp"
+            android:layout_marginRight="@dimen/_40sdp"
+            android:background="@drawable/edittext_border"
+            android:id="@+id/emailEt"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold"
+            android:hint="@string/sampleEmail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emailLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></EditText>
+
+
+        <Button
+            android:id="@+id/bt_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_40sdp"
+            android:layout_marginLeft="@dimen/_40sdp"
+            android:text="@string/submit"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:background="@drawable/button_border"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emailEt" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

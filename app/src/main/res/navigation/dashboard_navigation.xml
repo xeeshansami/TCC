@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
+
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.paxees.tcc.views.fragments.MainDashboard"
@@ -34,8 +35,15 @@
     <fragment
         android:id="@+id/navigation_products"
         android:name="com.paxees.tcc.views.fragments.Products"
-        android:label="Profile"
+        android:label="Products"
         tools:layout="@layout/fragment_products" >
     </fragment>
+
+    <activity
+        android:id="@+id/navigation_map"
+        android:name="com.paxees.tcc.controllers.MapsActivity"
+        android:label="MapsActivity"
+        tools:layout="@layout/activity_maps" >
+    </activity>
 
 </navigation>
