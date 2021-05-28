@@ -5,72 +5,132 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
 
+    <activity
+        android:id="@+id/navigation_map"
+        android:name="com.paxees.tcc.controllers.MapsActivity"
+        android:label="MapsActivity"
+        tools:layout="@layout/activity_maps"></activity>
+
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.paxees.tcc.views.fragments.MainDashboard"
         android:label="MainDashboard"
-        tools:layout="@layout/fragment_main_dashboard" >
+        tools:layout="@layout/fragment_main_dashboard">
         <action
             android:id="@+id/home_to_profile"
             app:destination="@id/navigation_profile"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/slide_in_left"
-            app:popUpToInclusive="true"
-            app:popExitAnim="@android:anim/slide_out_right"></action>
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
     </fragment>
-
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.paxees.tcc.views.fragments.Profile"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile" >
-    </fragment>
+        tools:layout="@layout/fragment_profile"></fragment>
     <fragment
         android:id="@+id/navigation_strains"
         android:name="com.paxees.tcc.views.fragments.Strains"
         android:label="Strains"
-        tools:layout="@layout/fragment_strains" >
-    </fragment>
+        tools:layout="@layout/fragment_strains"></fragment>
+
     <fragment
         android:id="@+id/navigation_products"
         android:name="com.paxees.tcc.views.fragments.Products"
         android:label="Products"
-        tools:layout="@layout/fragment_products" >
-    </fragment>
-
+        tools:layout="@layout/fragment_products"></fragment>
     <fragment
         android:id="@+id/navigation_videos"
         android:name="com.paxees.tcc.views.fragments.Videos"
         android:label="Videos"
-        tools:layout="@layout/fragment_videos" >
-    </fragment>
+        tools:layout="@layout/fragment_videos"></fragment>
+
     <fragment
         android:id="@+id/navigation_myorders"
         android:name="com.paxees.tcc.views.fragments.MyOrders"
         android:label="MyOrders"
-        tools:layout="@layout/fragment_my_order" >
-    </fragment>
+        tools:layout="@layout/fragment_my_order"></fragment>
 
     <fragment
         android:id="@+id/navigation_mywishList"
         android:name="com.paxees.tcc.views.fragments.MyWishlist"
         android:label="MyWishlist"
-        tools:layout="@layout/fragment_my_wishlist" >
-    </fragment>
+        tools:layout="@layout/fragment_my_wishlist"></fragment>
 
     <fragment
         android:id="@+id/navigation_mysettings"
         android:name="com.paxees.tcc.views.fragments.SettingFragment"
         android:label="SettingFragment"
-        tools:layout="@layout/fragment_setting" >
+        tools:layout="@layout/fragment_setting">
+        <action
+            android:id="@+id/setting_to_privacy_policy"
+            app:destination="@id/navigation_privacy_policy"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
+        <action
+            android:id="@+id/setting_to_help"
+            app:destination="@id/navigation_help"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
+        <action
+            android:id="@+id/setting_to_language"
+            app:destination="@id/navigation_language"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
+        <action
+            android:id="@+id/setting_to_changepwd"
+            app:destination="@id/navigation_changepwd"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
+        <action
+            android:id="@+id/setting_to_myaddresses"
+            app:destination="@id/navigation_myaddresses"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
     </fragment>
+    <fragment
+        android:id="@+id/navigation_privacy_policy"
+        android:name="com.paxees.tcc.views.fragments.PrivacyPolicy"
+        android:label="PrivacyPolicy"
+        tools:layout="@layout/fragment_privacy_policy"></fragment>
 
-    <activity
-        android:id="@+id/navigation_map"
-        android:name="com.paxees.tcc.controllers.MapsActivity"
-        android:label="MapsActivity"
-        tools:layout="@layout/activity_maps" >
-    </activity>
+    <fragment
+        android:id="@+id/navigation_help"
+        android:name="com.paxees.tcc.views.fragments.Help"
+        android:label="Help"
+        tools:layout="@layout/fragment_help"></fragment>
+    <fragment
+        android:id="@+id/navigation_language"
+        android:name="com.paxees.tcc.views.fragments.SelectLanguage"
+        android:label="SelectLanguage"
+        tools:layout="@layout/fragment_select_language"></fragment>
+ <fragment
+        android:id="@+id/navigation_changepwd"
+        android:name="com.paxees.tcc.views.fragments.ChangePassword"
+        android:label="ChangePassword"
+        tools:layout="@layout/fragment_changedpwd">
+ </fragment>
+    <fragment
+        android:id="@+id/navigation_myaddresses"
+        android:name="com.paxees.tcc.views.fragments.MyAddresses"
+        android:label="MyAddresses"
+        tools:layout="@layout/fragment_myaddresses"></fragment>
 
 </navigation>

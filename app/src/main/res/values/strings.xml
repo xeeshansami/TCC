@@ -156,4 +156,14 @@
     <string name="languages">Languages</string>
     <string name="help">Help</string>
     <string name="privacy_policy">Privacy Policy</string>
+    <string name="privacy_policy_desc">The privacy policy is one of the most essential legal requirements for websites.  Even if you just have a small business or a blog with no income at all, you might be surprised to discover that you still need a privacy policy.  Basically, if your website collects personal data, you need a privacy policy that informs your users about this according to privacy laws in most jurisdictions, including the EU and the US.  Almost all modern websites function with the use of cookies, so chances are high that your website is collecting personal data, for example for statistical, functional or marketing purposes.  In this blogpost, we take a look at what constitutes a good privacy policy, how to make a compliant GDPR privacy policy and whether using a privacy policy generator is a good idea.  Learn what the privacy policy is and how to get one for your website below.</string>
+    <string name="help_desc">Working on a new theme for WordPress? Need to create an example site for a client? Whatever the reason, using dummy content can help display what a site might actually look like once it goes live. Instead of creating your own posts and pages, it’s easier to simply use some form of WordPress dummy content generator.  Luckily, someone already developed such a method and it’s free to use. With a couple clicks of the mouse, you can show a WordPress theme with sample data ready.  In this tutorial, I’m going to show you the easiest and quickest way to display WordPress example content in your theme.</string>
+    <string name="selectLangauge">Select Langauge</string>
+    <string name="spanish">Spanish</string>
+    <string name="french">French</string>
+    <string name="english">English</string>
+    <string name="EnterOldPwd">Old Password</string>
+    <string name="EnterNewPwd">New Password</string>
+    <string name="EnterConfirmNewPwd">Confirm New Password</string>
+    <string name="addAnotherAddresses">Add Another Addresses</string>
 </resources>

@@ -27,6 +27,7 @@ import com.paxees.tcc.R
 import com.paxees.tcc.models.DrawerModel
 import com.paxees.tcc.utils.GlobalClass
 import com.paxees.tcc.utils.RecyclerTouchListener
+import com.paxees.tcc.utils.managers.SharedPreferenceManager
 import com.paxees.tcc.viewModels.SharedCIFViewModel
 import com.paxees.tcc.views.adapters.DrawerAdapter
 import kotlinx.android.synthetic.main.activity_dashboard.*
@@ -42,14 +43,15 @@ import kotlinx.android.synthetic.main.toolbar.*
 class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.OnClickListener {
     val viewModel: SharedCIFViewModel by viewModels()
     private var uiModeManager: UiModeManager? = null
-
+    @JvmField
+    var globalClass: GlobalClass? = null
+    @JvmField
+    var sharedPreferenceManager: SharedPreferenceManager = SharedPreferenceManager()
     var TAG: String = this.javaClass.simpleName
     private lateinit var drawerAdapter: DrawerAdapter
     private lateinit var appBarConfiguration: AppBarConfiguration
     var listOfPages = mutableListOf<DrawerModel>()
     var profileImg:RelativeLayout?=null
-    @JvmField
-    public var globalClass: GlobalClass? = null
     var bundle = Bundle()
     var backInt = 0
     private fun hideNavigationBar() {
@@ -88,7 +90,13 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
 
     fun start() {
         title = ""
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        globalClass = GlobalClass.applicationContext!!.applicationContext as GlobalClass
+        sharedPreferenceManager.getInstance(globalClass)
+        if(sharedPreferenceManager.getIntFromSharedPreferences(SharedPreferenceManager.DARK_MODE)==1){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.cifHostFragment)
