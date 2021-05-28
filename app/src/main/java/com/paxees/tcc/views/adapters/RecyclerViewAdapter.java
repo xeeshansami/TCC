@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.paxees.tcc.R;
+import com.paxees.tcc.models.Plants;
 import com.paxees.tcc.network.networkmodels.response.models.Category;
 
 import java.util.ArrayList;
@@ -17,13 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private int row_index;
-    private ArrayList<Category> mData;
+    private ArrayList<Plants> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private Context context;
 
     // data is passed into the constructor
-    public RecyclerViewAdapter(Context context, ArrayList<Category> data) {
+    public RecyclerViewAdapter(Context context, ArrayList<Plants> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
@@ -39,9 +40,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Category animal = mData.get(position);
-        Glide.with(context).load(animal.getCategoryIcon()).into(holder.img);
-        holder.txt.setText(animal.getCategoryName());
+        Plants animal = mData.get(position);
+        holder.plantsId.setText(animal.getPlantValue());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,9 +50,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
         });
         if (row_index == position) {
-            holder.img.setBackground(this.context.getResources().getDrawable(R.drawable.button_border));
+            holder.plantsId.setBackground(this.context.getResources().getDrawable(R.drawable.bg_border_square_green));
         } else {
-            holder.img.setBackground(this.context.getResources().getDrawable(R.drawable.bg_border));
+            holder.plantsId.setBackground(this.context.getResources().getDrawable(R.drawable.bg_border_square_black));
         }
 
     }
@@ -66,13 +66,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView img;
-        TextView txt;
+        TextView plantsId;
 
         ViewHolder(View itemView) {
             super(itemView);
-            img = itemView.findViewById(R.id.imgid);
-            txt = itemView.findViewById(R.id.tvId);
+            plantsId = itemView.findViewById(R.id.plantsId);
             itemView.setOnClickListener(this);
         }
 
@@ -83,7 +81,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     // convenience method for getting data at click position
-    Category getItem(int id) {
+    Plants getItem(int id) {
         return mData.get(id);
     }
 

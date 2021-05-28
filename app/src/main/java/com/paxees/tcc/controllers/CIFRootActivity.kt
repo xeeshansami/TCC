@@ -103,17 +103,19 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
-                setOf(R.id.navigation_home, R.id.navigation_profile, R.id.navigation_strains,
+                setOf(R.id.navigation_home, R.id.navigation_profile,
+                        R.id.navigation_strains,
                         R.id.navigation_products, R.id.navigation_videos,
-                        R.id.navigation_mywishList, R.id.navigation_myorders, R.id.navigation_mysettings), drawerLayout
+                        R.id.navigation_mywishList, R.id.navigation_myorders,
+                        R.id.navigation_mysettings ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        requestFormMenu.setOnClickListener(this)
         orderItemsLayout.setOnClickListener(this)
         myWishListMenu.setOnClickListener(this)
         settingMenu.setOnClickListener(this)
         navView.getHeaderView(0).editProfilePic!!.setOnClickListener(this)
-        requestFormMenu.setOnClickListener(this)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.navigation_home -> {
@@ -151,6 +153,10 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
                 R.id.navigation_mysettings -> {
                     toolbar.visibility = View.GONE
                     tvTitle.text = "Settings"
+                }
+                R.id.navigation_strain_form -> {
+                    toolbar.visibility = View.GONE
+                    tvTitle.text = "Strain Request Form"
                 }
             }
         }
@@ -290,8 +296,16 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
                 switchFragment(R.id.navigation_profile)
                 drawer_layout.closeDrawer(Gravity.LEFT, true)
             }
-            R.id.requestFormMenu -> drawer_layout.closeDrawer(Gravity.LEFT, true)
+            R.id.requestFormMenu -> {
+                switchFragment(R.id.navigation_strain_form)
+                drawer_layout.closeDrawer(Gravity.LEFT, true)
+            }
         }
 
     }
+
+
+
+
+
 }

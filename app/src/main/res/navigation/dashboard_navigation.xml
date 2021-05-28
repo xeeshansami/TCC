@@ -31,6 +31,11 @@
         android:label="Profile"
         tools:layout="@layout/fragment_profile"></fragment>
     <fragment
+        android:id="@+id/navigation_strain_form"
+        android:name="com.paxees.tcc.views.fragments.StrainForm"
+        android:label="StrainForm"
+        tools:layout="@layout/fragment_strain_form"></fragment>
+    <fragment
         android:id="@+id/navigation_strains"
         android:name="com.paxees.tcc.views.fragments.Strains"
         android:label="Strains"

@@ -39,7 +39,7 @@
     <string name="pwdVallue">Admin1234</string>
     <string name="phoneNumber">Phone</string>
     <string name="number">923412030258</string>
-    <string name="Country">Country*</string>
+    <string name="Country">Country</string>
     <string name="Countryhint">Pakistan</string>
     <string name="MyCoupons">My Coupons</string>
     <string name="changePwd">Change Password</string>
@@ -167,4 +167,18 @@
     <string name="EnterConfirmNewPwd">Confirm New Password</string>
     <string name="addAnotherAddresses">Add Another Addresses</string>
     <string name="add_new_payment_method">Add New Payment Method</string>
+    <string name="strain_form">Strain Request Form</string>
+    <string name="address1">Address line 1</string>
+    <string name="address2">Address line 2</string>
+    <string name="city">City</string>
+    <string name="StateResign">State/Region/Provice</string>
+    <string name="PostalCode">Postal Code</string>
+    <string name="_2_5">2-5</string>
+    <string name="_6_11">6-11</string>
+    <string name="_12_23">12-23</string>
+    <string name="_24_49">24-49</string>
+    <string name="_50_99">50-99</string>
+    <string name="_100">100+</string>
+    <string name="i_m_interested_in_plants">I\'m Interested in Plants</string>
+    <string name="i_m_interested_in_seeds">I\'m Interested in Seeds</string>
 </resources>
