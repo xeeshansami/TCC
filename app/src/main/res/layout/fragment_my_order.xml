@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/NestedScrollBarStyle">
+
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_grey"
+        tools:context=".controllers.launcher">
+        <include android:id="@+id/toolbar"
+            layout="@layout/toolbar"></include>
+
+
+        <LinearLayout android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <TextView
+                android:layout_margin="@dimen/_10sdp"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_200sdp"
+                ></TextView>
+
+
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            app:layout_constraintTop_toBottomOf="@+id/header"
+            android:id="@+id/body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/NestedScrollBarStyle">
+
+        <LinearLayout
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header">
+            <TextView
+                android:text="@string/promotion_or_discount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ></TextView>
+            <EditText
+                android:padding="@dimen/_5sdp"
+                android:hint="@string/add_discount_promotion_code"
+                android:layout_margin="@dimen/_2ssp"
+                android:background="@drawable/buyoffers_border"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                ></EditText>
+
+            <View
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"></View>
+
+            <TextView android:text="@string/price_summary"
+                android:textSize="@dimen/_13sdp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Include text and tax codes"
+                android:textSize="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_margin="@dimen/_2ssp"
+
+                android:weightSum="2"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/total_item_price"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/_130"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_11sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_margin="@dimen/_2ssp"
+                android:weightSum="2"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/discount"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/_10"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_11sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_margin="@dimen/_2ssp"
+
+                android:weightSum="2"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/tax"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/_5"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_11sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <View
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"></View>
+            <LinearLayout
+                android:layout_margin="@dimen/_2ssp"
+                android:weightSum="2"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/sub_total"
+                    android:textSize="@dimen/_15sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/_125"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_11sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <CheckBox
+                android:textColor="@color/grey"
+                android:text="@string/genuine_products_15_days_return_100_secure"
+                android:id="@+id/cartCB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></CheckBox>
+        </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+        <Button android:id="@+id/updateProfileBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_40sdp"
+            android:layout_marginRight="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/button_border"
+            android:drawableRight="@drawable/ic_baseline_navigate_next_24"
+            android:drawableTint="@color/white"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="@dimen/_15sdp"
+            android:paddingRight="@dimen/_20sdp"
+            android:text="Pay $125 now"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/body" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_3sdp"
-            android:text="My Orders"
+            android:text="@string/my_orders"
             android:paddingLeft="@dimen/_2sdp"
             android:paddingRight="@dimen/_2sdp"
             android:textColor="@color/grey"

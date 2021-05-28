@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.View
 import android.view.View.OnSystemUiVisibilityChangeListener
 import android.widget.Button
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -36,6 +37,11 @@ import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.activity_dashboard.drawer_layout
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.drawer_bottom_layout.*
+import kotlinx.android.synthetic.main.drawer_bottom_layout.requestFormMenu
+import kotlinx.android.synthetic.main.drawer_bottom_layout.view.*
+import kotlinx.android.synthetic.main.header.*
+import kotlinx.android.synthetic.main.header.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.OnClickListener {
@@ -64,7 +70,6 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
             }
         })
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-
         setSupportActionBar(toolbar)
 
         /* when {
@@ -78,8 +83,8 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
              }
              else -> {
                  backInt = intent.extras!!.getInt(Constants.ACTIVITY_KEY)*/
-        switchFragment(R.id.navigation_home)
         start()
+        switchFragment(R.id.navigation_home)
         recyclerViewSetup()
 //            }
     }
@@ -92,10 +97,16 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
-                setOf(R.id.navigation_home, R.id.navigation_profile,R.id.navigation_strains,R.id.navigation_products), drawerLayout
+                setOf(R.id.navigation_home, R.id.navigation_profile, R.id.navigation_strains,
+                        R.id.navigation_products, R.id.navigation_videos, R.id.navigation_myorders, R.id.navigation_myorders), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        orderItemsLayout.setOnClickListener(this)
+        myWishListMenu.setOnClickListener(this)
+        settingMenu.setOnClickListener(this)
+        findViewById<RelativeLayout>(R.id.profileEdit).setOnClickListener(this)
+        requestFormMenu.setOnClickListener(this)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.navigation_home -> {
@@ -113,6 +124,22 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
                 R.id.navigation_products -> {
                     toolbar.visibility = View.GONE
                     tvTitle.text = "Product"
+                }
+                R.id.navigation_videos -> {
+                    toolbar.visibility = View.GONE
+                    tvTitle.text = "Videos"
+                }
+                R.id.navigation_videos -> {
+                    toolbar.visibility = View.GONE
+                    tvTitle.text = "Videos"
+                }
+                R.id.navigation_myorders -> {
+                    toolbar.visibility = View.GONE
+                    tvTitle.text = "My Cart"
+                }
+                R.id.navigation_mywishList -> {
+                    toolbar.visibility = View.GONE
+                    tvTitle.text = "My Wishlist"
                 }
             }
         }
@@ -189,7 +216,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         /*24 pages of models*/
         when (category) {
             getString(R.string.discovry) -> {
-                switchFragment(R.id.navigation_profile)
+                switchFragment(R.id.navigation_home)
                 drawer_layout.closeDrawer(Gravity.START, true)
             }
             getString(R.string.strains) -> {
@@ -203,6 +230,11 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
 
             getString(R.string.Locations) -> {
                 switchFragment(R.id.navigation_map)
+                drawer_layout.closeDrawer(Gravity.START, true)
+            }
+
+            getString(R.string.Videos) -> {
+                switchFragment(R.id.navigation_videos)
                 drawer_layout.closeDrawer(Gravity.START, true)
             }
         }
@@ -227,9 +259,26 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         }
     }
 
+    @SuppressLint("WrongConstant")
     override fun onClick(v: View?) {
-        when(v!!.id){
-            R.id.backBtn->onBackPressed()
+        when (v!!.id) {
+            R.id.orderItemsLayout -> {
+                switchFragment(R.id.navigation_myorders)
+                drawer_layout.closeDrawer(Gravity.LEFT, true)
+            }
+            R.id.settingMenu -> {
+                switchFragment(R.id.navigation_mywishList)
+                drawer_layout.closeDrawer(Gravity.LEFT, true)
+            }
+            R.id.myWishListMenu -> {
+                switchFragment(R.id.navigation_mywishList)
+                drawer_layout.closeDrawer(Gravity.LEFT, true)
+            }
+            R.id.profileEdit -> {
+                switchFragment(R.id.navigation_profile)
+                drawer_layout.closeDrawer(Gravity.LEFT, true)
+            }
+            R.id.requestFormMenu -> drawer_layout.closeDrawer(Gravity.LEFT, true)
         }
 
     }

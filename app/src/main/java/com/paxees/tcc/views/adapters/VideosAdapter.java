@@ -9,21 +9,22 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.paxees.tcc.R;
+import com.paxees.tcc.models.mFilterDashboard;
 import com.paxees.tcc.network.networkmodels.response.models.Brand;
 
 import java.util.ArrayList;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class NearestBrandsAdapter extends RecyclerView.Adapter<NearestBrandsAdapter.ViewHolder> {
+public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.ViewHolder> {
     private int row_index;
-    ArrayList<Brand> mData;
+    ArrayList<mFilterDashboard> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private Context context;
 
     // data is passed into the constructor
-    public NearestBrandsAdapter(Context context, ArrayList<Brand> data) {
+    public VideosAdapter(Context context, ArrayList<mFilterDashboard> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
@@ -39,13 +40,9 @@ public class NearestBrandsAdapter extends RecyclerView.Adapter<NearestBrandsAdap
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Brand data = mData.get(position);
-        Glide.with(context).load(data.getBrandBanner()).into( holder.img);
-        holder.txt.setText(data.getBrandName());
-        holder.txtRating.setText(data.getRating());
-        try {
-            holder.txtTime.setText(String.format("%.1f",  Double.parseDouble(data.getDistance())) + " km");
-        }catch (Exception e ){}
+        mFilterDashboard data = mData.get(position);
+        Glide.with(context).load(data.getImg()).into( holder.img);
+        holder.txt.setText(data.getTxt());
     }
 
     // total number of rows
@@ -53,7 +50,7 @@ public class NearestBrandsAdapter extends RecyclerView.Adapter<NearestBrandsAdap
     public int getItemCount() {
         return mData.size();
     }
-    public void filterList(ArrayList<Brand> filteredList) {
+    public void filterList(ArrayList<mFilterDashboard> filteredList) {
         mData = filteredList;
         notifyDataSetChanged();
     }
@@ -79,7 +76,7 @@ public class NearestBrandsAdapter extends RecyclerView.Adapter<NearestBrandsAdap
     }
 
     // convenience method for getting data at click position
-    Brand getItem(int id) {
+    mFilterDashboard getItem(int id) {
         return mData.get(id);
     }
 
@@ -90,6 +87,6 @@ public class NearestBrandsAdapter extends RecyclerView.Adapter<NearestBrandsAdap
 
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
-        void onItemClick(View view, int position , Brand brand);
+        void onItemClick(View view, int position , mFilterDashboard mFilterDashboard);
     }
 }

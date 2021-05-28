@@ -33,4 +33,11 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
+    <style name="roundedImageViewRounded">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="squareImageViewRounded">
+        <item name="cornerSize">20%</item>
+    </style>
 </resources>

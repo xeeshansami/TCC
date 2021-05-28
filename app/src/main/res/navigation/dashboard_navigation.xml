@@ -39,6 +39,26 @@
         tools:layout="@layout/fragment_products" >
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_videos"
+        android:name="com.paxees.tcc.views.fragments.Videos"
+        android:label="Videos"
+        tools:layout="@layout/fragment_videos" >
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_myorders"
+        android:name="com.paxees.tcc.views.fragments.MyOrders"
+        android:label="MyOrders"
+        tools:layout="@layout/fragment_my_order" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_mywishList"
+        android:name="com.paxees.tcc.views.fragments.MyWishlist"
+        android:label="MyWishlist"
+        tools:layout="@layout/fragment_my_wishlist" >
+    </fragment>
+
     <activity
         android:id="@+id/navigation_map"
         android:name="com.paxees.tcc.controllers.MapsActivity"

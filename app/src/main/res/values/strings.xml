@@ -35,6 +35,8 @@
     <string name="firstname">FirstName</string>
     <string name="ZeeshanSami">Zeeshan Sami</string>
     <string name="emailAddress">Email Address</string>
+    <string name="emailValue">info.xeeshan@gmail.com</string>
+    <string name="pwdVallue">Admin1234</string>
     <string name="phoneNumber">Phone</string>
     <string name="number">923412030258</string>
     <string name="Country">Country*</string>
@@ -113,4 +115,23 @@
     <string name="create_account">Create Account</string>
     <string name="re_type_password">Re-Type Password</string>
     <string name="enter">034102030258</string>
+    <string name="ForYou">For you</string>
+    <string name="Training">Training</string>
+    <string name="newVideos">New Videos</string>
+    <string name="viewAll">ViewAll</string>
+    <string name="myCart">My Cart</string>
+    <string name="promotion_or_discount">Promotion or Discount</string>
+    <string name="add_discount_promotion_code">Add Discount/Promotion Code</string>
+    <string name="price_summary">Price Summary</string>
+    <string name="discount">Discount</string>
+    <string name="_130">$130</string>
+    <string name="include_text_and_tax_codes">Include text and tax codes</string>
+    <string name="total_item_price">Total Item Price</string>
+    <string name="_10">$10</string>
+    <string name="tax">Tax</string>
+    <string name="_5">$5</string>
+    <string name="sub_total">Sub Total</string>
+    <string name="_125">$125</string>
+    <string name="my_orders">My Orders</string>
+    <string name="genuine_products_15_days_return_100_secure">Genuine Products 15 days return, 100% secure</string>
 </resources>
