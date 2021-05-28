@@ -39,7 +39,7 @@
                 ></TextView>
             <ImageView
                 android:layout_marginLeft="@dimen/_5sdp"
-                android:id="@+id/editProfile"
+                android:id="@+id/editProfilePic"
                 android:src="@drawable/ic_baseline_edit_calendar_24"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"

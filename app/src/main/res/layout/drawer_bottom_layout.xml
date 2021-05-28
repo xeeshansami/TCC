@@ -54,7 +54,7 @@
             android:padding="@dimen/_5sdp"
             android:paddingLeft="@dimen/_2sdp"
             android:paddingRight="@dimen/_2sdp"
-            android:textColor="@color/white"
+            android:textColor="@color/grey"
             android:textStyle="bold"
             android:textSize="@dimen/_15sdp"
             app:layout_constraintBottom_toBottomOf="parent"

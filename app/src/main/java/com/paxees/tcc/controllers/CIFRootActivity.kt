@@ -104,9 +104,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         orderItemsLayout.setOnClickListener(this)
         myWishListMenu.setOnClickListener(this)
         settingMenu.setOnClickListener(this)
-        val header: View = navView.getHeaderView(0)
-        var editProfile = header.findViewById<View>(R.id.editProfile) as ImageView
-        editProfile!!.setOnClickListener(this)
+        navView.getHeaderView(0).editProfilePic!!.setOnClickListener(this)
         requestFormMenu.setOnClickListener(this)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
@@ -280,7 +278,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
                 switchFragment(R.id.navigation_mywishList)
                 drawer_layout.closeDrawer(Gravity.LEFT, true)
             }
-            R.id.editProfile -> {
+            R.id.editProfilePic -> {
                 switchFragment(R.id.navigation_profile)
                 drawer_layout.closeDrawer(Gravity.LEFT, true)
             }

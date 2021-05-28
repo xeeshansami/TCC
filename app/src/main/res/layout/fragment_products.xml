@@ -117,10 +117,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:background="@drawable/bg_border_cart"
+            android:backgroundTint="@color/colorPrimary"
             app:layout_constraintTop_toBottomOf="@+id/body2Layout">
 
             <LinearLayout
                 android:layout_gravity="center_horizontal"
+                android:backgroundTint="@color/grey"
                 android:background="@drawable/bg_border_button"
                 android:layout_width="match_parent"
                 android:gravity="center_vertical"
@@ -154,12 +156,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:backgroundTint="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:background="@drawable/bg_border_cart"
             app:layout_constraintTop_toBottomOf="@+id/body3Layout">
 
             <LinearLayout
+                android:backgroundTint="@color/grey"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/bg_border_button"
                 android:layout_width="match_parent"
@@ -209,32 +213,32 @@
                         android:gravity="center_horizontal|center_vertical"
                         android:weightSum="3">
 
-                        <TextView android:layout_width="0dp"
+                        <TextView android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
                             android:drawableTint="@color/white"
-                            android:gravity="left"
+                            android:gravity="center"
                             android:text="@string/_24days"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_15sdp" />
 
-                        <TextView android:layout_width="0dp"
+                        <TextView android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
                             android:drawableTint="@color/white"
-                            android:gravity="left"
+                            android:gravity="center"
                             android:text="@string/_82Humidity"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_15sdp" />
 
-                        <TextView android:layout_width="0dp"
+                        <TextView android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
                             android:drawableTint="@color/white"
-                            android:gravity="left"
+                            android:gravity="center"
                             android:text="@string/_24days"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_15sdp" />
@@ -244,10 +248,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/appbar"
-                        android:layout_marginStart="@dimen/_3sdp"
+                        android:layout_margin="@dimen/_3sdp"
                         android:layout_weight="5"
                         android:alpha="0.9"
-                        android:background="@drawable/bg_border_square_black"
+                        android:background="@drawable/button_border"
                         android:gravity="center_horizontal"
                         android:padding="@dimen/_10sdp"
                         android:paddingLeft="@dimen/_2sdp"
