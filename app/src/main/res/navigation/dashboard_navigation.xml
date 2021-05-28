@@ -59,6 +59,13 @@
         tools:layout="@layout/fragment_my_wishlist" >
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_mysettings"
+        android:name="com.paxees.tcc.views.fragments.SettingFragment"
+        android:label="SettingFragment"
+        tools:layout="@layout/fragment_setting" >
+    </fragment>
+
     <activity
         android:id="@+id/navigation_map"
         android:name="com.paxees.tcc.controllers.MapsActivity"

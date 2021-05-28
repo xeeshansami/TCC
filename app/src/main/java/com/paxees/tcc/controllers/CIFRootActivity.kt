@@ -7,28 +7,23 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import android.view.View.OnSystemUiVisibilityChangeListener
-import android.widget.Button
+import android.widget.ImageView
 import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.navigation.NavigationView
 import com.paxees.tcc.R
-import com.paxees.tcc.models.DrawerItem
 import com.paxees.tcc.models.DrawerModel
-import com.paxees.tcc.utils.Constants
 import com.paxees.tcc.utils.GlobalClass
 import com.paxees.tcc.utils.RecyclerTouchListener
 import com.paxees.tcc.viewModels.SharedCIFViewModel
@@ -38,7 +33,6 @@ import kotlinx.android.synthetic.main.activity_dashboard.drawer_layout
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.drawer_bottom_layout.*
-import kotlinx.android.synthetic.main.drawer_bottom_layout.requestFormMenu
 import kotlinx.android.synthetic.main.drawer_bottom_layout.view.*
 import kotlinx.android.synthetic.main.header.*
 import kotlinx.android.synthetic.main.header.view.*
@@ -50,7 +44,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
     private lateinit var drawerAdapter: DrawerAdapter
     private lateinit var appBarConfiguration: AppBarConfiguration
     var listOfPages = mutableListOf<DrawerModel>()
-
+    var profileImg:RelativeLayout?=null
     @JvmField
     public var globalClass: GlobalClass? = null
     var bundle = Bundle()
@@ -98,14 +92,17 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
                 setOf(R.id.navigation_home, R.id.navigation_profile, R.id.navigation_strains,
-                        R.id.navigation_products, R.id.navigation_videos, R.id.navigation_myorders, R.id.navigation_myorders), drawerLayout
+                        R.id.navigation_products, R.id.navigation_videos,
+                        R.id.navigation_mywishList, R.id.navigation_myorders,R.id.navigation_mysettings), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         orderItemsLayout.setOnClickListener(this)
         myWishListMenu.setOnClickListener(this)
         settingMenu.setOnClickListener(this)
-        findViewById<RelativeLayout>(R.id.profileEdit).setOnClickListener(this)
+        val header: View = navView.getHeaderView(0)
+        var editProfile = header.findViewById<View>(R.id.editProfile) as ImageView
+        editProfile!!.setOnClickListener(this)
         requestFormMenu.setOnClickListener(this)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
@@ -140,6 +137,10 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
                 R.id.navigation_mywishList -> {
                     toolbar.visibility = View.GONE
                     tvTitle.text = "My Wishlist"
+                }
+                R.id.navigation_mysettings -> {
+                    toolbar.visibility = View.GONE
+                    tvTitle.text = "Settings"
                 }
             }
         }
@@ -237,6 +238,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
                 switchFragment(R.id.navigation_videos)
                 drawer_layout.closeDrawer(Gravity.START, true)
             }
+
         }
     }
 
@@ -267,14 +269,14 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
                 drawer_layout.closeDrawer(Gravity.LEFT, true)
             }
             R.id.settingMenu -> {
-                switchFragment(R.id.navigation_mywishList)
+                switchFragment(R.id.navigation_mysettings)
                 drawer_layout.closeDrawer(Gravity.LEFT, true)
             }
             R.id.myWishListMenu -> {
                 switchFragment(R.id.navigation_mywishList)
                 drawer_layout.closeDrawer(Gravity.LEFT, true)
             }
-            R.id.profileEdit -> {
+            R.id.editProfile -> {
                 switchFragment(R.id.navigation_profile)
                 drawer_layout.closeDrawer(Gravity.LEFT, true)
             }

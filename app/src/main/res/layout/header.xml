@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:id="@+id/profileEdit"
     android:layout_marginTop="@dimen/_10sdp"
     android:layout_height="@dimen/_120sdp"
     android:padding="@dimen/_10sdp"
@@ -10,7 +9,7 @@
 
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/ivProfile"
+        android:id="@+id/profileEdit"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_gravity="center_vertical"
         app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
@@ -23,7 +22,7 @@
         <LinearLayout
             android:id="@+id/profileLayout"
             android:weightSum="4"
-            android:layout_below="@+id/ivProfile"
+            android:layout_below="@+id/profileEdit"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
