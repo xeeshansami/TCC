@@ -5,9 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.fragment.findNavController
 import com.paxees.tcc.R
 import com.paxees.tcc.utils.SessionManager
+import kotlinx.android.synthetic.main.fragment_setting.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 
@@ -33,6 +36,16 @@ class SettingFragment : Fragment(), View.OnClickListener {
         sessionManager = SessionManager(activity)
         backBtn.setOnClickListener(this)
         header.text = getText(R.string.settings)
+        darkMaode.setOnCheckedChangeListener(object:CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+                if(isChecked){
+                    darkMode()
+                }else{
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+            }
+
+        })
     }
 
     override fun onClick(v: View) {
@@ -51,6 +64,10 @@ class SettingFragment : Fragment(), View.OnClickListener {
         val graph = navController.graph
         graph.startDestination = startDestId
         navController.graph = graph
+    }
+
+    fun darkMode(){
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
     }
 
 

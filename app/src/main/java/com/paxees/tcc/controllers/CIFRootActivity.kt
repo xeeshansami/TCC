@@ -1,6 +1,7 @@
 package com.paxees.tcc.controllers
 
 import android.annotation.SuppressLint
+import android.app.UiModeManager
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
@@ -11,6 +12,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -20,7 +22,6 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.navigation.NavigationView
 import com.paxees.tcc.R
 import com.paxees.tcc.models.DrawerModel
@@ -40,6 +41,8 @@ import kotlinx.android.synthetic.main.toolbar.*
 
 class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.OnClickListener {
     val viewModel: SharedCIFViewModel by viewModels()
+    private var uiModeManager: UiModeManager? = null
+
     var TAG: String = this.javaClass.simpleName
     private lateinit var drawerAdapter: DrawerAdapter
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -85,6 +88,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
 
     fun start() {
         title = ""
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.cifHostFragment)
@@ -93,7 +97,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         appBarConfiguration = AppBarConfiguration(
                 setOf(R.id.navigation_home, R.id.navigation_profile, R.id.navigation_strains,
                         R.id.navigation_products, R.id.navigation_videos,
-                        R.id.navigation_mywishList, R.id.navigation_myorders,R.id.navigation_mysettings), drawerLayout
+                        R.id.navigation_mywishList, R.id.navigation_myorders, R.id.navigation_mysettings), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
