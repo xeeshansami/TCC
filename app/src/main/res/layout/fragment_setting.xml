@@ -76,6 +76,7 @@
                 android:layout_height="1dp"
                 android:background="@color/grey"></View>
             <TextView
+                android:id="@+id/addNewPaymentMethodBtn"
                 android:textSize="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_weight="1"

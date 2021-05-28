@@ -166,4 +166,5 @@
     <string name="EnterNewPwd">New Password</string>
     <string name="EnterConfirmNewPwd">Confirm New Password</string>
     <string name="addAnotherAddresses">Add Another Addresses</string>
+    <string name="add_new_payment_method">Add New Payment Method</string>
 </resources>

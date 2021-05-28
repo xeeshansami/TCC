@@ -38,6 +38,7 @@ class SettingFragment : Fragment(), View.OnClickListener {
     fun init(view: View?) {
         sessionManager = SessionManager(activity)
         myadressesBtn.setOnClickListener(this)
+        addNewPaymentMethodBtn.setOnClickListener(this)
         languageBtn.setOnClickListener(this)
         privacyPolicyBtn.setOnClickListener(this)
         changePwdBtn.setOnClickListener(this)
@@ -76,6 +77,9 @@ class SettingFragment : Fragment(), View.OnClickListener {
             }
             R.id.myadressesBtn->{
                 findNavController().navigate(R.id.setting_to_myaddresses)
+            }
+            R.id.addNewPaymentMethodBtn->{
+                findNavController().navigate(R.id.setting_to_add_new_payment_method)
             }
         }
     }

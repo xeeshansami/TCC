@@ -104,6 +104,14 @@
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right"
             app:popUpToInclusive="true"></action>
+        <action
+            android:id="@+id/setting_to_add_new_payment_method"
+            app:destination="@id/navigation_add_new_payment_method"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
     </fragment>
     <fragment
         android:id="@+id/navigation_privacy_policy"
@@ -132,5 +140,10 @@
         android:name="com.paxees.tcc.views.fragments.MyAddresses"
         android:label="MyAddresses"
         tools:layout="@layout/fragment_myaddresses"></fragment>
+    <fragment
+        android:id="@+id/navigation_add_new_payment_method"
+        android:name="com.paxees.tcc.views.fragments.AddPaymentMethod"
+        android:label="AddPaymentMethod"
+        tools:layout="@layout/fragment_add_payment_method"></fragment>
 
 </navigation>
