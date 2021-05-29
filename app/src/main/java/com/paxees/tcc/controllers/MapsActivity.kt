@@ -29,6 +29,7 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.paxees.tcc.R
+import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
 
 class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, PlaceSelectionListener, OnMapClickListener, View.OnClickListener {
@@ -83,6 +84,8 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleApiClient.Con
     private fun init() {
         done = findViewById(R.id.done)
         done!!.setOnClickListener(this)
+        backBtn.setOnClickListener(this)
+        header!!.text = getText(R.string.searchLocation)
         mGoogleApiClient = GoogleApiClient.Builder(this) // The next two lines tell the new client that “this” current class will handle connection stuff
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this) //fourth line adds the LocationServices API endpoint from GooglePlayServices

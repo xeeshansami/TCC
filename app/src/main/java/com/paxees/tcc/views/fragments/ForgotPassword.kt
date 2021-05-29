@@ -19,8 +19,10 @@ import com.paxees.tcc.network.networkmodels.request.RegisterRequest
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
 import com.paxees.tcc.network.store.TenGermsStore
 import com.paxees.tcc.utils.ToastUtils
+import com.paxees.tcc.utils.managers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_forget.*
 import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.toolbar.header
 
 class ForgotPassword : Fragment(), View.OnClickListener {
     var bt_registration: Button? = null
@@ -45,6 +47,7 @@ class ForgotPassword : Fragment(), View.OnClickListener {
     }
 
     fun init(view: View?) {
+        checkBackground()
         bt_submit!!.setOnClickListener(this)
         backBtn.setOnClickListener(this)
         header.text = getText(R.string.forgetPwd)
@@ -91,11 +94,17 @@ class ForgotPassword : Fragment(), View.OnClickListener {
             true
         }
     }
-
+    private fun checkBackground() {
+        if((activity as launcher).sharedPreferenceManager.getIntFromSharedPreferences(SharedPreferenceManager.DARK_MODE)==1){
+            mainLoginLayout!!.background=resources.getDrawable(R.color.colorPrimary)
+        }else{
+            mainLoginLayout!!.background=resources.getDrawable(R.color.colorPrimary)
+        }
+    }
     private fun register() {
         val number = numberEt!!.text.toString().trim { it <= ' ' }
         val promo = promoEt!!.text.toString().trim { it <= ' ' }
-        (activity as launcher?)!!.globalClass.showDialog(activity)
+        (activity as launcher?)!!.globalClass!!.showDialog(activity)
         request = RegisterRequest()
         request!!.number = number
         if (maleRB!!.isChecked) {
@@ -110,12 +119,12 @@ class ForgotPassword : Fragment(), View.OnClickListener {
                 if (response.status) {
 //                    NavHostFragment.findNavController(this@ForgotPassword).navigate(R.id.register_to_login)
                 }
-                (activity as launcher?)!!.globalClass.hideLoader()
+                (activity as launcher?)!!.globalClass!!.hideLoader()
             }
 
             override fun RegisterFailure(baseResponse: BaseResponse) {
                 ToastUtils.showToastWith(activity, baseResponse.msg, "")
-                (activity as launcher?)!!.globalClass.hideLoader()
+                (activity as launcher?)!!.globalClass!!.hideLoader()
             }
         })
     }

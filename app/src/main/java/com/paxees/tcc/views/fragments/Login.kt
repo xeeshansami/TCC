@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -33,6 +34,7 @@ import com.paxees.tcc.network.networkmodels.request.LoginRequest
 import com.paxees.tcc.utils.Constants
 import com.paxees.tcc.utils.SessionManager
 import com.paxees.tcc.utils.ToastUtils
+import com.paxees.tcc.utils.managers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
@@ -64,9 +66,18 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
         signupBtn!!.setOnClickListener(this)
         forgetPwd!!.setOnClickListener(this)
         signupBtn.paintFlags = signupBtn.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+        checkBackground()
         gmailConnect()
         setupGoogleClient()
         facebook()
+    }
+
+    private fun checkBackground() {
+        if((activity as launcher).sharedPreferenceManager.getIntFromSharedPreferences(SharedPreferenceManager.DARK_MODE)==1){
+            mainLoginLayout.background=resources.getDrawable(R.color.colorPrimary)
+        }else{
+            mainLoginLayout.background=resources.getDrawable(R.color.colorPrimary)
+        }
     }
 
     override fun onClick(v: View) {
@@ -170,7 +181,7 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
         facebookBtnLogin!!.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 val request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken()) { `object`, response ->
-                    (activity as launcher?)!!.globalClass.hideLoader()
+                    (activity as launcher?)!!.globalClass!!.hideLoader()
                     Log.i("Facebook", """
      facebook response$response
      ${loginResult.accessToken}
@@ -184,7 +195,7 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
             }
 
             override fun onCancel() {
-                (activity as launcher?)!!.globalClass.hideLoader()
+                (activity as launcher?)!!.globalClass!!.hideLoader()
                 Log.i("cancel", "cancel")
             }
 
@@ -198,10 +209,10 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
     private fun login() {
         val email = emailEt!!.text.toString().trim { it <= ' ' }
         val pwd = etPassword!!.text.toString().trim { it <= ' ' }
-        (activity as launcher?)!!.globalClass.showDialog(activity)
+        (activity as launcher?)!!.globalClass!!.showDialog(activity)
         val handler = Handler()
         handler.postDelayed({
-            (activity as launcher?)!!.globalClass.hideLoader()
+            (activity as launcher?)!!.globalClass!!.hideLoader()
             NavHostFragment.findNavController(this@Login).navigate(R.id.login_to_dashboard)
         }, 2000)
     }
@@ -214,11 +225,11 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
                 .build()
         FacebookSdk.sdkInitialize(FacebookSdk.getApplicationContext())
         // Build a GoogleSignInClient with the options specified by gso.
-        mGoogleSignInClient = GoogleSignIn.getClient(activity!!, gso)
+        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
     }
 
     private fun signIn() {
-        (activity as launcher?)!!.globalClass.showDialog(activity)
+        (activity as launcher?)!!.globalClass!!.showDialog(activity)
         val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
         startActivityForResult(signInIntent, Constants.RC_SIGN_IN)
     }
@@ -230,7 +241,7 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
         if (requestCode == Constants.RC_SIGN_IN) {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
-            (activity as launcher?)!!.globalClass.hideLoader()
+            (activity as launcher?)!!.globalClass!!.hideLoader()
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
             getGmailDetails(result)
         }
@@ -278,7 +289,7 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
     }
 
     override fun onConnectionFailed(connectionResult: ConnectionResult) {
-        (activity as launcher?)!!.globalClass.hideLoader()
+        (activity as launcher?)!!.globalClass!!.hideLoader()
         ToastUtils.showToastWith(activity, connectionResult.errorMessage, "")
     }
 

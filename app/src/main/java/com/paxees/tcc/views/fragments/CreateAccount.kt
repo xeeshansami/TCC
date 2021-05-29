@@ -33,6 +33,7 @@ import com.paxees.tcc.network.networkmodels.request.LoginRequest
 import com.paxees.tcc.utils.Constants
 import com.paxees.tcc.utils.SessionManager
 import com.paxees.tcc.utils.ToastUtils
+import com.paxees.tcc.utils.managers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_create_account.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -60,6 +61,7 @@ class CreateAccount : Fragment(), View.OnClickListener, GoogleApiClient.OnConnec
     fun init(view: View) {
         sessionManager = SessionManager(activity)
         backBtn.setOnClickListener(this)
+        checkBackground()
         header!!.text = getText(R.string.create_account)
         bt_create_account!!.setOnClickListener(this)
         signInBtn!!.setOnClickListener(this)
@@ -89,7 +91,13 @@ class CreateAccount : Fragment(), View.OnClickListener, GoogleApiClient.OnConnec
     }
 
 
-
+    private fun checkBackground() {
+        if((activity as launcher).sharedPreferenceManager.getIntFromSharedPreferences(SharedPreferenceManager.DARK_MODE)==1){
+            mainLoginLayout!!.background=resources.getDrawable(R.color.colorPrimary)
+        }else{
+            mainLoginLayout!!.background=resources.getDrawable(R.color.colorPrimary)
+        }
+    }
 
 
     fun validation(): Boolean {
@@ -128,7 +136,7 @@ class CreateAccount : Fragment(), View.OnClickListener, GoogleApiClient.OnConnec
     }
 
     private fun signIn() {
-        (activity as launcher?)!!.globalClass.showDialog(activity)
+        (activity as launcher?)!!.globalClass!!.showDialog(activity)
         val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
         startActivityForResult(signInIntent, Constants.RC_SIGN_IN)
     }
@@ -140,7 +148,7 @@ class CreateAccount : Fragment(), View.OnClickListener, GoogleApiClient.OnConnec
         if (requestCode == Constants.RC_SIGN_IN) {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
-            (activity as launcher?)!!.globalClass.hideLoader()
+            (activity as launcher?)!!.globalClass!!.hideLoader()
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
             getGmailDetails(result)
         }
@@ -188,7 +196,7 @@ class CreateAccount : Fragment(), View.OnClickListener, GoogleApiClient.OnConnec
     }
 
     override fun onConnectionFailed(connectionResult: ConnectionResult) {
-        (activity as launcher?)!!.globalClass.hideLoader()
+        (activity as launcher?)!!.globalClass!!.hideLoader()
         ToastUtils.showToastWith(activity, connectionResult.errorMessage, "")
     }
 

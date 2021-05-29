@@ -61,7 +61,6 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        globalClass = GlobalClass.applicationContext!!.applicationContext as GlobalClass
         setContentView(R.layout.activity_dashboard)
         window.decorView.setOnSystemUiVisibilityChangeListener(OnSystemUiVisibilityChangeListener { visibility ->
             if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {

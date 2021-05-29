@@ -42,6 +42,7 @@ class StrainForm : Fragment(), View.OnClickListener {
         backBtn.setOnClickListener(this)
         setPlants()
         setSeeds()
+        setFinds()
     }
 
     override fun onClick(v: View) {
@@ -97,6 +98,26 @@ class StrainForm : Fragment(), View.OnClickListener {
         rvSeedsInterested!!.layoutManager = horizontalLayoutManagaer
         var adapter = RecyclerViewAdapter(activity, rec)
         rvSeedsInterested.setAdapter(adapter)
+        adapter!!.notifyDataSetChanged()
+    }
+
+    fun setFinds() {
+        val rec: ArrayList<Plants> = ArrayList<Plants>()
+        val txt = ArrayList<String>()
+        txt.add("Google")
+        txt.add("Friends/Family")
+        txt.add("Facebook")
+        txt.add("Other")
+        for (i in txt.indices) {
+            val filterDashboard = Plants()
+            filterDashboard.plantValue=txt[i].toString()
+            rec.add(filterDashboard)
+        }
+//        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        val horizontalLayoutManagaer = GridLayoutManager(activity, 3)
+        rvfindInterested!!.layoutManager = horizontalLayoutManagaer
+        var adapter = RecyclerViewAdapter(activity, rec)
+        rvfindInterested.setAdapter(adapter)
         adapter!!.notifyDataSetChanged()
     }
 }

@@ -29,15 +29,14 @@
             android:name="com.paxees.tcc.controllers.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity
-            android:name=".controllers.launcher"
+            android:name=".controllers.CIFRootActivity"
             android:label="@string/title_activity_dashboard"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.paxees.tcc.controllers.CIFRootActivity"
+            android:name="com.paxees.tcc.controllers.launcher"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

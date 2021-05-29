@@ -267,7 +267,85 @@
                     android:requiresFadingEdge="vertical"
                     tools:listitem="@layout/item_views" />
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/imProductsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="vertical"
+                >
+                <TextView android:id="@+id/productsRecyclerText"
+                    android:gravity="left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/i_m_interested_in_other_products"
+                    android:layout_gravity="left|center_vertical"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13sdp"
+                    android:textStyle="bold"
+                    ></TextView>
+              <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:weightSum="2">
 
+                  <CheckBox
+                      android:text="@string/nutreints"
+                      android:layout_weight="1"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"></CheckBox>
+                  <CheckBox
+                      android:text="@string/grow_tents"
+                      android:layout_weight="1"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"></CheckBox>
+
+              </LinearLayout>
+                <LinearLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2">
+
+                    <CheckBox
+                        android:text="@string/grow_lights"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"></CheckBox>
+                    <CheckBox
+                        android:text="@string/grow_mentorship"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"></CheckBox>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/imSeedsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="vertical"
+                    >
+                    <TextView android:id="@+id/findRecyclerText"
+                        android:gravity="left"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/how_did_you_find_us"
+                        android:layout_gravity="left|center_vertical"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13sdp"
+                        android:textStyle="bold"
+                        ></TextView>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:id="@+id/rvfindInterested"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:clipToPadding="true"
+                        android:fadingEdge="vertical"
+                        android:layoutAnimation="@anim/layout_animation"
+                        android:requiresFadingEdge="vertical"
+                        tools:listitem="@layout/item_views" />
+                </LinearLayout>
+            </LinearLayout>
             <Button
                 android:id="@+id/bt_submit"
                 android:layout_width="match_parent"
