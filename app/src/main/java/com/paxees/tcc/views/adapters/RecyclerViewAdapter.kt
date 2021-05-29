@@ -1,97 +1,87 @@
-package com.paxees.tcc.views.adapters;
+package com.paxees.tcc.views.adapters
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.paxees.tcc.R
+import com.paxees.tcc.models.Plants
+import java.util.*
 
-import com.bumptech.glide.Glide;
-import com.paxees.tcc.R;
-import com.paxees.tcc.models.Plants;
-import com.paxees.tcc.network.networkmodels.response.models.Category;
-
-import java.util.ArrayList;
-
-import androidx.recyclerview.widget.RecyclerView;
-
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-    private int row_index;
-    private ArrayList<Plants> mData;
-    private LayoutInflater mInflater;
-    private ItemClickListener mClickListener;
-    private Context context;
-
-    // data is passed into the constructor
-    public RecyclerViewAdapter(Context context, ArrayList<Plants> data) {
-        this.mInflater = LayoutInflater.from(context);
-        this.mData = data;
-        this.context = context;
-    }
+class RecyclerViewAdapter(context: Context, data: ArrayList<Plants>, pos: Int) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
+    private var row_index = 0
+    private val mData: ArrayList<Plants>
+    private var view: View? = null
+    private val mInflater: LayoutInflater
+    private var mClickListener: ItemClickListener? = null
+    private val context: Context
+    private var pos = 0
 
     // inflates the row layout from xml when needed
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_views, parent, false);
-        return new ViewHolder(view);
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        view = if (pos == 1) {
+            mInflater.inflate(R.layout.item_views_findus, parent, false)
+        } else {
+            mInflater.inflate(R.layout.item_views, parent, false)
+        }
+        return ViewHolder(view!!)
     }
 
     // binds the data to the TextView in each row
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Plants animal = mData.get(position);
-        holder.plantsId.setText(animal.getPlantValue());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                row_index = position;
-                notifyDataSetChanged();
-            }
-        });
-        if (row_index == position) {
-            holder.plantsId.setBackground(this.context.getResources().getDrawable(R.drawable.bg_border_square_green));
-        } else {
-            holder.plantsId.setBackground(this.context.getResources().getDrawable(R.drawable.bg_border_square_black));
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val animal = mData[position]
+        holder.plantsId.text = animal.plantValue
+        holder.itemView.setOnClickListener {
+            row_index = position
+            notifyDataSetChanged()
         }
-
+        if (row_index == position) {
+            holder.plantsId.background = context.resources.getDrawable(R.drawable.bg_border_square_green)
+        } else {
+            holder.plantsId.background = context.resources.getDrawable(R.drawable.bg_border_square_black)
+        }
     }
 
     // total number of rows
-    @Override
-    public int getItemCount() {
-        return mData.size();
+    override fun getItemCount(): Int {
+        return mData.size
     }
 
-
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView plantsId;
-
-        ViewHolder(View itemView) {
-            super(itemView);
-            plantsId = itemView.findViewById(R.id.plantsId);
-            itemView.setOnClickListener(this);
+    inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+        var plantsId: TextView
+        override fun onClick(view: View) {
+            if (mClickListener != null) mClickListener!!.onItemClick(view, adapterPosition)
         }
 
-        @Override
-        public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+        init {
+            plantsId = itemView.findViewById(R.id.plantsId)
+            itemView.setOnClickListener(this)
         }
     }
 
     // convenience method for getting data at click position
-    Plants getItem(int id) {
-        return mData.get(id);
+    fun getItem(id: Int): Plants {
+        return mData[id]
     }
 
     // allows clicks events to be caught
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
+    fun setClickListener(itemClickListener: ItemClickListener?) {
+        mClickListener = itemClickListener
     }
 
     // parent activity will implement this method to respond to click events
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
+    interface ItemClickListener {
+        fun onItemClick(view: View?, position: Int)
+    }
+
+    // data is passed into the constructor
+    init {
+        mInflater = LayoutInflater.from(context)
+        mData = data
+        this.context = context
+        this.pos = pos
     }
 }

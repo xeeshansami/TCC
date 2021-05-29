@@ -76,7 +76,7 @@ class StrainForm : Fragment(), View.OnClickListener {
 //        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         val horizontalLayoutManagaer = GridLayoutManager(activity, 5)
         rvPlantsInterested!!.layoutManager = horizontalLayoutManagaer
-        var adapter = RecyclerViewAdapter(activity, rec)
+        var adapter = RecyclerViewAdapter(activity!!, rec,0)
         rvPlantsInterested.setAdapter(adapter)
         adapter!!.notifyDataSetChanged()
     }
@@ -96,7 +96,7 @@ class StrainForm : Fragment(), View.OnClickListener {
 //        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         val horizontalLayoutManagaer = GridLayoutManager(activity, 5)
         rvSeedsInterested!!.layoutManager = horizontalLayoutManagaer
-        var adapter = RecyclerViewAdapter(activity, rec)
+        var adapter = RecyclerViewAdapter(requireActivity(), rec,0)
         rvSeedsInterested.setAdapter(adapter)
         adapter!!.notifyDataSetChanged()
     }
@@ -114,9 +114,9 @@ class StrainForm : Fragment(), View.OnClickListener {
             rec.add(filterDashboard)
         }
 //        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        val horizontalLayoutManagaer = GridLayoutManager(activity, 3)
+        val horizontalLayoutManagaer = GridLayoutManager(activity, 5)
         rvfindInterested!!.layoutManager = horizontalLayoutManagaer
-        var adapter = RecyclerViewAdapter(activity, rec)
+        var adapter = RecyclerViewAdapter(requireActivity(), rec,1)
         rvfindInterested.setAdapter(adapter)
         adapter!!.notifyDataSetChanged()
     }
