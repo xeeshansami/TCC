@@ -303,9 +303,4 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         }
 
     }
-
-
-
-
-
 }
