@@ -114,7 +114,7 @@ class StrainForm : Fragment(), View.OnClickListener {
             rec.add(filterDashboard)
         }
 //        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        val horizontalLayoutManagaer = GridLayoutManager(activity, 5)
+        val horizontalLayoutManagaer = GridLayoutManager(activity, 3)
         rvfindInterested!!.layoutManager = horizontalLayoutManagaer
         var adapter = RecyclerViewAdapter(requireActivity(), rec,1)
         rvfindInterested.setAdapter(adapter)

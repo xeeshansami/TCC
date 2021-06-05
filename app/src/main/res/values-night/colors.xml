@@ -2,7 +2,6 @@
 <resources>
     <color name="colorPrimary">#000000</color>
     <color name="colorTheme">#5BFFFFFF</color>
-    <color name="grey">#5BFFFFFF</color>
     <color name="light_grey">#EDEDED</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>

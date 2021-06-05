@@ -93,9 +93,7 @@ class CreateAccount : Fragment(), View.OnClickListener, GoogleApiClient.OnConnec
 
     private fun checkBackground() {
         if((activity as launcher).sharedPreferenceManager.getIntFromSharedPreferences(SharedPreferenceManager.DARK_MODE)==1){
-            mainLoginLayout!!.background=resources.getDrawable(R.color.colorPrimary)
-        }else{
-            mainLoginLayout!!.background=resources.getDrawable(R.color.colorPrimary)
+            mainLoginLayout!!.background=resources.getDrawable(R.color.blackLight)
         }
     }
 

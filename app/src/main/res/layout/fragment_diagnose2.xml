@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/NestedScrollBarStyle">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        tools:context=".controllers.launcher">
+
+        <include android:id="@+id/toolbar" layout="@layout/toolbar"></include>
+        <LinearLayout
+            android:layout_margin="@dimen/_10sdp"
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:textSize="@dimen/_17sdp"
+                android:layout_weight="1"
+                android:textColor="@color/grey"
+                android:text=""
+                android:id="@+id/diaglosePageNoTv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"></TextView>
+            <TextView
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:textSize="@dimen/_32sdp"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:text="What is the space of Your Grow Area?"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"></TextView>
+            <TextView
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:textSize="@dimen/_15sdp"
+                android:layout_weight="1"
+                android:textColor="@color/grey"
+                android:text="(sq ft)"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"></TextView>
+
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_30sdp"
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvGrowArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="true"
+                    android:fadingEdge="vertical"
+                    android:layoutAnimation="@anim/layout_animation"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:requiresFadingEdge="vertical" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

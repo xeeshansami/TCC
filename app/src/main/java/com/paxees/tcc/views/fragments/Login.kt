@@ -74,9 +74,7 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
 
     private fun checkBackground() {
         if((activity as launcher).sharedPreferenceManager.getIntFromSharedPreferences(SharedPreferenceManager.DARK_MODE)==1){
-            mainLoginLayout.background=resources.getDrawable(R.color.colorPrimary)
-        }else{
-            mainLoginLayout.background=resources.getDrawable(R.color.colorPrimary)
+            mainLoginLayout.background=resources.getDrawable(R.color.blackLight)
         }
     }
 
@@ -140,7 +138,7 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
 
     override fun onDetach() {
         super.onDetach()
-        if(mGoogleApiClient!!.isConnected) {
+        if(mGoogleApiClient!=null && mGoogleApiClient!!.isConnected) {
         mGoogleApiClient!!.stopAutoManage(requireActivity())
         mGoogleApiClient!!.disconnect()
         }
@@ -148,7 +146,7 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
 
     override fun onDestroy() {
         super.onDestroy()
-        if(mGoogleApiClient!!.isConnected) {
+        if(mGoogleApiClient!=null && mGoogleApiClient!!.isConnected) {
             mGoogleApiClient!!.stopAutoManage(requireActivity())
             mGoogleApiClient!!.disconnect()
         }

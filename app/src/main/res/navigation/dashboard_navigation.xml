@@ -150,5 +150,10 @@
         android:name="com.paxees.tcc.views.fragments.AddPaymentMethod"
         android:label="AddPaymentMethod"
         tools:layout="@layout/fragment_add_payment_method"></fragment>
+    <fragment
+        android:id="@+id/navigation_diagnose1"
+        android:name="com.paxees.tcc.views.fragments.Diagnose1"
+        android:label="Diagnose1"
+        tools:layout="@layout/fragment_diagnose1"></fragment>
 
 </navigation>
