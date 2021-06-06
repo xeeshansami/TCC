@@ -8,10 +8,9 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import android.view.View.OnSystemUiVisibilityChangeListener
-import android.widget.ImageView
 import android.widget.RelativeLayout
-import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
@@ -28,7 +27,6 @@ import com.paxees.tcc.R
 import com.paxees.tcc.models.DrawerModel
 import com.paxees.tcc.utils.GlobalClass
 import com.paxees.tcc.utils.RecyclerTouchListener
-import com.paxees.tcc.utils.ToastUtils
 import com.paxees.tcc.utils.managers.SharedPreferenceManager
 import com.paxees.tcc.viewModels.SharedCIFViewModel
 import com.paxees.tcc.views.adapters.DrawerAdapter
@@ -101,7 +99,6 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
-
         val navController = findNavController(R.id.cifHostFragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -115,6 +112,8 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        findViewById<Toolbar>(R.id.toolbar)
+                .setupWithNavController(navController, appBarConfiguration)
         logoutFormMenu.setOnClickListener(this)
         requestFormMenu.setOnClickListener(this)
         orderItemsLayout.setOnClickListener(this)

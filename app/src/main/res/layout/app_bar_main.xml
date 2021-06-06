@@ -10,13 +10,15 @@
         android:layout_height="wrap_content"
         app:elevation="0dp">
 
-        <androidx.appcompat.widget.Toolbar android:id="@+id/toolbar"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
             app:contentInsetEnd="0dp"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
+            app:navigationIcon="@mipmap/ic_drawer"
             app:contentInsetStartWithNavigation="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout

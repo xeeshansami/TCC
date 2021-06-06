@@ -192,4 +192,6 @@
     <string name="inside">Inside</string>
     <string name="this_is_deficiency_text_label_this_is_deficiency_text_labelthis_is_deficiency_text_labelthis_is_deficiency_text_labelthis_is_deficiency_text_labelthis_is_deficiency_text_labelthis_is_deficiency_text_labelthis_is_deficiency_text_labelthis_is_deficiency_text_label">This is deficiency text label This is deficiency text labelThis is deficiency text labelThis is deficiency text labelThis is deficiency text labelThis is deficiency text labelThis is deficiency text labelThis is deficiency text labelThis is deficiency text label</string>
     <string name="searchPleantsYourLike">Search plants you like...</string>
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Closed</string>
 </resources>
