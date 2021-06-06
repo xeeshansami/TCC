@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:padding="@dimen/_5sdp"
+    android:paddingTop="@dimen/_5sdp"
+    android:paddingBottom="@dimen/_5sdp"
     android:layout_height="wrap_content">
 
     <LinearLayout
@@ -25,7 +26,7 @@
             android:paddingLeft="@dimen/_2sdp"
             android:paddingRight="@dimen/_2sdp"
             android:textColor="@color/grey"
-            android:textSize="@dimen/_15sdp"
+            android:textSize="@dimen/_13sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
