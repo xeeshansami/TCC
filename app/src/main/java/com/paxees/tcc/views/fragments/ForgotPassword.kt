@@ -21,6 +21,8 @@ import com.paxees.tcc.network.store.TenGermsStore
 import com.paxees.tcc.utils.ToastUtils
 import com.paxees.tcc.utils.managers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_forget.*
+import kotlinx.android.synthetic.main.fragment_forget.mainLoginLayout
+import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.header
 
@@ -51,6 +53,11 @@ class ForgotPassword : Fragment(), View.OnClickListener {
         bt_submit!!.setOnClickListener(this)
         backBtn.setOnClickListener(this)
         header.text = getText(R.string.forgetPwd)
+    }
+    private fun checkBackground() {
+        if((activity as launcher).sharedPreferenceManager.getIntFromSharedPreferences(SharedPreferenceManager.DARK_MODE)==1){
+            mainLoginLayout.background=resources.getDrawable(R.color.blackLight)
+        }
     }
 
     override fun onClick(v: View) {
@@ -94,13 +101,7 @@ class ForgotPassword : Fragment(), View.OnClickListener {
             true
         }
     }
-    private fun checkBackground() {
-        if((activity as launcher).sharedPreferenceManager.getIntFromSharedPreferences(SharedPreferenceManager.DARK_MODE)==1){
-            mainLoginLayout!!.background=resources.getDrawable(R.color.colorPrimary)
-        }else{
-            mainLoginLayout!!.background=resources.getDrawable(R.color.colorPrimary)
-        }
-    }
+
     private fun register() {
         val number = numberEt!!.text.toString().trim { it <= ' ' }
         val promo = promoEt!!.text.toString().trim { it <= ' ' }

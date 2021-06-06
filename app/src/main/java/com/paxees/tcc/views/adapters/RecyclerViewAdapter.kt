@@ -23,6 +23,8 @@ class RecyclerViewAdapter(context: Context, data: ArrayList<Plants>, pos: Int) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         view = if (pos == 1) {
             mInflater.inflate(R.layout.item_views_findus, parent, false)
+        }else if (pos == 2) {
+            mInflater.inflate(R.layout.item_views_diagnose, parent, false)
         } else {
             mInflater.inflate(R.layout.item_views, parent, false)
         }
@@ -34,13 +36,22 @@ class RecyclerViewAdapter(context: Context, data: ArrayList<Plants>, pos: Int) :
         val animal = mData[position]
         holder.plantsId.text = animal.plantValue
         holder.itemView.setOnClickListener {
+            this.mClickListener?.onItemClick(view, position)
             row_index = position
             notifyDataSetChanged()
         }
-        if (row_index == position) {
-            holder.plantsId.background = context.resources.getDrawable(R.drawable.bg_border_square_green)
-        } else {
-            holder.plantsId.background = context.resources.getDrawable(R.drawable.bg_border_square_black)
+        if (pos == 0 || pos == 1) {
+            if (row_index == position) {
+                holder.plantsId.background = context.resources.getDrawable(R.drawable.bg_border_square_green)
+            } else {
+                holder.plantsId.background = context.resources.getDrawable(R.drawable.bg_border_square_black)
+            }
+        } else if (pos == 2) {
+            if (row_index == position) {
+                holder.plantsId.background = context.resources.getDrawable(R.drawable.bg_border_square_green_diagnose)
+            } else {
+                holder.plantsId.background = context.resources.getDrawable(R.drawable.bg_border_square_diagnose)
+            }
         }
     }
 

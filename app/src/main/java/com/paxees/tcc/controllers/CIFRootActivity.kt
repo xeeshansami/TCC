@@ -106,7 +106,8 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
                         R.id.navigation_strains,
                         R.id.navigation_products, R.id.navigation_videos,
                         R.id.navigation_mywishList, R.id.navigation_myorders,
-                        R.id.navigation_mysettings ), drawerLayout
+                        R.id.navigation_mysettings,
+                        R.id.navigation_diagnose1 ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
@@ -156,6 +157,10 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
                 R.id.navigation_strain_form -> {
                     toolbar.visibility = View.GONE
                     tvTitle.text = "Strain Request Form"
+                }
+                R.id.navigation_diagnose1 -> {
+                    toolbar.visibility = View.GONE
+                    tvTitle.text = ""
                 }
             }
         }
@@ -251,6 +256,10 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
 
             getString(R.string.Videos) -> {
                 switchFragment(R.id.navigation_videos)
+                drawer_layout.closeDrawer(Gravity.START, true)
+            }
+            getString(R.string.Diagnose) -> {
+                switchFragment(R.id.navigation_diagnose1)
                 drawer_layout.closeDrawer(Gravity.START, true)
             }
 

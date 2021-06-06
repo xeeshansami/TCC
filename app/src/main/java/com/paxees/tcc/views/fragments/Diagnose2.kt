@@ -1,12 +1,10 @@
 package com.paxees.tcc.views.fragments
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
@@ -25,7 +23,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.header
 import java.util.ArrayList
 
-class Diagnose2 : Fragment(), View.OnClickListener {
+class Diagnose2 : Fragment(), View.OnClickListener, RecyclerViewAdapter.ItemClickListener {
     var tvCoupons: TextView? = null
     var tvChangePwd: TextView? = null
     var tvMyProfile: TextView? = null
@@ -52,6 +50,7 @@ class Diagnose2 : Fragment(), View.OnClickListener {
         sessionManager = SessionManager(activity)
         backBtn.setOnClickListener(this)
         header.text = ""
+        diaglosePageNoTv.text = "2/20"
         setGrowArea()
     }
 
@@ -66,21 +65,30 @@ class Diagnose2 : Fragment(), View.OnClickListener {
     fun setGrowArea() {
         val rec: ArrayList<Plants> = ArrayList<Plants>()
         val txt = ArrayList<String>()
-        txt.add("10")
-        txt.add("20")
-        txt.add("30")
-        txt.add("40")
-        txt.add("50+")
+        txt.add("<100")
+        txt.add("<500")
+        txt.add("<800")
+        txt.add("1000")
+        txt.add("1500")
+        txt.add("2000")
+        txt.add("3000")
+        txt.add("4000")
+        txt.add("5000+")
         for (i in txt.indices) {
             val filterDashboard = Plants()
             filterDashboard.plantValue=txt[i].toString()
             rec.add(filterDashboard)
         }
 //        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        val horizontalLayoutManagaer = GridLayoutManager(activity, 5)
-        rvSeedsInterested!!.layoutManager = horizontalLayoutManagaer
-        var adapter = RecyclerViewAdapter(requireActivity(), rec,0)
+        val horizontalLayoutManagaer = GridLayoutManager(activity, 3)
+        rvGrowArea!!.layoutManager = horizontalLayoutManagaer
+        var adapter = RecyclerViewAdapter(requireActivity(), rec,2)
         rvGrowArea.setAdapter(adapter)
+        adapter.setClickListener(this)
         adapter!!.notifyDataSetChanged()
+    }
+
+    override fun onItemClick(view: View?, position: Int) {
+        findNavController().navigate(R.id.diagnose2_to_diagonse3)
     }
 }

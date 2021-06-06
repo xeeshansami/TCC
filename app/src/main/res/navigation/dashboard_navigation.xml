@@ -154,6 +154,36 @@
         android:id="@+id/navigation_diagnose1"
         android:name="com.paxees.tcc.views.fragments.Diagnose1"
         android:label="Diagnose1"
-        tools:layout="@layout/fragment_diagnose1"></fragment>
+        tools:layout="@layout/fragment_diagnose1">
+        <action
+            android:id="@+id/diagnose1_to_diagonse2"
+            app:destination="@id/navigation_diagnose2"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_diagnose2"
+        android:name="com.paxees.tcc.views.fragments.Diagnose2"
+        android:label="Diagnose2"
+        tools:layout="@layout/fragment_diagnose2">
+        <action
+            android:id="@+id/diagnose2_to_diagonse3"
+            app:destination="@id/navigation_diagnose3"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_diagnose3"
+        android:name="com.paxees.tcc.views.fragments.Diagnose3"
+        android:label="Diagnose3"
+        tools:layout="@layout/fragment_diagnose3"></fragment>
 
 </navigation>

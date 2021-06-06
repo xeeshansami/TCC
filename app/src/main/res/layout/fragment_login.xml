@@ -42,6 +42,7 @@
             android:textSize="@dimen/_15sdp"
             android:textStyle="bold"
             android:text="@string/email"
+            android:textColor="@color/grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/header"
@@ -54,6 +55,7 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginLeft="@dimen/_40sdp"
             android:layout_marginRight="@dimen/_40sdp"
+            android:textColor="@color/grey"
             android:background="@drawable/edittext_border"
             android:id="@+id/emailEt"
             android:textSize="@dimen/_15sdp"
@@ -67,6 +69,7 @@
             android:layout_height="wrap_content"></EditText>
 
         <TextView
+            android:textColor="@color/grey"
             android:paddingLeft="@dimen/_10sdp"
             android:id="@+id/passwordLabel"
             android:layout_marginLeft="@dimen/_40sdp"
@@ -102,10 +105,11 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:id="@+id/etPassword"
                 android:password="true"
+                android:textColor="@color/grey"
+                android:textColorHint="@color/grey"
                 android:background="@drawable/edittext_border"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/grey"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:text="@string/pwdVallue"
