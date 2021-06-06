@@ -30,9 +30,14 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         mFragmentList.add(fragment);
         mFragmentTitleList.add(title);
     }
-
     @Override
     public CharSequence getPageTitle(int position) {
-        return mFragmentTitleList.get(position);
+        switch (position) {
+            case 0:
+                return "First Tab";
+            case 1:
+            default:
+                return "Second Tab";
+        }
     }
 }

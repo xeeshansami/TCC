@@ -103,7 +103,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
-                setOf(R.id.navigation_home, R.id.navigation_profile,
+                setOf(R.id.navigation_home,R.id.navigation_discovery, R.id.navigation_profile,
                         R.id.navigation_strains,
                         R.id.navigation_products, R.id.navigation_videos,
                         R.id.navigation_mywishList, R.id.navigation_myorders,
@@ -123,6 +123,10 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.navigation_home -> {
+                    toolbar.visibility = View.VISIBLE
+                    tvTitle.text = "Home"
+                }
+                R.id.navigation_discovery -> {
                     toolbar.visibility = View.VISIBLE
                     tvTitle.text = "Discovery"
                 }
