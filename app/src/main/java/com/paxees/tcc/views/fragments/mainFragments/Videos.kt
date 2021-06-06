@@ -8,9 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.paxees.tcc.R
+import com.paxees.tcc.controllers.launcher
 import com.paxees.tcc.models.mFilterDashboard
 import com.paxees.tcc.utils.SessionManager
+import com.paxees.tcc.utils.managers.SharedPreferenceManager
 import com.paxees.tcc.views.adapters.VideosAdapter
+import kotlinx.android.synthetic.main.fragment_create_account.*
 import kotlinx.android.synthetic.main.fragment_videos.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
@@ -72,14 +75,14 @@ class Videos : Fragment(), View.OnClickListener {
             rec.add(filterDashboard)
         }
         // set up the RecyclerView
-        rvForYou.setLayoutManager(GridLayoutManager(activity, 1))
-        rvTraining.setLayoutManager(GridLayoutManager(activity, 1))
-        rvNewVideos.setLayoutManager(GridLayoutManager(activity, 1))
-        var VideosAdapter = VideosAdapter(activity, rec)
-        rvForYou.setAdapter(VideosAdapter)
-        rvTraining.setAdapter(VideosAdapter)
-        rvNewVideos.setAdapter(VideosAdapter)
-        VideosAdapter.notifyDataSetChanged()
+        rvForYou.layoutManager = GridLayoutManager(activity, 1)
+        rvTraining.layoutManager = GridLayoutManager(activity, 1)
+        rvNewVideos.layoutManager = GridLayoutManager(activity, 1)
+        var videosAdapter = VideosAdapter(activity, rec)
+        rvForYou.adapter = videosAdapter
+        rvTraining.adapter = videosAdapter
+        rvNewVideos.adapter = videosAdapter
+        videosAdapter.notifyDataSetChanged()
     }
 
 }

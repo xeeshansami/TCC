@@ -82,7 +82,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
              else -> {
                  backInt = intent.extras!!.getInt(Constants.ACTIVITY_KEY)*/
         start()
-        switchFragment(R.id.navigation_home)
+        /* switchFragment(R.id.navigation_home)*/
         recyclerViewSetup()
 //            }
     }
