@@ -1,7 +1,15 @@
 package com.paxees.tcc.models;
 
 public class mFilterDashboard {
-    String txt;
+    String txt,value;
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 
     public String getTxt() {
         return txt;

@@ -25,7 +25,6 @@
             android:paddingLeft="@dimen/_2sdp"
             android:paddingRight="@dimen/_2sdp"
             android:textColor="@color/grey"
-            android:textStyle="bold"
             android:textSize="@dimen/_15sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -1,24 +1,22 @@
 package com.paxees.tcc.views.fragments.mainFragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.CIFRootActivity
-import com.paxees.tcc.controllers.Dashboard
-import com.paxees.tcc.controllers.launcher
 import com.paxees.tcc.models.mFilterDashboard
 import com.paxees.tcc.utils.managers.SharedPreferenceManager
 import com.paxees.tcc.views.adapters.PlantTypeAdapter
 import com.paxees.tcc.views.adapters.PopularAdapter
-import com.paxees.tcc.views.adapters.VideosAdapter
+import kotlinx.android.synthetic.main.fragment_diagnose2.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_videos.*
-import java.util.ArrayList
+import kotlinx.android.synthetic.main.toolbar_theme.*
+import java.util.*
 
 class Home : Fragment() {
 
@@ -34,11 +32,12 @@ class Home : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        checkBackground()
+        init(view)
+    }
+    fun init(view: View?) {
         poplarPlants()
         rvPlantsType()
     }
-
     private fun checkBackground() {
         if ((activity as CIFRootActivity).sharedPreferenceManager.getIntFromSharedPreferences(SharedPreferenceManager.DARK_MODE) == 1) {
             searchBg!!.background = resources.getDrawable(R.drawable.bg_bottom_line)
@@ -49,7 +48,7 @@ class Home : Fragment() {
         }
     }
 
-    fun poplarPlants() {
+    private fun poplarPlants() {
         val rec: ArrayList<mFilterDashboard> = ArrayList<mFilterDashboard>()
         val txt = ArrayList<String>()
         val img = ArrayList<Int>()
@@ -74,13 +73,18 @@ class Home : Fragment() {
         val horizontalLayoutManagaer2 = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         rvPopular.layoutManager = horizontalLayoutManagaer
         rvNightUseage.layoutManager = horizontalLayoutManagaer2
+
         var VideosAdapter = PopularAdapter(activity, rec)
         rvPopular.setAdapter(VideosAdapter)
-        rvNightUseage.setAdapter(VideosAdapter)
         VideosAdapter.notifyDataSetChanged()
+
+        rec.reverse()
+        var VideosAdapter2 = PopularAdapter(activity, rec)
+        rvNightUseage.setAdapter(VideosAdapter2)
+        VideosAdapter2.notifyDataSetChanged()
     }
 
-    fun rvPlantsType() {
+    private fun rvPlantsType() {
         val rec: ArrayList<mFilterDashboard> = ArrayList<mFilterDashboard>()
         val txt = ArrayList<String>()
         val img = ArrayList<Int>()
