@@ -5,8 +5,8 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/_5sdp"
-    android:background="@drawable/bg_border_filled"
+    android:layout_margin="@dimen/_2ssp"
+    android:background="@drawable/bg_border_carts"
     android:orientation="horizontal"
     android:weightSum="5"
     android:padding="@dimen/_10sdp">

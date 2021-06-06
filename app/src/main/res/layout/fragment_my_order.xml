@@ -45,11 +45,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/NestedScrollBarStyle">
-
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_margin="@dimen/_10sdp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
         <LinearLayout
             android:padding="@dimen/_15sdp"
-            android:background="@drawable/card_border_profile"
-            android:layout_margin="@dimen/_10sdp"
+            android:background="@drawable/bg_border_carts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -192,13 +195,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
-            <CheckBox
-                android:textColor="@color/grey"
-                android:text="@string/genuine_products_15_days_return_100_secure"
-                android:id="@+id/cartCB"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></CheckBox>
+
         </LinearLayout>
+    <CheckBox
+        android:layout_margin="@dimen/_10sdp"
+        android:textColor="@color/grey"
+        android:text="@string/genuine_products_15_days_return_100_secure"
+        android:id="@+id/cartCB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></CheckBox>
+</LinearLayout>
+
         </androidx.core.widget.NestedScrollView>
         <Button android:id="@+id/updateProfileBtn"
             android:layout_width="match_parent"

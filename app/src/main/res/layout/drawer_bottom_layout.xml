@@ -136,7 +136,7 @@
         <TextView
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginLeft="@dimen/_5sdp"
-            android:background="@drawable/cart_button_bg"
+            android:background="@drawable/bg_border_carts"
             android:padding="@dimen/_10sdp"
             android:id="@+id/logoutFormMenu"
             android:layout_width="match_parent"

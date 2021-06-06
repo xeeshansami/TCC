@@ -91,7 +91,7 @@
                     android:layout_weight="1"
                     android:layout_marginRight="@dimen/_5sdp"
                     android:layout_width="0dp"
-                    android:background="@drawable/const_bg_border_white"
+                    android:background="@drawable/bg_border_carts"
                     android:scaleType="centerCrop"
                     android:layout_height="@dimen/_100sdp"
                     />

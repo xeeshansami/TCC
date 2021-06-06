@@ -6,8 +6,7 @@
         <item name="colorPrimaryDark">@color/grey</item>
         <item name="colorAccent">@color/grey</item>
         <item name="drawerArrowStyle">@style/DrawerIconStyle</item>
-        <item name="android:fontFamily">@font/calibrib</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/imprima_regular</item>
     </style>
     <!-- RatingBar -->
     <style name="RatingBar" parent="@android:style/Widget.RatingBar">
