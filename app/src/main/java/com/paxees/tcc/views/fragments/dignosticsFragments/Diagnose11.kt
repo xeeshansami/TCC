@@ -9,11 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.paxees.tcc.R
 import com.paxees.tcc.utils.SessionManager
-import kotlinx.android.synthetic.main.fragment_diagnose9.*
+import kotlinx.android.synthetic.main.fragment_diagnose10.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.header
 
-class Diagnose9 : Fragment(), View.OnClickListener {
+class Diagnose11 : Fragment(), View.OnClickListener {
     var tvCoupons: TextView? = null
     var tvChangePwd: TextView? = null
     var tvMyProfile: TextView? = null
@@ -28,7 +28,7 @@ class Diagnose9 : Fragment(), View.OnClickListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_diagnose9, container, false)
+        return inflater.inflate(R.layout.fragment_diagnose11, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,8 +39,6 @@ class Diagnose9 : Fragment(), View.OnClickListener {
     fun init(view: View?) {
         sessionManager = SessionManager(activity)
         backBtn.setOnClickListener(this)
-        yesBtn.setOnClickListener(this)
-        noBtn.setOnClickListener(this)
         header.text = ""
     }
 
@@ -49,16 +47,10 @@ class Diagnose9 : Fragment(), View.OnClickListener {
             R.id.backBtn -> {
                 findNavController().navigateUp()
             }
-            R.id.yesBtn -> {
-                gotoNextScreens()
-            }
-            R.id.noBtn -> {
-                gotoNextScreens()
-            }
         }
     }
 
     private fun gotoNextScreens() {
-        findNavController().navigate(R.id.diagnose9_to_diagonse10)
+        findNavController().navigate(R.id.diagnose8_to_diagonse9)
     }
 }
