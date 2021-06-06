@@ -47,7 +47,7 @@
     </style>
 
     <style name="squareImageViewRounded">
-        <item name="cornerSize">20%</item>
+        <item name="cornerSize">15%</item>
     </style>
     <style name="DarkTheme" parent="Theme.AppCompat.DayNight">
         <item name="windowActionBar">false</item>
