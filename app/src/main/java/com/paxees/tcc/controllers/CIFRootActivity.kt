@@ -115,6 +115,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        logoutFormMenu.setOnClickListener(this)
         requestFormMenu.setOnClickListener(this)
         orderItemsLayout.setOnClickListener(this)
         myWishListMenu.setOnClickListener(this)
@@ -282,10 +283,10 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
 
     override fun onBackPressed() {
         val navController = findNavController(R.id.cifHostFragment)
-        if (!navController.popBackStack()) {
-            finish()
+        if (navController.popBackStack()) {
+            navController.navigateUp()
         } else {
-            navController.popBackStack()
+            finish()
         }
     }
 
@@ -312,7 +313,10 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
                 switchFragment(R.id.navigation_strain_form)
                 drawer_layout.closeDrawer(Gravity.LEFT, true)
             }
+            R.id.logoutFormMenu -> {
+                finish()
+            }
         }
-
     }
+
 }

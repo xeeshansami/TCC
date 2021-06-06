@@ -47,7 +47,7 @@
             android:theme="@style/NestedScrollBarStyle">
 
         <LinearLayout
-            android:padding="@dimen/_10sdp"
+            android:padding="@dimen/_15sdp"
             android:background="@drawable/card_border_profile"
             android:layout_margin="@dimen/_10sdp"
             android:layout_width="match_parent"
@@ -64,7 +64,7 @@
             <EditText
                 android:padding="@dimen/_5sdp"
                 android:hint="@string/add_discount_promotion_code"
-                android:layout_margin="@dimen/_2ssp"
+                android:layout_margin="@dimen/_5sdp"
                 android:background="@drawable/bg_border_filled"
                 android:layout_width="match_parent"
                 android:textColorHint="@color/light_white"
@@ -80,6 +80,7 @@
 
             <TextView android:text="@string/price_summary"
                 android:textSize="@dimen/_13sdp"
+                android:layout_margin="@dimen/_5sdp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:layout_width="match_parent"
@@ -87,15 +88,14 @@
 
             <TextView
                 android:textColor="@color/black"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_margin="@dimen/_5sdp"
                 android:text="Include text and tax codes"
                 android:textSize="@dimen/_10sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <LinearLayout
-                android:layout_margin="@dimen/_2ssp"
-
+                android:layout_margin="@dimen/_5sdp"
                 android:weightSum="2"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <LinearLayout
-                android:layout_margin="@dimen/_2ssp"
+                android:layout_margin="@dimen/_5sdp"
                 android:weightSum="2"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -141,7 +141,7 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <LinearLayout
-                android:layout_margin="@dimen/_2ssp"
+                android:layout_margin="@dimen/_5sdp"
 
                 android:weightSum="2"
                 android:orientation="horizontal"
@@ -170,7 +170,7 @@
                 android:layout_height="1dp"
                 android:background="@color/grey"></View>
             <LinearLayout
-                android:layout_margin="@dimen/_2ssp"
+                android:layout_margin="@dimen/_5sdp"
                 android:weightSum="2"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
