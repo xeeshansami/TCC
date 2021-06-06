@@ -46,4 +46,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
       ></ImageView>
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/headerRight"
+        android:gravity="right"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profile"
+        android:layout_gravity="right|center_vertical"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/backBtn"
+        app:layout_constraintTop_toTopOf="parent"></TextView>
 </LinearLayout>

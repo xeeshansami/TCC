@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.paxees.tcc.R
 import com.paxees.tcc.utils.SessionManager
@@ -39,6 +40,10 @@ class Diagnose11 : Fragment(), View.OnClickListener {
     fun init(view: View?) {
         sessionManager = SessionManager(activity)
         backBtn.setOnClickListener(this)
+        headerRight.visibility=View.VISIBLE
+        headerRight.text="Home"
+        headerRight.setOnClickListener(this)
+        starBtn.setOnClickListener(this)
         header.text = ""
     }
 
@@ -47,10 +52,20 @@ class Diagnose11 : Fragment(), View.OnClickListener {
             R.id.backBtn -> {
                 findNavController().navigateUp()
             }
+            R.id.headerRight -> {
+//                switchFragment(R.id.navigation_home)
+                findNavController().navigate(R.id.navigation_home,null, NavOptions.Builder().setPopUpTo(findNavController().graph.startDestination, true).build())
+            }
         }
     }
-
-    private fun gotoNextScreens() {
-        findNavController().navigate(R.id.diagnose8_to_diagonse9)
+    private fun switchFragment(startDestId: Int) {
+//        val fragmentContainer = view?.findViewById<View>(R.id.nav_host)
+//        val navController = Navigation.findNavController(fragmentContainer!!)
+        val navController = findNavController()
+        val inflater = navController.navInflater
+        val graph = navController.graph
+        graph.startDestination = startDestId
+        navController.graph = graph
     }
+
 }
