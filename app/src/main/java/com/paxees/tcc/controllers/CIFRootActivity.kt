@@ -10,6 +10,7 @@ import android.view.View
 import android.view.View.OnSystemUiVisibilityChangeListener
 import android.widget.ImageView
 import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -27,6 +28,7 @@ import com.paxees.tcc.R
 import com.paxees.tcc.models.DrawerModel
 import com.paxees.tcc.utils.GlobalClass
 import com.paxees.tcc.utils.RecyclerTouchListener
+import com.paxees.tcc.utils.ToastUtils
 import com.paxees.tcc.utils.managers.SharedPreferenceManager
 import com.paxees.tcc.viewModels.SharedCIFViewModel
 import com.paxees.tcc.views.adapters.DrawerAdapter
@@ -87,6 +89,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
 //            }
     }
 
+    @SuppressLint("WrongViewCast")
     fun start() {
         title = ""
         globalClass = GlobalClass.applicationContext!!.applicationContext as GlobalClass
@@ -98,6 +101,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
+
         val navController = findNavController(R.id.cifHostFragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -107,7 +111,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
                         R.id.navigation_products, R.id.navigation_videos,
                         R.id.navigation_mywishList, R.id.navigation_myorders,
                         R.id.navigation_mysettings,
-                        R.id.navigation_diagnose1 ), drawerLayout
+                        R.id.navigation_diagnose1), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
@@ -115,7 +119,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         orderItemsLayout.setOnClickListener(this)
         myWishListMenu.setOnClickListener(this)
         settingMenu.setOnClickListener(this)
-        navView.getHeaderView(0).editProfilePic!!.setOnClickListener(this)
+        editProfilePic.setOnClickListener(this)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.navigation_home -> {

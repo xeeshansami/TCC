@@ -3,6 +3,7 @@ package com.paxees.tcc.controllers
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.Navigation
 import com.facebook.FacebookSdk
 import com.paxees.tcc.R
@@ -28,6 +29,11 @@ class launcher : AppCompatActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_main)
         globalClass = GlobalClass()
+        if(sharedPreferenceManager.getIntFromSharedPreferences(SharedPreferenceManager.DARK_MODE)==1){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
         if (intent.hasExtra(Constants.LOGGEDIN)) {
             switchFragment(R.id.login, intent.extras!!.getParcelable(Constants.BRAND))
         }

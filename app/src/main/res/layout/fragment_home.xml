@@ -53,7 +53,6 @@
                     android:id="@+id/searchtEt"
                     android:drawableRight="@drawable/ic_filter"
                     android:textSize="@dimen/_12sdp"
-                    android:padding="@dimen/_5sdp"
                     android:hint="@string/searchPleantsYourLike"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"></EditText>

@@ -24,7 +24,6 @@
                     android:layout_marginLeft="@dimen/_30sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_weight="1"
-                    android:gravity="center"
                     android:text="Diagnostic Complete"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_20sdp"

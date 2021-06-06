@@ -1,9 +1,11 @@
 package com.paxees.tcc.views.fragments.mainFragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.paxees.tcc.R
@@ -14,6 +16,7 @@ import com.paxees.tcc.views.adapters.PlantTypeAdapter
 import com.paxees.tcc.views.adapters.PopularAdapter
 import kotlinx.android.synthetic.main.fragment_diagnose2.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_videos.*
 import kotlinx.android.synthetic.main.toolbar_theme.*
 import java.util.*
@@ -38,13 +41,22 @@ class Home : Fragment() {
         poplarPlants()
         rvPlantsType()
     }
+
+    override fun onResume() {
+        super.onResume()
+        checkBackground()
+    }
+
+    @SuppressLint("WrongConstant")
     private fun checkBackground() {
-        if ((activity as CIFRootActivity).sharedPreferenceManager.getIntFromSharedPreferences(SharedPreferenceManager.DARK_MODE) == 1) {
+        if (AppCompatDelegate.getDefaultNightMode()==2) {
             searchBg!!.background = resources.getDrawable(R.drawable.bg_bottom_line)
-            searchtEt!!.background = resources.getDrawable(R.drawable.card_border_profile)
+            searchtEt!!.background = resources.getDrawable(R.drawable.bg_border_filled)
+            searchBg!!.setPadding(10,0,10,0)
         } else {
             searchBg!!.background = resources.getDrawable(android.R.color.transparent)
-            searchtEt!!.background = resources.getDrawable(R.drawable.bg_border)
+            searchtEt!!.setPadding(10,10,10,10)
+            searchtEt!!.background = resources.getDrawable(R.drawable.bg_border_filled)
         }
     }
 

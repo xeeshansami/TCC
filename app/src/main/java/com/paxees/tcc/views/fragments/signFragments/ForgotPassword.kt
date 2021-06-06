@@ -1,5 +1,6 @@
 package com.paxees.tcc.views.fragments.signFragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.paxees.tcc.R
@@ -19,6 +21,7 @@ import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
 import com.paxees.tcc.network.store.TenGermsStore
 import com.paxees.tcc.utils.ToastUtils
 import com.paxees.tcc.utils.managers.SharedPreferenceManager
+import kotlinx.android.synthetic.main.fragment_create_account.*
 import kotlinx.android.synthetic.main.fragment_forget.*
 import kotlinx.android.synthetic.main.fragment_forget.mainLoginLayout
 import kotlinx.android.synthetic.main.toolbar.*
@@ -52,9 +55,12 @@ class ForgotPassword : Fragment(), View.OnClickListener {
         backBtn.setOnClickListener(this)
         header.text = getText(R.string.forgetPwd)
     }
+    @SuppressLint("WrongConstant")
     private fun checkBackground() {
-        if((activity as launcher).sharedPreferenceManager.getIntFromSharedPreferences(SharedPreferenceManager.DARK_MODE)==1){
-            mainLoginLayout.background=resources.getDrawable(R.color.blackLight)
+        if(AppCompatDelegate.getDefaultNightMode()==2){
+            mainLoginLayout.background=resources.getDrawable(R.color.colorPrimary)
+        }else{
+            mainLoginLayout.background=resources.getDrawable(R.drawable.loginbg)
         }
     }
 

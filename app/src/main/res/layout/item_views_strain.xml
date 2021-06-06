@@ -47,9 +47,9 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:singleLine="true"
             android:text="(180)"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/_15sdp"
-            android:textStyle="bold"></TextView>
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp"
+          ></TextView>
     </LinearLayout>
     <ImageView
         android:layout_marginLeft="@dimen/_10sdp"
@@ -57,5 +57,5 @@
         android:layout_height="@dimen/_20sdp"
         android:layout_gravity="center_vertical"
         android:src="@drawable/ic_baseline_navigate_next_24"
-        app:tint="@color/grey"></ImageView>
+        app:tint="@color/black"></ImageView>
 </LinearLayout>

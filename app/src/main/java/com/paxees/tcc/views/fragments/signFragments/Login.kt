@@ -1,5 +1,6 @@
 package com.paxees.tcc.views.fragments.signFragments
 
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -11,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -29,7 +31,11 @@ import com.paxees.tcc.utils.Constants
 import com.paxees.tcc.utils.SessionManager
 import com.paxees.tcc.utils.ToastUtils
 import com.paxees.tcc.utils.managers.SharedPreferenceManager
+import kotlinx.android.synthetic.main.fragment_create_account.*
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_login.emailEt
+import kotlinx.android.synthetic.main.fragment_login.etPassword
+import kotlinx.android.synthetic.main.fragment_login.mainLoginLayout
 
 class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
     private var callbackManager: CallbackManager? = null
@@ -66,9 +72,12 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
         facebook()
     }
 
+    @SuppressLint("WrongConstant")
     private fun checkBackground() {
-        if((activity as launcher).sharedPreferenceManager.getIntFromSharedPreferences(SharedPreferenceManager.DARK_MODE)==1){
-            mainLoginLayout.background=resources.getDrawable(R.color.blackLight)
+        if(AppCompatDelegate.getDefaultNightMode()==2){
+            mainLoginLayout.background=resources.getDrawable(R.color.colorPrimary)
+        }else{
+            mainLoginLayout.background=resources.getDrawable(R.drawable.loginbg)
         }
     }
 
