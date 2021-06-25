@@ -10,9 +10,9 @@ import com.google.gson.annotations.SerializedName;
 public class LoginRequest implements Serializable, Parcelable
 {
 
-    @SerializedName("email")
+    @SerializedName("username")
     @Expose
-    private String email;
+    private String username;
     @SerializedName("password")
     @Expose
     private String password;
@@ -35,19 +35,19 @@ public class LoginRequest implements Serializable, Parcelable
     private final static long serialVersionUID = 8756084682662677603L;
 
     protected LoginRequest(android.os.Parcel in) {
-        this.email = ((String) in.readValue((String.class.getClassLoader())));
+        this.username = ((String) in.readValue((String.class.getClassLoader())));
         this.password = ((String) in.readValue((String.class.getClassLoader())));
     }
 
     public LoginRequest() {
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -59,7 +59,7 @@ public class LoginRequest implements Serializable, Parcelable
     }
 
     public void writeToParcel(android.os.Parcel dest, int flags) {
-        dest.writeValue(email);
+        dest.writeValue(username);
         dest.writeValue(password);
     }
 

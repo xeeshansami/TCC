@@ -138,7 +138,7 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:layoutAnimation="@anim/layout_animation"
+                android:layoutAnimation="@anim/list_anim_slide_right_to_left"
                 android:id="@+id/rvProducts1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -180,7 +180,7 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:layoutAnimation="@anim/layout_animation"
+                android:layoutAnimation="@anim/list_anim_slide_right_to_left"
                 android:id="@+id/rvProducts2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

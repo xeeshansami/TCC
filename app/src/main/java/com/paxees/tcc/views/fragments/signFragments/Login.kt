@@ -27,6 +27,14 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.launcher
+import com.paxees.tcc.network.ResponseHandlers.callbacks.CategoriesCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.LoginCallBack
+import com.paxees.tcc.network.enums.RetrofitEnums
+import com.paxees.tcc.network.networkmodels.request.LoginRequest
+import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.CategoriesResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.LoginResponse
+import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.Constants
 import com.paxees.tcc.utils.SessionManager
 import com.paxees.tcc.utils.ToastUtils
@@ -74,10 +82,10 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
 
     @SuppressLint("WrongConstant")
     private fun checkBackground() {
-        if(AppCompatDelegate.getDefaultNightMode()==2){
-            mainLoginLayout.background=resources.getDrawable(R.color.colorPrimary)
-        }else{
-            mainLoginLayout.background=resources.getDrawable(R.drawable.loginbg)
+        if (AppCompatDelegate.getDefaultNightMode() == 2) {
+            mainLoginLayout.background = resources.getDrawable(R.color.colorPrimary)
+        } else {
+            mainLoginLayout.background = resources.getDrawable(R.drawable.loginbg)
         }
     }
 
@@ -105,6 +113,7 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
         graph.startDestination = startDestId
         navController.graph = graph
     }
+
     private fun register() {
         NavHostFragment.findNavController(this@Login).navigate(R.id.login_to_register)
     }
@@ -141,15 +150,15 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
 
     override fun onDetach() {
         super.onDetach()
-        if(mGoogleApiClient!=null && mGoogleApiClient!!.isConnected) {
-        mGoogleApiClient!!.stopAutoManage(requireActivity())
-        mGoogleApiClient!!.disconnect()
+        if (mGoogleApiClient != null && mGoogleApiClient!!.isConnected) {
+            mGoogleApiClient!!.stopAutoManage(requireActivity())
+            mGoogleApiClient!!.disconnect()
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if(mGoogleApiClient!=null && mGoogleApiClient!!.isConnected) {
+        if (mGoogleApiClient != null && mGoogleApiClient!!.isConnected) {
             mGoogleApiClient!!.stopAutoManage(requireActivity())
             mGoogleApiClient!!.disconnect()
         }
@@ -211,11 +220,22 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
         val email = emailEt!!.text.toString().trim { it <= ' ' }
         val pwd = etPassword!!.text.toString().trim { it <= ' ' }
         (activity as launcher?)!!.globalClass!!.showDialog(activity)
-        val handler = Handler()
-        handler.postDelayed({
-            (activity as launcher?)!!.globalClass!!.hideLoader()
-            NavHostFragment.findNavController(this@Login).navigate(R.id.login_to_dashboard)
-        }, 2000)
+        var request = LoginRequest()
+        request.username = email
+        request.password = pwd
+        TCCStore.getInstance().getLogin(RetrofitEnums.URL_HBL, request, object : LoginCallBack {
+            override fun LoginSuccess(response: LoginResponse) {
+                (activity as launcher).sharedPreferenceManager.loginData = response
+                ToastUtils.showToastWith(activity, "Login successfully...")
+                NavHostFragment.findNavController(this@Login).navigate(R.id.login_to_dashboard)
+                (activity as launcher?)!!.globalClass!!.hideLoader()
+            }
+
+            override fun LoginFailure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.msg, "")
+                (activity as launcher?)!!.globalClass!!.hideLoader()
+            }
+        })
     }
 
     private fun setupGoogleClient() {
@@ -345,5 +365,5 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
 }
 
 private fun String.matches(regex: String): Boolean {
-        return regex=="[a-zA-Z0-9._-]+@[a-z]+.[a-z]+"
+    return regex == "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+"
 }

@@ -9,7 +9,7 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
 
-import com.paxees.tcc.network.store.TenGermsStore;
+import com.paxees.tcc.network.store.TCCStore;
 import com.paxees.tcc.network.utils.Helper;
 
 import org.jetbrains.annotations.Nullable;
@@ -18,7 +18,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import okhttp3.logging.HttpLoggingInterceptor;
 
-public class GlobalClass extends TenGermsStore {
+public class GlobalClass extends TCCStore {
     public static WifiManager wManager;
     public static TelephonyManager telephonyManager;
     public static final HttpLoggingInterceptor.Level LOG_LEVEL_API = HttpLoggingInterceptor.Level.BODY;
@@ -48,7 +48,7 @@ public class GlobalClass extends TenGermsStore {
     public void onCreate() {
         super.onCreate();
         applicationContext = getApplicationContext();
-        BASE_URL_HBL = Helper.getConfigValue(applicationContext, "BASE_URL_HBL");
+        BASE_URL_HBL = Helper.getConfigValue(applicationContext, "BASE_URL");
     }
 
     public static String getMacAddress() {

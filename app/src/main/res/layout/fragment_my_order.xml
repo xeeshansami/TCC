@@ -32,7 +32,7 @@
                 android:layout_gravity="center_horizontal"
                 android:clipToPadding="true"
                 android:fadingEdge="vertical"
-                android:layoutAnimation="@anim/layout_animation"
+                android:layoutAnimation="@anim/list_anim_slide_right_to_left"
                 android:requiresFadingEdge="vertical"
                 tools:listitem="@layout/item_views" />
 

@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.LoginResponse;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class SharedPreferenceManager {
     public static final String COUNT = "COUNT";
     public static final String OBJECT_KEY = "OBJECT_KEY";
     public static final String DARK_MODE = "DARK_MODE";
+    public static final String LOGIN_KEY = "LOGIN_KEY";
     //Is Fingerprint Authentication Enabled
     public static SharedPreferences sSharedPreferences;
     public static final SharedPreferenceManager sharedPrefManagerInstance = new SharedPreferenceManager();
@@ -124,7 +126,27 @@ public class SharedPreferenceManager {
         }
         return companyList;
     }
+ public void setLoginData(LoginResponse data) {
+        Gson gson = new Gson();
+        String json = gson.toJson(data);
+        SharedPreferences.Editor editor = sSharedPreferences.edit();
+        editor.putString(LOGIN_KEY, json);
+        editor.commit();
+    }
 
+    public LoginResponse getLoginData() {
+        LoginResponse companyList = new LoginResponse();
+        String json = new Gson().toJson(companyList);
+        if (sSharedPreferences != null) {
+            Gson gson = new Gson();
+            String string = sSharedPreferences.getString(LOGIN_KEY, json);
+            Type type = new TypeToken<LoginResponse>() {
+            }.getType();
+            companyList = gson.fromJson(string, type);
+            return companyList;
+        }
+        return companyList;
+    }
     /*public void setLovDoctype(ArrayList<DocsData> data) {
         Gson gson = new Gson();
         String json = gson.toJson(data);

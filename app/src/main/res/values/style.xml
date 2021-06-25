@@ -56,6 +56,11 @@
         <item name="cornerSize">5%</item>
     </style>
     <style name="DarkTheme" parent="Theme.AppCompat.DayNight">
+        <item name="colorPrimary">@color/colorTheme</item>
+        <item name="colorPrimaryDark">@color/grey</item>
+        <item name="colorAccent">@color/grey</item>
+        <item name="drawerArrowStyle">@style/DrawerIconStyle</item>
+        <item name="android:fontFamily">@font/imprima_regular</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

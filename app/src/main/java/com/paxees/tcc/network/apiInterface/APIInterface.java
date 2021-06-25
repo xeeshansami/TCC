@@ -7,8 +7,9 @@ import com.paxees.tcc.network.networkmodels.request.RegisterRequest;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandByCategoryResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandDetailResponse;
-import com.paxees.tcc.network.networkmodels.response.baseResponses.CategoryResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.CategoriesResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.LoginResponse;
+
 import org.jetbrains.annotations.NotNull;
 
 import retrofit2.Call;
@@ -26,8 +27,11 @@ public interface APIInterface {
     @NotNull
     String HEADER_TAG_PUBLIC = "public";
 
-    @POST("login.php")
+    @POST("customer/login")
     Call<LoginResponse> getLogin(@Body LoginRequest request);
+
+    @GET("v2/categories")
+    Call<CategoriesResponse> getCategories();
 
     @POST("register.php")
     Call<BaseResponse> getRegister(@Body RegisterRequest request);
@@ -42,7 +46,4 @@ public interface APIInterface {
     @Headers("Content-Type: text/plain")
     Call<BrandDetailResponse> getBrandsDetails(@Body BrandDetailsRequest request);
 
-    @GET("categories.php")
-    @Headers("Content-Type: text/plain")
-    Call<CategoryResponse> getCategories();
 }

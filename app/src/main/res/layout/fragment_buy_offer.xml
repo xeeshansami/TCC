@@ -82,7 +82,7 @@
             android:gravity="center_horizontal"
             app:layout_constraintTop_toBottomOf="@+id/buyOfferLY">
             <androidx.recyclerview.widget.RecyclerView
-                android:layoutAnimation="@anim/layout_animation"
+                android:layoutAnimation="@anim/list_anim_slide_right_to_left"
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/rvBuyOffers"
                 android:layout_width="match_parent"

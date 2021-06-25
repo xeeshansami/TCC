@@ -10,7 +10,16 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.CIFRootActivity
+import com.paxees.tcc.controllers.launcher
 import com.paxees.tcc.models.mFilterDashboard
+import com.paxees.tcc.network.ResponseHandlers.callbacks.CategoriesCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.RegisterCallBack
+import com.paxees.tcc.network.enums.RetrofitEnums
+import com.paxees.tcc.network.networkmodels.request.RegisterRequest
+import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.CategoriesResponse
+import com.paxees.tcc.network.store.TCCStore
+import com.paxees.tcc.utils.ToastUtils
 import com.paxees.tcc.utils.managers.SharedPreferenceManager
 import com.paxees.tcc.views.adapters.PlantTypeAdapter
 import com.paxees.tcc.views.adapters.PopularAdapter
@@ -61,6 +70,27 @@ class Home : Fragment() {
     }
 
     private fun poplarPlants() {
+        (activity as launcher?)!!.globalClass!!.showDialog(activity)
+        // set up the RecyclerView
+        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        val horizontalLayoutManagaer2 = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        rvPopular.layoutManager = horizontalLayoutManagaer
+        rvNightUseage.layoutManager = horizontalLayoutManagaer2
+        TCCStore.getInstance().getCategories(RetrofitEnums.URL_HBL, object : CategoriesCallBack {
+            override fun CategoriesSuccess(response: CategoriesResponse) {
+                setCategories(response)
+                (activity as launcher?)!!.globalClass!!.hideLoader()
+            }
+
+            override fun CategoriesFailure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.msg, "")
+                (activity as launcher?)!!.globalClass!!.hideLoader()
+            }
+        })
+
+
+
+
         val rec: ArrayList<mFilterDashboard> = ArrayList<mFilterDashboard>()
         val txt = ArrayList<String>()
         val img = ArrayList<Int>()
@@ -80,20 +110,20 @@ class Home : Fragment() {
             filterDashboard.img = img[i]
             rec.add(filterDashboard)
         }
-        // set up the RecyclerView
-        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        val horizontalLayoutManagaer2 = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        rvPopular.layoutManager = horizontalLayoutManagaer
-        rvNightUseage.layoutManager = horizontalLayoutManagaer2
 
-        var VideosAdapter = PopularAdapter(activity, rec)
-        rvPopular.setAdapter(VideosAdapter)
-        VideosAdapter.notifyDataSetChanged()
+
+
 
         rec.reverse()
-        var VideosAdapter2 = PopularAdapter(activity, rec)
-        rvNightUseage.setAdapter(VideosAdapter2)
-        VideosAdapter2.notifyDataSetChanged()
+//        var VideosAdapter2 = PopularAdapter(activity, rec)
+//        rvNightUseage.setAdapter(VideosAdapter2)
+//        VideosAdapter2.notifyDataSetChanged()
+    }
+
+    private fun setCategories(response: CategoriesResponse) {
+//        var VideosAdapter = PopularAdapter(activity, response.get(0))
+//        rvPopular.setAdapter(VideosAdapter)
+//        VideosAdapter.notifyDataSetChanged()
     }
 
     private fun rvPlantsType() {

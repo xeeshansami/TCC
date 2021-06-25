@@ -35,8 +35,8 @@
     <string name="firstname">FirstName</string>
     <string name="ZeeshanSami">Zeeshan Sami</string>
     <string name="emailAddress">Email Address</string>
-    <string name="emailValue">info.xeeshan@gmail.com</string>
-    <string name="pwdVallue">Admin1234</string>
+    <string name="emailValue">devtest@gmail.com</string>
+    <string name="pwdVallue">dtest@1234</string>
     <string name="phoneNumber">Phone</string>
     <string name="number">923412030258</string>
     <string name="Country">Country</string>

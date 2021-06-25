@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.paxees.tcc.R;
 import com.paxees.tcc.models.mFilterDashboard;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.CategoriesResponseItem;
 import com.paxees.tcc.network.networkmodels.response.models.Brand;
 
 import java.util.ArrayList;
@@ -18,13 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHolder> {
     private int row_index;
-    private ArrayList<mFilterDashboard> mData;
+    private ArrayList<CategoriesResponseItem> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private Context context;
 
     // data is passed into the constructor
-    public PopularAdapter(Context context, ArrayList<mFilterDashboard> data) {
+    public PopularAdapter(Context context, ArrayList<CategoriesResponseItem> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
@@ -40,11 +41,11 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        mFilterDashboard data = mData.get(position);
-        Glide.with(context).load(data.getImg()).into( holder.img);
-        holder.txt.setText(data.getTxt());
+        CategoriesResponseItem data = mData.get(position);
+//        Glide.with(context).load(data.getPr()).into( holder.img);
+//        holder.txt.setText(data.getTxt());
     }
-    public void filterList(ArrayList<mFilterDashboard> filteredList) {
+    public void filterList(ArrayList<CategoriesResponseItem> filteredList) {
         mData = filteredList;
         notifyDataSetChanged();
     }
@@ -73,12 +74,12 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
 
         @Override
         public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view,  getAdapterPosition(),mData.get(getAdapterPosition()));
+//            if (mClickListener != null) mClickListener.onItemClick(view,  getAdapterPosition(),mData.get(getAdapterPosition()).component1().getAbout());
         }
     }
 
     // convenience method for getting data at click position
-    mFilterDashboard getItem(int id) {
+    CategoriesResponseItem getItem(int id) {
         return mData.get(id);
     }
 

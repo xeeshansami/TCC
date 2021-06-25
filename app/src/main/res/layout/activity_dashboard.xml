@@ -39,7 +39,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:theme="@style/NestedScrollBarStyle"
                 android:id="@+id/rvDrawer"
-                android:layoutAnimation="@anim/layout_animation"
+                android:layoutAnimation="@anim/list_anim_slide_right_to_left"
                 app:spanCount="2"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent" />

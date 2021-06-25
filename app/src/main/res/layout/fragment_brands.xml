@@ -137,7 +137,7 @@
                 android:textColorHint="@color/black"
                 android:textSize="@dimen/_15sdp"></TextView>
             <androidx.recyclerview.widget.RecyclerView
-                android:layoutAnimation="@anim/layout_animation"
+                android:layoutAnimation="@anim/list_anim_slide_right_to_left"
                 android:id="@+id/rvBranches"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -166,7 +166,7 @@
                 android:textColorHint="@color/black"
                 android:textSize="@dimen/_15sdp"></TextView>
             <androidx.recyclerview.widget.RecyclerView
-                android:layoutAnimation="@anim/layout_animation"
+                android:layoutAnimation="@anim/list_anim_slide_right_to_left"
                 android:id="@+id/rvCoupons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

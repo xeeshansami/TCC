@@ -18,10 +18,8 @@ import com.paxees.tcc.network.ResponseHandlers.callbacks.RegisterCallBack
 import com.paxees.tcc.network.enums.RetrofitEnums
 import com.paxees.tcc.network.networkmodels.request.RegisterRequest
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
-import com.paxees.tcc.network.store.TenGermsStore
+import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.ToastUtils
-import com.paxees.tcc.utils.managers.SharedPreferenceManager
-import kotlinx.android.synthetic.main.fragment_create_account.*
 import kotlinx.android.synthetic.main.fragment_forget.*
 import kotlinx.android.synthetic.main.fragment_forget.mainLoginLayout
 import kotlinx.android.synthetic.main.toolbar.*
@@ -118,7 +116,7 @@ class ForgotPassword : Fragment(), View.OnClickListener {
             request!!.gender = "Female"
         }
         request!!.promo = promo
-        TenGermsStore.getInstance().getRegister(RetrofitEnums.URL_HBL, request, object : RegisterCallBack {
+        TCCStore.getInstance().getRegister(RetrofitEnums.URL_HBL, request, object : RegisterCallBack {
             override fun RegisterSuccess(response: BaseResponse) {
                 ToastUtils.showToastWith(activity, response.msg)
                 if (response.status) {

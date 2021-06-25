@@ -4,11 +4,13 @@ import android.app.Application;
 
 import com.paxees.tcc.network.ResponseHandlers.callbacks.BrandByCategoryCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.BrandResponseCallBack;
+import com.paxees.tcc.network.ResponseHandlers.callbacks.CategoriesCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.CategoryCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.LoginCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.RegisterCallBack;
 import com.paxees.tcc.network.ResponseHandlers.handler.BrandByCategoryBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.BrandResponseBaseHR;
+import com.paxees.tcc.network.ResponseHandlers.handler.CategoriesBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.CategoryBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.LoginBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.RegisterBaseHR;
@@ -22,14 +24,14 @@ import com.paxees.tcc.network.timeoutInterface.IOnConnectionTimeoutListener;
 import com.paxees.tcc.utils.GlobalClass;
 import com.paxees.tcc.network.retrofitBuilder.RetrofitBuilder;
 
-public class TenGermsStore extends Application implements IOnConnectionTimeoutListener {
+public class TCCStore extends Application implements IOnConnectionTimeoutListener {
 
-    private static TenGermsStore consumerStore;
+    private static TCCStore consumerStore;
 
     //    APIInterface globalBaseUrl = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, RetrofitEnums.URL_HBL);
-    public static TenGermsStore getInstance() {
+    public static TCCStore getInstance() {
         if (consumerStore == null)
-            return new TenGermsStore();
+            return new TCCStore();
         else
             return consumerStore;
     }
@@ -64,9 +66,9 @@ public class TenGermsStore extends Application implements IOnConnectionTimeoutLi
     }
 
     //:TODO getCategories
-    public void getCategories(RetrofitEnums url,  CategoryCallBack callBack) {
+    public void getCategories(RetrofitEnums url,  CategoriesCallBack callBack) {
         APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getCategories().enqueue(new CategoryBaseHR(callBack));
+        privateInstanceRetrofit.getCategories().enqueue(new CategoriesBaseHR(callBack));
     }
 
     @Override

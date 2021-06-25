@@ -1,8 +1,8 @@
 package com.paxees.tcc.network.ResponseHandlers.handler;
 
 import com.paxees.tcc.network.ResponseHandlers.callbacks.LoginCallBack;
-import com.paxees.tcc.network.networkmodels.response.baseResponses.LoginResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.LoginResponse;
 
 import retrofit2.Response;
 
