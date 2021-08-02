@@ -23,16 +23,19 @@ object RetrofitBuilder {
     private val retrofitHashMap = HashMap<String, APIInterface>()
     fun getRetrofitInstance(context: Context, url: RetrofitEnums): APIInterface {
         val baseUrl = url.url
-        val okHttpClient = SafeSLLOkHttpClient.getUnsafeOkHttpClient(context, enableNetworkInterceptor(baseUrl))
+
+        val okHttpClient =
+            SafeSLLOkHttpClient.getUnsafeOkHttpClient(context, enableNetworkInterceptor(baseUrl))
         if (!retrofitHashMap.containsKey(baseUrl)
-                || retrofitHashMap[baseUrl] == null) {
+            || retrofitHashMap[baseUrl] == null
+        ) {
             synchronized(this) {
                 val retrofit = Retrofit.Builder()
-                        .baseUrl(baseUrl)
-                        .addConverterFactory(ScalarsConverterFactory.create())
-                        .addConverterFactory(GsonConverterFactory.create(GsonProvider.getInstance()))
-                        .addConverterFactory(PageAdapter.FACTORY)
-                        .client(getOkHttpClient(context, enableNetworkInterceptor(baseUrl)))
+                    .baseUrl(baseUrl)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(GsonProvider.getInstance()))
+                    .addConverterFactory(PageAdapter.FACTORY)
+                    .client(getOkHttpClient(context, enableNetworkInterceptor(baseUrl)))
 
                 val restAPI = retrofit.build().create<APIInterface>(APIInterface::class.java)
                 retrofitHashMap[baseUrl] = restAPI
@@ -50,13 +53,18 @@ object RetrofitBuilder {
         val interceptor = HttpLoggingInterceptor().apply {
             level = GlobalClass.LOG_LEVEL_API
         }
-
+        val oauth1Woocommerce: OAuthInterceptor = Builder()
+            .consumerKey(Constants.CONSUMER_KEY)
+            .consumerSecret(Constants.CONSUMER_SECRET_KEY)
+            .build()
         val builder = OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .addInterceptor(ChuckInterceptor(context))
-                .connectTimeout(Constants.API_CONNECT_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(Constants.API_READ_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(Constants.API_WRITE_TIMEOUT, TimeUnit.SECONDS)
+            .addInterceptor(interceptor)
+            .addInterceptor(oauth1Woocommerce)
+            .addInterceptor(ChuckInterceptor(context))
+            .callTimeout(Constants.API_CONNECT_TIMEOUT, TimeUnit.SECONDS)
+            .connectTimeout(Constants.API_CONNECT_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(Constants.API_READ_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(Constants.API_WRITE_TIMEOUT, TimeUnit.SECONDS)
         if (isHblLink)
             builder.addNetworkInterceptor(NetworkInterceptorHBL(context))
 
@@ -74,14 +82,15 @@ object RetrofitBuilder {
                 builder.addHeader("hrtoken", token)
             }
             val request = builder
-                    .addHeader("os", "ANDROID") // @TODO: add OS method
-                    .addHeader("ip", GlobalClass.getIP()) // @TODO: add IP method
-                    .addHeader("Content-Type", "text/plain") // @TODO: add IP method
-                    .addHeader("mac-address", GlobalClass.getMacAddress()) // @TODO: add MAC Address method
-                    .addHeader("uuid", UUID.randomUUID().toString()) // @TODO: add MAC Address method
-                    .removeHeader(APIInterface.HEADER_TAG)
-                    .method(original.method, original.body)
-                    .build()
+                .addHeader("Content-Type", "text/plain") // @TODO: add IP method
+                .addHeader(
+                    "oauth_consumer_key",
+                   "ck_53de6fc509778ff6ee02f8b2ce904c70b50cf592"
+                ) // @TODO: add MAC Address method
+                .addHeader("uuid", UUID.randomUUID().toString()) // @TODO: add MAC Address method
+                .removeHeader(APIInterface.HEADER_TAG)
+                .method(original.method, original.body)
+                .build()
             val response = chain.proceed(request)
             return response
         }

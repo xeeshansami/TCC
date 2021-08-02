@@ -1,8 +1,8 @@
 package com.paxees.tcc.network.ResponseHandlers.handler;
 
 import com.paxees.tcc.network.ResponseHandlers.callbacks.CategoryCallBack;
-import com.paxees.tcc.network.networkmodels.response.baseResponses.CategoryResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.CategoryResponse;
 
 import retrofit2.Response;
 

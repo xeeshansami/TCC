@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
-import android.os.Handler
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -27,18 +26,17 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.launcher
-import com.paxees.tcc.network.ResponseHandlers.callbacks.CategoriesCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.CustomerDetailsCallBack
 import com.paxees.tcc.network.ResponseHandlers.callbacks.LoginCallBack
 import com.paxees.tcc.network.enums.RetrofitEnums
 import com.paxees.tcc.network.networkmodels.request.LoginRequest
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
-import com.paxees.tcc.network.networkmodels.response.baseResponses.CategoriesResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.CustomerDetailsResponse
 import com.paxees.tcc.network.networkmodels.response.baseResponses.LoginResponse
 import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.Constants
 import com.paxees.tcc.utils.SessionManager
 import com.paxees.tcc.utils.ToastUtils
-import com.paxees.tcc.utils.managers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_create_account.*
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.emailEt
@@ -226,18 +224,32 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
         TCCStore.getInstance().getLogin(RetrofitEnums.URL_HBL, request, object : LoginCallBack {
             override fun LoginSuccess(response: LoginResponse) {
                 (activity as launcher).sharedPreferenceManager.loginData = response
-                ToastUtils.showToastWith(activity, "Login successfully...")
-                NavHostFragment.findNavController(this@Login).navigate(R.id.login_to_dashboard)
-                (activity as launcher?)!!.globalClass!!.hideLoader()
+                getCustomerDetails(email)
             }
 
             override fun LoginFailure(baseResponse: BaseResponse) {
-                ToastUtils.showToastWith(activity, baseResponse.msg, "")
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
                 (activity as launcher?)!!.globalClass!!.hideLoader()
             }
         })
     }
 
+
+    fun getCustomerDetails(email:String){
+        TCCStore.getInstance().getCustomerDetails(RetrofitEnums.URL_HBL, object : CustomerDetailsCallBack {
+            override fun  Success(response:  CustomerDetailsResponse) {
+                (activity as launcher).sharedPreferenceManager.customerDetails = response
+                ToastUtils.showToastWith(activity, "Login successfully...")
+                NavHostFragment.findNavController(this@Login).navigate(R.id.login_to_dashboard)
+                (activity as launcher?)!!.globalClass!!.hideLoader()
+            }
+
+            override fun  Failure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as launcher?)!!.globalClass!!.hideLoader()
+            }
+        })
+    }
     private fun setupGoogleClient() {
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.

@@ -10,8 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.paxees.tcc.R;
 import com.paxees.tcc.models.mFilterDashboard;
-import com.paxees.tcc.network.networkmodels.response.baseResponses.CategoriesResponseItem;
-import com.paxees.tcc.network.networkmodels.response.models.Brand;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.PopularByThisWeekResponse;
 
 import java.util.ArrayList;
 
@@ -19,13 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHolder> {
     private int row_index;
-    private ArrayList<CategoriesResponseItem> mData;
+    private PopularByThisWeekResponse mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private Context context;
 
     // data is passed into the constructor
-    public PopularAdapter(Context context, ArrayList<CategoriesResponseItem> data) {
+    public PopularAdapter(Context context, PopularByThisWeekResponse data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
@@ -41,11 +40,11 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        CategoriesResponseItem data = mData.get(position);
-//        Glide.with(context).load(data.getPr()).into( holder.img);
-//        holder.txt.setText(data.getTxt());
+        PopularByThisWeekResponse data = mData;
+        Glide.with(context).load("").placeholder(R.drawable.logo).into( holder.img);
+        holder.txt.setText(data.get(position).getProductName());
     }
-    public void filterList(ArrayList<CategoriesResponseItem> filteredList) {
+    public void filterList(PopularByThisWeekResponse filteredList) {
         mData = filteredList;
         notifyDataSetChanged();
     }
@@ -79,8 +78,8 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
     }
 
     // convenience method for getting data at click position
-    CategoriesResponseItem getItem(int id) {
-        return mData.get(id);
+    PopularByThisWeekResponse getItem(int id) {
+        return mData;
     }
 
     // allows clicks events to be caught

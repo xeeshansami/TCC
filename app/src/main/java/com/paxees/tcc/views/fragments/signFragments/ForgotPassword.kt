@@ -16,7 +16,7 @@ import com.paxees.tcc.R
 import com.paxees.tcc.controllers.launcher
 import com.paxees.tcc.network.ResponseHandlers.callbacks.RegisterCallBack
 import com.paxees.tcc.network.enums.RetrofitEnums
-import com.paxees.tcc.network.networkmodels.request.RegisterRequest
+import com.paxees.tcc.network.networkmodels.request.RegistrationRequest
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
 import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.ToastUtils
@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.toolbar.header
 
 class ForgotPassword : Fragment(), View.OnClickListener {
     var bt_registration: Button? = null
-    var request: RegisterRequest? = null
+    var request: RegistrationRequest? = null
     var numberEt: EditText? = null
     var promoEt: EditText? = null
     var maleRB: RadioButton? = null
@@ -108,25 +108,23 @@ class ForgotPassword : Fragment(), View.OnClickListener {
         val number = numberEt!!.text.toString().trim { it <= ' ' }
         val promo = promoEt!!.text.toString().trim { it <= ' ' }
         (activity as launcher?)!!.globalClass!!.showDialog(activity)
-        request = RegisterRequest()
-        request!!.number = number
+        request = RegistrationRequest()
+        request!!.billing.phone = number
         if (maleRB!!.isChecked) {
-            request!!.gender = "Male"
-        } else if (femaleRB!!.isChecked) {
-            request!!.gender = "Female"
+//            request!!.billing.g = "Male"
+//        } else if (femaleRB!!.isChecked) {
+//            request!!.gender = "Female"
         }
-        request!!.promo = promo
+//        request!!.promo = promo
         TCCStore.getInstance().getRegister(RetrofitEnums.URL_HBL, request, object : RegisterCallBack {
             override fun RegisterSuccess(response: BaseResponse) {
-                ToastUtils.showToastWith(activity, response.msg)
-                if (response.status) {
+                ToastUtils.showToastWith(activity, response.message)
 //                    NavHostFragment.findNavController(this@ForgotPassword).navigate(R.id.register_to_login)
-                }
                 (activity as launcher?)!!.globalClass!!.hideLoader()
             }
 
             override fun RegisterFailure(baseResponse: BaseResponse) {
-                ToastUtils.showToastWith(activity, baseResponse.msg, "")
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
                 (activity as launcher?)!!.globalClass!!.hideLoader()
             }
         })

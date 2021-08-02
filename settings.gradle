@@ -1,2 +1,2 @@
-include ':app',':mkLoaderView'
+include ':app',':mkLoaderView',':woocommerseandroidoauth1library'
 rootProject.name = "TCC"

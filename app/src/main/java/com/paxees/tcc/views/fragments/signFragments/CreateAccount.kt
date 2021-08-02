@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.facebook.*
 import com.google.android.gms.auth.api.Auth
@@ -23,14 +24,17 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.launcher
+import com.paxees.tcc.network.ResponseHandlers.callbacks.RegisterCallBack
+import com.paxees.tcc.network.enums.RetrofitEnums
+import com.paxees.tcc.network.networkmodels.request.RegistrationRequest
+import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
+import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.Constants
 import com.paxees.tcc.utils.SessionManager
 import com.paxees.tcc.utils.ToastUtils
-import com.paxees.tcc.utils.managers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_create_account.*
 import kotlinx.android.synthetic.main.fragment_create_account.etPassword
 import kotlinx.android.synthetic.main.fragment_create_account.mainLoginLayout
-import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.header
 
@@ -44,8 +48,10 @@ class CreateAccount : Fragment(), View.OnClickListener, GoogleApiClient.OnConnec
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_create_account, container, false)
     }
@@ -68,6 +74,7 @@ class CreateAccount : Fragment(), View.OnClickListener, GoogleApiClient.OnConnec
     override fun onClick(v: View) {
         when (v.id) {
             R.id.bt_create_account -> if (validation()) {
+                register()
             }
             R.id.gmailBtn -> signIn()
             R.id.signInBtn -> register()
@@ -77,6 +84,7 @@ class CreateAccount : Fragment(), View.OnClickListener, GoogleApiClient.OnConnec
     private fun register() {
         switchFragment(R.id.login)
     }
+
     private fun switchFragment(startDestId: Int) {
 //        val fragmentContainer = view?.findViewById<View>(R.id.nav_host)
 //        val navController = Navigation.findNavController(fragmentContainer!!)
@@ -90,27 +98,47 @@ class CreateAccount : Fragment(), View.OnClickListener, GoogleApiClient.OnConnec
 
     @SuppressLint("WrongConstant")
     private fun checkBackground() {
-        if(AppCompatDelegate.getDefaultNightMode()==2){
-            mainLoginLayout.background=resources.getDrawable(R.color.colorPrimary)
-        }else{
-            mainLoginLayout.background=resources.getDrawable(R.drawable.loginbg)
+        if (AppCompatDelegate.getDefaultNightMode() == 2) {
+            mainLoginLayout.background = resources.getDrawable(R.color.colorPrimary)
+        } else {
+            mainLoginLayout.background = resources.getDrawable(R.drawable.loginbg)
         }
     }
 
 
     fun validation(): Boolean {
-        val email = firstNameEt!!.text.toString().trim { it <= ' ' }
+        val email = emailEt!!.text.toString().trim { it <= ' ' }
         val pwd = etPassword!!.text.toString().trim { it <= ' ' }
-        return if (TextUtils.isEmpty(email)) {
-            firstNameEt!!.error = "Email should not be empty"
+        val rePwd = etRetypePassword!!.text.toString().trim { it <= ' ' }
+        val number = numberEt!!.text.toString().trim { it <= ' ' }
+        val firstName = firstNameEt!!.text.toString().trim { it <= ' ' }
+        val lastName = lastNameEt!!.text.toString().trim { it <= ' ' }
+        return if (TextUtils.isEmpty(firstName)) {
+            firstNameEt!!.error = "FirstName should not be empty"
             firstNameEt!!.requestFocus()
             false
+        } else if (TextUtils.isEmpty(lastName)) {
+            lastNameEt!!.error = "LastName should not be empty"
+            lastNameEt!!.requestFocus()
+            false
+        } else  if (TextUtils.isEmpty(email)) {
+            emailEt!!.error = "Email should not be empty"
+            emailEt!!.requestFocus()
+            false
         } else if (!email.matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+")) {
-            firstNameEt!!.error = "Email should be valid"
-            firstNameEt!!.requestFocus()
+            emailEt!!.error = "Email should be valid"
+            emailEt!!.requestFocus()
+            false
+        } else  if (TextUtils.isEmpty(number)) {
+            numberEt!!.error = "Number should not be empty"
+            numberEt!!.requestFocus()
             false
         } else if (TextUtils.isEmpty(pwd)) {
             etPassword!!.error = "Password should not be empty"
+            etPassword!!.requestFocus()
+            false
+        } else if (pwd!=rePwd) {
+            etPassword!!.error = "Password and retype password should not be same"
             etPassword!!.requestFocus()
             false
         } else {
@@ -119,15 +147,12 @@ class CreateAccount : Fragment(), View.OnClickListener, GoogleApiClient.OnConnec
     }
 
 
-
-
-
     private fun setupGoogleClient() {
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestProfile()
-                .build()
+            .requestProfile()
+            .build()
         FacebookSdk.sdkInitialize(FacebookSdk.getApplicationContext())
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
@@ -211,14 +236,20 @@ class CreateAccount : Fragment(), View.OnClickListener, GoogleApiClient.OnConnec
                     val app = "consumer"
                     val fbToken = token.token
                     val facebook = "facebook"
-                    Log.i("Facebook", token.token + "\\n"
-                            + email + "\\n"
-                            + last_name + "\\n" //                                + fcm + "\\n"
-                            + password + "\\n"
-                            + app + "\\n"
-                            + fbToken)
+                    Log.i(
+                        "Facebook", token.token + "\\n"
+                                + email + "\\n"
+                                + last_name + "\\n" //                                + fcm + "\\n"
+                                + password + "\\n"
+                                + app + "\\n"
+                                + fbToken
+                    )
                 } catch (e: Exception) {
-                    ToastUtils.showToastWith(activity, resources.getString(R.string.somethingWentWrong), "")
+                    ToastUtils.showToastWith(
+                        activity,
+                        resources.getString(R.string.somethingWentWrong),
+                        ""
+                    )
                     Log.e("error", e.message!!)
                 }
             }
@@ -246,8 +277,39 @@ class CreateAccount : Fragment(), View.OnClickListener, GoogleApiClient.OnConnec
             Log.e("ExceptionError", " = Finally")
         }
     }
-}
 
-private fun String.matches(regex: String): Boolean {
-        return regex=="[a-zA-Z0-9._-]+@[a-z]+.[a-z]+"
+
+    private fun registrations() {
+        val email = emailEt!!.text.toString().trim { it <= ' ' }
+        val pwd = etPassword!!.text.toString().trim { it <= ' ' }
+        val rePwd = etRetypePassword!!.text.toString().trim { it <= ' ' }
+        val number = numberEt!!.text.toString().trim { it <= ' ' }
+        val firstName = firstNameEt!!.text.toString().trim { it <= ' ' }
+        val lastName = lastNameEt!!.text.toString().trim { it <= ' ' }
+        (activity as launcher?)!!.globalClass!!.showDialog(activity)
+        var request = RegistrationRequest()
+        request.email = email
+        request.firstName=firstName
+        request.lastName=lastName
+        request.billing.phone=number
+        request.username=email.substring(0, email.indexOf("@"));
+        TCCStore.getInstance().getRegister(RetrofitEnums.URL_HBL, request, object :
+            RegisterCallBack {
+            override fun RegisterSuccess(response: BaseResponse) {
+                ToastUtils.showToastWith(activity, response.message)
+                NavHostFragment.findNavController(this@CreateAccount).navigate(R.id.login_to_dashboard)
+                (activity as launcher?)!!.globalClass!!.hideLoader()
+            }
+
+            override fun RegisterFailure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as launcher?)!!.globalClass!!.hideLoader()
+            }
+        })
+    }
+
+    private fun String.matches(regex: String): Boolean {
+        return regex == "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+"
+    }
+
 }

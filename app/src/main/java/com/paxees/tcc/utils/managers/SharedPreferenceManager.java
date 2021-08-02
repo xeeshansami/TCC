@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.CustomerDetailsResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.LoginResponse;
 
 import java.lang.reflect.Type;
@@ -22,6 +23,7 @@ public class SharedPreferenceManager {
     public static final String OBJECT_KEY = "OBJECT_KEY";
     public static final String DARK_MODE = "DARK_MODE";
     public static final String LOGIN_KEY = "LOGIN_KEY";
+    public static final String CUSTOMER_DETAILS_KEY = "CUSTOMER_DETAILS_KEY";
     //Is Fingerprint Authentication Enabled
     public static SharedPreferences sSharedPreferences;
     public static final SharedPreferenceManager sharedPrefManagerInstance = new SharedPreferenceManager();
@@ -141,6 +143,28 @@ public class SharedPreferenceManager {
             Gson gson = new Gson();
             String string = sSharedPreferences.getString(LOGIN_KEY, json);
             Type type = new TypeToken<LoginResponse>() {
+            }.getType();
+            companyList = gson.fromJson(string, type);
+            return companyList;
+        }
+        return companyList;
+    }
+
+    public void setCustomerDetails(CustomerDetailsResponse data) {
+        Gson gson = new Gson();
+        String json = gson.toJson(data);
+        SharedPreferences.Editor editor = sSharedPreferences.edit();
+        editor.putString(CUSTOMER_DETAILS_KEY, json);
+        editor.commit();
+    }
+
+    public CustomerDetailsResponse getCustomerDetails() {
+        CustomerDetailsResponse companyList = new CustomerDetailsResponse();
+        String json = new Gson().toJson(companyList);
+        if (sSharedPreferences != null) {
+            Gson gson = new Gson();
+            String string = sSharedPreferences.getString(CUSTOMER_DETAILS_KEY, json);
+            Type type = new TypeToken<CustomerDetailsResponse>() {
             }.getType();
             companyList = gson.fromJson(string, type);
             return companyList;

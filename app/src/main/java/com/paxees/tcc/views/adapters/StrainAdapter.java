@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.paxees.tcc.R;
 import com.paxees.tcc.models.mFilterDashboard;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.StrainResponse;
 import com.paxees.tcc.network.networkmodels.response.models.Branch;
 
 import java.util.ArrayList;
@@ -18,14 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class StrainAdapter extends RecyclerView.Adapter<StrainAdapter.ViewHolder> {
     private int row_index;
-    private ArrayList<mFilterDashboard> mData;
+    private StrainResponse mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private Context context;
     private String branchImage;
 
     // data is passed into the constructor
-    public StrainAdapter(Context context, ArrayList<mFilterDashboard> data) {
+    public StrainAdapter(Context context, StrainResponse data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
@@ -41,10 +42,10 @@ public class StrainAdapter extends RecyclerView.Adapter<StrainAdapter.ViewHolder
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        mFilterDashboard data = mData.get(position);
-        Glide.with(context).load(data.getImg()).into( holder.imageView);
-        holder.titleLbl.setText(data.getTxt());
-        holder.titleValue.setText(data.getValue());
+        StrainResponse data = mData;
+        Glide.with(context).load(data.get(position).getProduct_Image_Url()).into( holder.imageView);
+        holder.titleLbl.setText(data.get(position).getProduct_Name());
+//        holder.titleValue.setText(data.get(position).getProduct_id());
     }
 
     // total number of rows
@@ -74,8 +75,8 @@ public class StrainAdapter extends RecyclerView.Adapter<StrainAdapter.ViewHolder
     }
 
     // convenience method for getting data at click position
-    mFilterDashboard getItem(int id) {
-        return mData.get(id);
+    StrainResponse getItem(int id) {
+        return mData;
     }
 
     // allows clicks events to be caught

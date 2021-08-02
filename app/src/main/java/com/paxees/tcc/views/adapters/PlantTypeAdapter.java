@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.paxees.tcc.R;
 import com.paxees.tcc.models.mFilterDashboard;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.PlantsByTypeResponse;
 
 import java.util.ArrayList;
 
@@ -17,13 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class PlantTypeAdapter extends RecyclerView.Adapter<PlantTypeAdapter.ViewHolder> {
     private int row_index;
-    private ArrayList<mFilterDashboard> mData;
+    private PlantsByTypeResponse mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private Context context;
 
     // data is passed into the constructor
-    public PlantTypeAdapter(Context context, ArrayList<mFilterDashboard> data) {
+    public PlantTypeAdapter(Context context, PlantsByTypeResponse data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
@@ -39,11 +40,11 @@ public class PlantTypeAdapter extends RecyclerView.Adapter<PlantTypeAdapter.View
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        mFilterDashboard data = mData.get(position);
-        Glide.with(context).load(data.getImg()).into( holder.img);
-        holder.txt.setText(data.getTxt());
+        PlantsByTypeResponse data = mData;
+        Glide.with(context).load(data.get(position).getCategoryImageUrl()).placeholder(R.drawable.logo).into( holder.img);
+        holder.txt.setText(data.get(position).getCategoryName());
     }
-    public void filterList(ArrayList<mFilterDashboard> filteredList) {
+    public void filterList(PlantsByTypeResponse filteredList) {
         mData = filteredList;
         notifyDataSetChanged();
     }
@@ -73,13 +74,13 @@ public class PlantTypeAdapter extends RecyclerView.Adapter<PlantTypeAdapter.View
 
         @Override
         public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view,  getAdapterPosition(),mData.get(getAdapterPosition()));
+//            if (mClickListener != null) mClickListener.onItemClick(view,  getAdapterPosition()?);
         }
     }
 
     // convenience method for getting data at click position
-    mFilterDashboard getItem(int id) {
-        return mData.get(id);
+    PlantsByTypeResponse getItem(int id) {
+        return mData;
     }
 
     // allows clicks events to be caught
