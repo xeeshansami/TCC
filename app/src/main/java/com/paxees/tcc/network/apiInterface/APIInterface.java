@@ -1,16 +1,17 @@
 package com.paxees.tcc.network.apiInterface;
 
-import android.provider.Telephony;
-
+import com.paxees.tcc.network.networkmodels.request.AddToCartRequest;
 import com.paxees.tcc.network.networkmodels.request.BrandDetailsRequest;
 import com.paxees.tcc.network.networkmodels.request.DashboardRequest;
 import com.paxees.tcc.network.networkmodels.request.LoginRequest;
 import com.paxees.tcc.network.networkmodels.request.RegistrationRequest;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.AddressListResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.AddtoCartResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandByCategoryResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandDetailResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.DiscoveryResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.GetAddToCartResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.LoginResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.NightTimeUsuageResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.PlantsByTypeResponse;
@@ -18,14 +19,14 @@ import com.paxees.tcc.network.networkmodels.response.baseResponses.PopularByThis
 import com.paxees.tcc.network.networkmodels.response.baseResponses.CustomerDetailsResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.ProductSearchResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.StrainResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.UpdateCartResponse;
 
 import org.jetbrains.annotations.NotNull;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -52,11 +53,20 @@ public interface APIInterface {
     @GET("wc/v3/products")
     Call<ProductSearchResponse> getDiscoverProducts(@Query("search") String search,@Query("category") String category);
 
+    @GET("cocart/v1/item")
+    Call<UpdateCartResponse> updateCart(@Query("cart_item_key") String search, @Query("quantity") String category);
+
+    @DELETE("cocart/v1/item")
+    Call<String> removeCart(@Query("cart_item_key") String search);
+
     @GET("wc/v3/customers/{userid}")
     Call<AddressListResponse> getAddressList(@Path("userid") int userid);
 
     @GET("popular/products")
     Call<PopularByThisWeekResponse> getPopularByThisWeek();
+
+    @GET("cocart/v1/get-cart?thumb=true")
+    Call<GetAddToCartResponse> getCarts();
 
     @GET("discover/discover-menu")
     Call<DiscoveryResponse> getDiscoverMenu();
@@ -66,6 +76,9 @@ public interface APIInterface {
 
     @POST("dashboard.php")
     Call<BrandByCategoryResponse> getDashboard(@Body DashboardRequest request);
+
+    @POST("cocart/v1/add-item")
+    Call<AddtoCartResponse> addToCart(@Body AddToCartRequest request);
 
     @POST("popularbrands.php")
     Call<BrandByCategoryResponse> getPopularBrands(@Body DashboardRequest request);

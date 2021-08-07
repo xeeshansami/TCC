@@ -2,32 +2,41 @@ package com.paxees.tcc.network.store;
 
 import android.app.Application;
 
+import com.paxees.tcc.network.ResponseHandlers.callbacks.AddToCartCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.AddressListCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.BrandByCategoryCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.BrandResponseCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.CustomerDetailsCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.DiscoveryMenuCallBack;
+import com.paxees.tcc.network.ResponseHandlers.callbacks.GetCartsCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.NightTimeUsageCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.PlantsByTypeCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.PopularByThisWeekCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.LoginCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.ProductSearchCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.RegisterCallBack;
+import com.paxees.tcc.network.ResponseHandlers.callbacks.RemoveCartCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.StrainCallBack;
+import com.paxees.tcc.network.ResponseHandlers.callbacks.UpdateCartCallBack;
+import com.paxees.tcc.network.ResponseHandlers.handler.AddToCartBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.AddressListBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.BrandByCategoryBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.BrandResponseBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.CustomerDetailsBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.DiscoverMenuBaseHR;
+import com.paxees.tcc.network.ResponseHandlers.handler.GetCartsBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.NightTimeResponseBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.PopularByThisWeekBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.LoginBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.PlantsByTypeBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.ProductSearchBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.RegisterBaseHR;
+import com.paxees.tcc.network.ResponseHandlers.handler.RemoveCartBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.StrainBaseHR;
+import com.paxees.tcc.network.ResponseHandlers.handler.UpdateCartBaseHR;
 import com.paxees.tcc.network.apiInterface.APIInterface;
 import com.paxees.tcc.network.enums.RetrofitEnums;
+import com.paxees.tcc.network.networkmodels.request.AddToCartRequest;
 import com.paxees.tcc.network.networkmodels.request.BrandDetailsRequest;
 import com.paxees.tcc.network.networkmodels.request.DashboardRequest;
 import com.paxees.tcc.network.networkmodels.request.LoginRequest;
@@ -72,6 +81,18 @@ public class TCCStore extends Application implements IOnConnectionTimeoutListene
         privateInstanceRetrofit.getDiscoverProducts(search,catid).enqueue(new ProductSearchBaseHR(callBack));
     }
 
+    //:TODO post updateCart
+    public void updateCart(RetrofitEnums url,String key,String quantity, UpdateCartCallBack callBack) {
+        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
+        privateInstanceRetrofit.updateCart(key,quantity).enqueue(new UpdateCartBaseHR(callBack));
+    }
+
+  //:TODO post removeCart
+    public void removeCart(RetrofitEnums url,String key, RemoveCartCallBack callBack) {
+        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
+        privateInstanceRetrofit.removeCart(key).enqueue(new RemoveCartBaseHR(callBack));
+    }
+
     //:TODO post getAddressList
     public void getAddressList(RetrofitEnums url,int email, AddressListCallBack loginCallBack) {
         APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
@@ -87,6 +108,12 @@ public class TCCStore extends Application implements IOnConnectionTimeoutListene
     public void getDashboard(RetrofitEnums url, DashboardRequest request, BrandResponseCallBack callBack) {
         APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
         privateInstanceRetrofit.getDashboard(request).enqueue(new BrandResponseBaseHR(callBack));
+    }
+
+    //:TODO post addToCart
+    public void addToCart(RetrofitEnums url, AddToCartRequest request, AddToCartCallBack callBack) {
+        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
+        privateInstanceRetrofit.addToCart(request).enqueue(new AddToCartBaseHR(callBack));
     }
 
     //:TODO post getPopularBrands
@@ -105,6 +132,12 @@ public class TCCStore extends Application implements IOnConnectionTimeoutListene
     public void getPopularByThisWeek(RetrofitEnums url, PopularByThisWeekCallBack callBack) {
         APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
         privateInstanceRetrofit.getPopularByThisWeek().enqueue(new PopularByThisWeekBaseHR(callBack));
+    }
+
+    //:TODO getCarts
+    public void getCarts(RetrofitEnums url, GetCartsCallBack callBack) {
+        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
+        privateInstanceRetrofit.getCarts().enqueue(new GetCartsBaseHR(callBack));
     }
 
     //:TODO getDiscoverMenu

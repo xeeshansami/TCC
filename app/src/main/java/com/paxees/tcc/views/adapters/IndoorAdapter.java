@@ -16,18 +16,19 @@ import com.paxees.tcc.network.networkmodels.response.baseResponses.ProductSearch
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class IndoorAdapter extends RecyclerView.Adapter<IndoorAdapter.ViewHolder> implements View.OnClickListener {
+public class IndoorAdapter extends RecyclerView.Adapter<IndoorAdapter.ViewHolder> {
     private int row_index;
     private ProductSearchResponse mData;
     private LayoutInflater mInflater;
-    private ItemClickListener mClickListener;
+    private ItemClickListener mItemClickListener;
     private Context context;
 
     // data is passed into the constructor
-    public IndoorAdapter(Context context, ProductSearchResponse data) {
+    public IndoorAdapter(Context context, ProductSearchResponse data, ItemClickListener mItemClickListener) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
+        this.mItemClickListener=mItemClickListener;
     }
 
     // inflates the row layout from xml when needed
@@ -45,7 +46,12 @@ public class IndoorAdapter extends RecyclerView.Adapter<IndoorAdapter.ViewHolder
             Glide.with(context).load(data.get(position).getImages().get(0).getSrc()).placeholder(R.drawable.logo).into(holder.imgid);
             holder.productName.setText(data.get(position).getName());
             holder.productNameDesc.setText(data.get(position).getSlug());
-            holder.addtoCart.setOnClickListener(this);
+            holder.addtoCart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mItemClickListener.onItemClick(v,position,data);
+                }
+            });
         } catch (Exception e) {
             Log.i("Exception",e.getMessage());
         }
@@ -63,14 +69,10 @@ public class IndoorAdapter extends RecyclerView.Adapter<IndoorAdapter.ViewHolder
         return mData.size();
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
 
 
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgid;
         TextView productName, productNameDesc;
         Button addtoCart;
@@ -83,13 +85,9 @@ public class IndoorAdapter extends RecyclerView.Adapter<IndoorAdapter.ViewHolder
             productNameDesc = itemView.findViewById(R.id.productNameDesc);
             addtoCart = itemView.findViewById(R.id.addtoCart);
             baskitBtn = itemView.findViewById(R.id.baskitBtn);
-            itemView.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View view) {
-//            if (mClickListener != null) mClickListener.onItemClick(view,  getAdapterPosition(),mData.get(getAdapterPosition()).component1().getAbout());
-        }
+
     }
 
     // convenience method for getting data at click position
@@ -97,13 +95,9 @@ public class IndoorAdapter extends RecyclerView.Adapter<IndoorAdapter.ViewHolder
         return mData;
     }
 
-    // allows clicks events to be caught
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
-    }
 
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
-        void onItemClick(View view, int position, mFilterDashboard brand);
+        void onItemClick(View view, int position, ProductSearchResponse response);
     }
 }

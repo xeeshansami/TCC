@@ -12,9 +12,12 @@ import com.google.android.material.tabs.TabLayout
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.CIFRootActivity
 import com.paxees.tcc.controllers.Dashboard
+import com.paxees.tcc.network.ResponseHandlers.callbacks.AddToCartCallBack
 import com.paxees.tcc.network.ResponseHandlers.callbacks.DiscoveryMenuCallBack
 import com.paxees.tcc.network.ResponseHandlers.callbacks.ProductSearchCallBack
 import com.paxees.tcc.network.enums.RetrofitEnums
+import com.paxees.tcc.network.networkmodels.request.AddToCartRequest
+import com.paxees.tcc.network.networkmodels.response.baseResponses.AddtoCartResponse
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
 import com.paxees.tcc.network.networkmodels.response.baseResponses.DiscoveryResponse
 import com.paxees.tcc.network.networkmodels.response.baseResponses.ProductSearchResponse
@@ -86,10 +89,30 @@ class OutdoorFragment : Fragment(), View.OnClickListener {
             }
         })
     }
+    private fun addToCart(prodId: String) {
+        var request= AddToCartRequest()
+        request.productId=prodId
+        request.quantity=1
+        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+        TCCStore.getInstance().addToCart(RetrofitEnums.URL_HBL,request, object :
+            AddToCartCallBack {
+            override fun Success(response: AddtoCartResponse) {
+                ToastUtils.showToastWith(activity,"Product has been added successfully")
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+
+            override fun Failure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+        })
+    }
     private fun setProdcutSearch(response: ProductSearchResponse) {
         val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         rvOutdoor.layoutManager = horizontalLayoutManagaer
-        var VideosAdapter = IndoorAdapter(activity, response)
+        var VideosAdapter = IndoorAdapter(activity, response, IndoorAdapter.ItemClickListener { view, position, response ->
+            addToCart(response[0].id.toString())
+        })
         rvOutdoor.setAdapter(VideosAdapter)
         VideosAdapter.notifyDataSetChanged()
     }

@@ -18,6 +18,8 @@ public abstract class BaseRH<T> implements Callback<T> {
     public void onResponse(Call<T> call, Response<T> response) {
         if (response.isSuccessful()) {
             onSuccess(response);
+        }else{
+            globalClass.hideLoader();
         }
     }
 

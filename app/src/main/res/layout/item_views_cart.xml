@@ -110,7 +110,9 @@
                 ></TextView>
         </LinearLayout>
     </LinearLayout>
-    <ImageView android:layout_marginTop="@dimen/_10sdp"
+    <ImageView
+        android:id="@+id/removeProd"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginLeft="@dimen/_10sdp"
         android:layout_width="@dimen/_20sdp"
         android:layout_height="@dimen/_20sdp"

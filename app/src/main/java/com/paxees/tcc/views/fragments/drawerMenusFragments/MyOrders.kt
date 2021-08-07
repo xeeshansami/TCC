@@ -1,36 +1,46 @@
 package com.paxees.tcc.views.fragments.drawerMenusFragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.paxees.tcc.R
-import com.paxees.tcc.models.mFilterDashboard
+import com.paxees.tcc.controllers.CIFRootActivity
+import com.paxees.tcc.network.ResponseHandlers.callbacks.GetCartsCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.RemoveCartCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.UpdateCartCallBack
+import com.paxees.tcc.network.enums.RetrofitEnums
+import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.GetAddToCartResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.UpdateCartResponse
+import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.SessionManager
+import com.paxees.tcc.utils.ToastUtils
 import com.paxees.tcc.views.adapters.CartAdapter
-import com.paxees.tcc.views.adapters.PlantTypeAdapter
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_home.rvPlantsType
 import kotlinx.android.synthetic.main.fragment_my_order.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.header
-import java.util.ArrayList
 
 
-class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, CartAdapter.onItemPlus {
+class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, CartAdapter.onItemPlus,
+    CartAdapter.onItemRemove {
     var sessionManager: SessionManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_my_order, container, false)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init(view)
@@ -40,7 +50,9 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
         sessionManager = SessionManager(activity)
         backBtn.setOnClickListener(this)
         header.text = getText(R.string.myCart)
-        rvCarts()
+        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        rvCarts.layoutManager = horizontalLayoutManagaer
+        getCarts()
     }
 
     override fun onClick(v: View) {
@@ -58,48 +70,99 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
         navController.graph = graph
     }
 
-    private fun rvCarts() {
-        val rec: ArrayList<mFilterDashboard> = ArrayList<mFilterDashboard>()
-        val txt = ArrayList<String>()
-        val txt2 = ArrayList<String>()
-        val img = ArrayList<Int>()
-        txt.add("Indica")
-        txt.add("Hybird")
-        txt.add("Plants")
-        txt.add("Blue")
-        txt.add("Sativable")
-
-        txt2.add("$1")
-        txt2.add("$3")
-        txt2.add("$1")
-        txt2.add("$4")
-        txt2.add("$2")
-        img.add(R.drawable.blackberry)
-        img.add(R.drawable.bling)
-        img.add(R.drawable.blue_dream2)
-        img.add(R.drawable.blueberry_og)
-        img.add(R.drawable.bruce_banner)
-        for (i in txt.indices) {
-            val filterDashboard = mFilterDashboard()
-            filterDashboard.setTxt(txt[i])
-            filterDashboard.img = img[i]
-            filterDashboard.value = txt2[i]
-            rec.add(filterDashboard)
-        }
+    private fun rvCart(response: GetAddToCartResponse) {
         // set up the RecyclerView
-        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-//       val horizontalLayoutManagaer = GridLayoutManager(activity, 1)
-        rvCarts.layoutManager = horizontalLayoutManagaer
-        var VideosAdapter = CartAdapter(activity, rec,this,this)
+        var VideosAdapter = CartAdapter(activity, response, this, this,this)
         rvCarts.adapter = VideosAdapter
         VideosAdapter.notifyDataSetChanged()
     }
+    private fun getCarts() {
+        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+        TCCStore.getInstance().getCarts(RetrofitEnums.URL_HBL, object :
+            GetCartsCallBack {
+            override fun Success(response: GetAddToCartResponse) {
+                rvCart(response)
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
 
-    override fun onItemMinus(view: View?, position: Int) {
+            override fun Failure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+        })
+    }
+    private fun updateCart(key:String,quantity: String) {
+        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+        TCCStore.getInstance().updateCart(RetrofitEnums.URL_HBL,key,quantity, object :
+            UpdateCartCallBack {
+            override fun Success(response: UpdateCartResponse) {
+                ToastUtils.showToastWith(activity,response.message)
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
 
+            override fun Failure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+        })
     }
 
-    override fun onItemPlus(view: View?, position: Int) {
+    private fun removeCart(key:String) {
+        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+        TCCStore.getInstance().removeCart(RetrofitEnums.URL_HBL,key, object :
+            RemoveCartCallBack {
+            override fun Success(response: String) {
+                ToastUtils.showToastWith(activity,response)
+                getCarts()
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
 
+            override fun Failure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+        })
+    }
+
+    override fun onItemMinus(
+        data: GetAddToCartResponse,
+        view: View,
+        position: Int,
+        value: String
+    ) {
+        updateCart(data[0].key,value)
+        updatePrice(data)
+    }
+
+    override fun onItemPlus(
+        data: GetAddToCartResponse,
+        view: View,
+        position: Int,
+        value: String
+    ) {
+        updateCart(data[0].key,value)
+        updatePrice(data)
+    }
+
+    override fun onItemRemove(
+        data: GetAddToCartResponse?,
+        view: View?,
+        position: Int,
+        value: String?
+    ) {
+        removeCart(data!![0].key.toString())
+    }
+    private fun updatePrice(data: GetAddToCartResponse) {
+        var total=0
+        var subTotal=0
+        for (i in 0 until data.size) {
+            total += data[i].lineTotal.toInt()
+            subTotal += data[i].lineSubtotal.toInt()
+        }
+        totolItemPrice.text="$"+total.toString()
+        discount.text="$5"
+        tax.text="$"+data[0].lineTax
+        subtotal.text="$"+subTotal.toString()
+        updateProfileBtn.text= "Pay $$subTotal now"
     }
 }
