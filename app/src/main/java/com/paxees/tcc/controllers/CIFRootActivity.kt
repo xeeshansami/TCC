@@ -245,7 +245,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         /*24 pages of models*/
         when (category) {
             getString(R.string.discovry) -> {
-                switchFragment(R.id.navigation_home)
+                switchFragment(R.id.navigation_discovery)
                 drawer_layout.closeDrawer(Gravity.START, true)
             }
             getString(R.string.strains) -> {

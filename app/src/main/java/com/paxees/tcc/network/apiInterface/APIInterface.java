@@ -10,6 +10,7 @@ import com.paxees.tcc.network.networkmodels.response.baseResponses.AddressListRe
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandByCategoryResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandDetailResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.DiscoveryResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.LoginResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.NightTimeUsuageResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.PlantsByTypeResponse;
@@ -47,11 +48,18 @@ public interface APIInterface {
     @GET("wc/v3/products")
     Call<ProductSearchResponse> getProductSearch(@Query("search") String search);
 
+
+    @GET("wc/v3/products")
+    Call<ProductSearchResponse> getDiscoverProducts(@Query("search") String search,@Query("category") String category);
+
     @GET("wc/v3/customers/{userid}")
     Call<AddressListResponse> getAddressList(@Path("userid") int userid);
 
     @GET("popular/products")
     Call<PopularByThisWeekResponse> getPopularByThisWeek();
+
+    @GET("discover/discover-menu")
+    Call<DiscoveryResponse> getDiscoverMenu();
 
     @POST("register.php")
     Call<BaseResponse> getRegister(@Body RegistrationRequest request);

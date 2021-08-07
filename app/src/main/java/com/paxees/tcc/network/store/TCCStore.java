@@ -6,6 +6,7 @@ import com.paxees.tcc.network.ResponseHandlers.callbacks.AddressListCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.BrandByCategoryCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.BrandResponseCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.CustomerDetailsCallBack;
+import com.paxees.tcc.network.ResponseHandlers.callbacks.DiscoveryMenuCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.NightTimeUsageCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.PlantsByTypeCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.PopularByThisWeekCallBack;
@@ -17,6 +18,7 @@ import com.paxees.tcc.network.ResponseHandlers.handler.AddressListBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.BrandByCategoryBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.BrandResponseBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.CustomerDetailsBaseHR;
+import com.paxees.tcc.network.ResponseHandlers.handler.DiscoverMenuBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.NightTimeResponseBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.PopularByThisWeekBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.LoginBaseHR;
@@ -64,6 +66,12 @@ public class TCCStore extends Application implements IOnConnectionTimeoutListene
         privateInstanceRetrofit.getProductSearch(email).enqueue(new ProductSearchBaseHR(callBack));
     }
 
+    //:TODO post getDiscoverProducts
+    public void getDiscoverProducts(RetrofitEnums url,String search,String catid, ProductSearchCallBack callBack) {
+        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
+        privateInstanceRetrofit.getDiscoverProducts(search,catid).enqueue(new ProductSearchBaseHR(callBack));
+    }
+
     //:TODO post getAddressList
     public void getAddressList(RetrofitEnums url,int email, AddressListCallBack loginCallBack) {
         APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
@@ -97,6 +105,12 @@ public class TCCStore extends Application implements IOnConnectionTimeoutListene
     public void getPopularByThisWeek(RetrofitEnums url, PopularByThisWeekCallBack callBack) {
         APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
         privateInstanceRetrofit.getPopularByThisWeek().enqueue(new PopularByThisWeekBaseHR(callBack));
+    }
+
+    //:TODO getDiscoverMenu
+    public void getDiscoverMenu(RetrofitEnums url, DiscoveryMenuCallBack callBack) {
+        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
+        privateInstanceRetrofit.getDiscoverMenu().enqueue(new DiscoverMenuBaseHR(callBack));
     }
 
  //:TODO getPlantsByType

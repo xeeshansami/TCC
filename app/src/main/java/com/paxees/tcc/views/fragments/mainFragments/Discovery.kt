@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.CIFRootActivity
+import com.paxees.tcc.controllers.Dashboard
 import com.paxees.tcc.views.adapters.ViewPagerAdapter
 import kotlinx.android.synthetic.main.fragment_discovery.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -37,10 +37,8 @@ class Discovery : Fragment(), View.OnClickListener {
     }
 
     private fun init() {
-        header.visibility=View.VISIBLE
-        backBtn.setOnClickListener(this)
-//        viewPager.adapter = ViewPagerAdapter((activity as CIFRootActivity)!!.getSupportFragmentManager());
-//        tabs.setupWithViewPager(viewPager);
+        pager.adapter = ViewPagerAdapter((activity as CIFRootActivity).supportFragmentManager)
+        tab_layout.setupWithViewPager(pager)
     }
     override fun onClick(v: View) {
         when (v.id) {
@@ -59,4 +57,6 @@ class Discovery : Fragment(), View.OnClickListener {
         graph.startDestination = startDestId
         navController.graph = graph
     }
+
 }
+

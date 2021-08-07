@@ -1,6 +1,10 @@
 package com.paxees.tcc.views.adapters;
 
 
+import com.paxees.tcc.views.fragments.mainFragments.IndoorFragment;
+import com.paxees.tcc.views.fragments.mainFragments.OutdoorFragment;
+import com.paxees.tcc.views.fragments.mainFragments.RecommendationFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,35 +13,42 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
-    private final List<Fragment> mFragmentList = new ArrayList<>();
-    private final List<String> mFragmentTitleList = new ArrayList<>();
 
-    public ViewPagerAdapter(FragmentManager manager) {
-        super(manager);
+    public ViewPagerAdapter(FragmentManager fm) {
+        super(fm);
     }
 
     @Override
     public Fragment getItem(int position) {
-        return mFragmentList.get(position);
+        switch (position) {
+            case 0:
+                return new IndoorFragment();
+            case 1:
+                return new OutdoorFragment();
+            case 2:
+                return new RecommendationFragment();
+            default:
+                return new IndoorFragment();
+        }
     }
 
     @Override
     public int getCount() {
-        return mFragmentList.size();
+        return 3;
     }
 
-    public void addFrag(Fragment fragment, String title) {
-        mFragmentList.add(fragment);
-        mFragmentTitleList.add(title);
-    }
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "First Tab";
+                return "Indoor";
             case 1:
+                return "Outdoor";
+            case 2:
+                return "Recommendation";
             default:
-                return "Second Tab";
+                return "";
         }
     }
+
 }
