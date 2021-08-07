@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 class RegistrationRequest {
     @SerializedName("billing")
-    var billing: Billing = Billing()
+    var billing: BillingXX = BillingXX()
     @SerializedName("email")
     var email: String = ""
     @SerializedName("first_name")

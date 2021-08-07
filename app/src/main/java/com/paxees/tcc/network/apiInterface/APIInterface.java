@@ -18,6 +18,7 @@ import com.paxees.tcc.network.networkmodels.response.baseResponses.PlantsByTypeR
 import com.paxees.tcc.network.networkmodels.response.baseResponses.PopularByThisWeekResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.CustomerDetailsResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.ProductSearchResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.RegistrationResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.StrainResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.UpdateCartResponse;
 
@@ -59,6 +60,9 @@ public interface APIInterface {
     @DELETE("cocart/v1/item")
     Call<String> removeCart(@Query("cart_item_key") String search);
 
+    /*@DELETE("apiuser/v1/forgotpwd/dtest@yopmail.com")
+    Call<String> removeCart(@Query("cart_item_key") String search);*/
+
     @GET("wc/v3/customers/{userid}")
     Call<AddressListResponse> getAddressList(@Path("userid") int userid);
 
@@ -71,8 +75,8 @@ public interface APIInterface {
     @GET("discover/discover-menu")
     Call<DiscoveryResponse> getDiscoverMenu();
 
-    @POST("register.php")
-    Call<BaseResponse> getRegister(@Body RegistrationRequest request);
+    @POST("wc/v3/customers")
+    Call<RegistrationResponse> getRegister(@Body RegistrationRequest request);
 
     @POST("dashboard.php")
     Call<BrandByCategoryResponse> getDashboard(@Body DashboardRequest request);

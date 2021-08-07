@@ -14,7 +14,7 @@ import com.paxees.tcc.network.ResponseHandlers.callbacks.PlantsByTypeCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.PopularByThisWeekCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.LoginCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.ProductSearchCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.RegisterCallBack;
+import com.paxees.tcc.network.ResponseHandlers.callbacks.RegistrationCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.RemoveCartCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.StrainCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.UpdateCartCallBack;
@@ -99,7 +99,7 @@ public class TCCStore extends Application implements IOnConnectionTimeoutListene
         privateInstanceRetrofit.getAddressList(email).enqueue(new AddressListBaseHR(loginCallBack));
     }
     //:TODO post getRegister
-    public void getRegister(RetrofitEnums url, RegistrationRequest request, RegisterCallBack callBack) {
+    public void getRegister(RetrofitEnums url, RegistrationRequest request, RegistrationCallBack callBack) {
         APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
         privateInstanceRetrofit.getRegister(request).enqueue(new RegisterBaseHR(callBack));
     }

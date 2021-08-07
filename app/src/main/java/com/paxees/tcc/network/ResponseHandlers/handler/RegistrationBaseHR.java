@@ -1,16 +1,17 @@
 package com.paxees.tcc.network.ResponseHandlers.handler;
 
 import com.paxees.tcc.network.ResponseHandlers.callbacks.RegistrationCallBack;
+import com.paxees.tcc.network.ResponseHandlers.callbacks.UpdateCartCallBack;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.RegistrationResponse;
 
 import retrofit2.Response;
 
-public class RegisterBaseHR extends BaseRH<RegistrationResponse> {
+public class RegistrationBaseHR extends BaseRH<RegistrationResponse> {
 
     RegistrationCallBack callBack;
 
-    public RegisterBaseHR(RegistrationCallBack callBack) {
+    public RegistrationBaseHR(RegistrationCallBack callBack) {
         this.callBack = callBack;
     }
 

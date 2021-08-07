@@ -24,10 +24,11 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.launcher
-import com.paxees.tcc.network.ResponseHandlers.callbacks.RegisterCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.RegistrationCallBack
 import com.paxees.tcc.network.enums.RetrofitEnums
 import com.paxees.tcc.network.networkmodels.request.RegistrationRequest
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.RegistrationResponse
 import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.Constants
 import com.paxees.tcc.utils.SessionManager
@@ -74,7 +75,7 @@ class CreateAccount : Fragment(), View.OnClickListener, GoogleApiClient.OnConnec
     override fun onClick(v: View) {
         when (v.id) {
             R.id.bt_create_account -> if (validation()) {
-                register()
+                registrations()
             }
             R.id.gmailBtn -> signIn()
             R.id.signInBtn -> register()
@@ -292,16 +293,17 @@ class CreateAccount : Fragment(), View.OnClickListener, GoogleApiClient.OnConnec
         request.firstName=firstName
         request.lastName=lastName
         request.billing.phone=number
+        request.password=rePwd
         request.username=email.substring(0, email.indexOf("@"));
         TCCStore.getInstance().getRegister(RetrofitEnums.URL_HBL, request, object :
-            RegisterCallBack {
-            override fun RegisterSuccess(response: BaseResponse) {
-                ToastUtils.showToastWith(activity, response.message)
-                NavHostFragment.findNavController(this@CreateAccount).navigate(R.id.login_to_dashboard)
+            RegistrationCallBack {
+            override fun  Success(response: RegistrationResponse) {
+                ToastUtils.showToastWith(activity, "Account successfully created")
+                switchFragment(R.id.login)
                 (activity as launcher?)!!.globalClass!!.hideLoader()
             }
 
-            override fun RegisterFailure(baseResponse: BaseResponse) {
+            override fun  Failure(baseResponse: BaseResponse) {
                 ToastUtils.showToastWith(activity, baseResponse.message, "")
                 (activity as launcher?)!!.globalClass!!.hideLoader()
             }
