@@ -1,9 +1,10 @@
 package com.paxees.tcc.network.networkmodels.response.baseResponses
 
- class Links(
-         val about: List<About>,
-         val collection: List<Collection>,
-         val curies: List<Cury>,
-         val self: List<Self>,
-         val wp: ArrayList<WpPostType> = ArrayList<WpPostType>()
-)
+import com.google.gson.annotations.SerializedName
+
+class Links{
+        @SerializedName("collection")
+        var collection: List<Collection> = listOf()
+        @SerializedName("self")
+        var self: List<Self> = listOf()
+}

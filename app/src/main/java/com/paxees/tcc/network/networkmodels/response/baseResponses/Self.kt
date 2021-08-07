@@ -1,5 +1,9 @@
 package com.paxees.tcc.network.networkmodels.response.baseResponses
 
-data class Self(
-    val href: String
-)
+
+import com.google.gson.annotations.SerializedName
+
+class Self {
+    @SerializedName("href")
+    var href: String = ""
+}

@@ -3,7 +3,7 @@ package com.paxees.tcc.network.networkmodels.response.baseResponses
 
 import com.google.gson.annotations.SerializedName
 
-class CustomerDetailsItems {
+class AddressListResponse {
     @SerializedName("avatar_url")
     var avatarUrl: String = ""
     @SerializedName("billing")

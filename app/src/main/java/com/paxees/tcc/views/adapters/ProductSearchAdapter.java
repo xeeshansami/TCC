@@ -1,6 +1,7 @@
 package com.paxees.tcc.views.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,20 +12,19 @@ import com.bumptech.glide.Glide;
 import com.paxees.tcc.R;
 import com.paxees.tcc.models.mFilterDashboard;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.PopularByThisWeekResponse;
-
-import java.util.ArrayList;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.ProductSearchResponse;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHolder> {
+public class ProductSearchAdapter extends RecyclerView.Adapter<ProductSearchAdapter.ViewHolder> {
     private int row_index;
-    private PopularByThisWeekResponse mData;
+    private ProductSearchResponse mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private Context context;
 
     // data is passed into the constructor
-    public PopularAdapter(Context context, PopularByThisWeekResponse data) {
+    public ProductSearchAdapter(Context context, ProductSearchResponse data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
@@ -40,11 +40,18 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        PopularByThisWeekResponse data = mData;
-        Glide.with(context).load(data.get(position).getProductImageUrl()).placeholder(R.drawable.logo).into( holder.img);
-        holder.txt.setText(data.get(position).getProductName());
+        try {
+            ProductSearchResponse data = mData;
+            Glide.with(context).load(data.get(position).getImages().get(0).getSrc()).placeholder(R.drawable.logo).into(holder.img);
+            holder.txt.setText(data.get(position).getName());
+            holder.ratingNumber.setText(data.get(position).getRatingCount() + "");
+            holder.ratingNumberAdded.setText(data.get(position).getAverageRating() + "+");
+        } catch (Exception e) {
+            Log.i("Exception",e.getMessage());
+        }
     }
-    public void filterList(PopularByThisWeekResponse filteredList) {
+
+    public void filterList(ProductSearchResponse filteredList) {
         mData = filteredList;
         notifyDataSetChanged();
     }
@@ -60,14 +67,14 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView img;
-        TextView txt,txtRating,txtTime;
+        TextView txt, ratingNumberAdded, ratingNumber;
 
         ViewHolder(View itemView) {
             super(itemView);
             img = itemView.findViewById(R.id.imgid);
             txt = itemView.findViewById(R.id.txtPopluarName);
-//            txtRating = itemView.findViewById(R.id.txtRating);
-//            txtTime = itemView.findViewById(R.id.txtTime);
+            ratingNumber = itemView.findViewById(R.id.ratingNumber);
+            ratingNumberAdded = itemView.findViewById(R.id.ratingNumberAdded);
             itemView.setOnClickListener(this);
         }
 
@@ -78,7 +85,7 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
     }
 
     // convenience method for getting data at click position
-    PopularByThisWeekResponse getItem(int id) {
+    ProductSearchResponse getItem(int id) {
         return mData;
     }
 

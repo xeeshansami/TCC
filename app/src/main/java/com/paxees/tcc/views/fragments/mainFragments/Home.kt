@@ -2,39 +2,43 @@ package com.paxees.tcc.views.fragments.mainFragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.CIFRootActivity
-import com.paxees.tcc.models.mFilterDashboard
 import com.paxees.tcc.network.ResponseHandlers.callbacks.NightTimeUsageCallBack
 import com.paxees.tcc.network.ResponseHandlers.callbacks.PlantsByTypeCallBack
 import com.paxees.tcc.network.ResponseHandlers.callbacks.PopularByThisWeekCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.ProductSearchCallBack
 import com.paxees.tcc.network.enums.RetrofitEnums
-import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
-import com.paxees.tcc.network.networkmodels.response.baseResponses.NightTimeUsuageResponse
-import com.paxees.tcc.network.networkmodels.response.baseResponses.PlantsByTypeResponse
-import com.paxees.tcc.network.networkmodels.response.baseResponses.PopularByThisWeekResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.*
 import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.ToastUtils
 import com.paxees.tcc.views.adapters.NightTimeUsageAdapter
 import com.paxees.tcc.views.adapters.PlantTypeAdapter
 import com.paxees.tcc.views.adapters.PopularAdapter
+import com.paxees.tcc.views.adapters.ProductSearchAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.util.*
 
-class Home : Fragment() {
+class Home : Fragment(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
@@ -43,9 +47,51 @@ class Home : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         init(view)
     }
+
     fun init(view: View?) {
+        searchFilter!!.setOnClickListener(this)
         poplarPlants()
         rvPlantsType()
+        searchProducts()
+    }
+
+    private fun searchProducts() {
+        searchtEt.setOnEditorActionListener(
+            object : TextView.OnEditorActionListener {
+                override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE || event != null
+                        && event.getAction() === KeyEvent.ACTION_DOWN && event.getKeyCode() === KeyEvent.KEYCODE_ENTER) {
+                        if (event == null || !event.isShiftPressed()) {
+                            // the user is done typing.
+                            filterPlants(searchtEt.text.trim().toString())
+                            return true // consume.
+                        }
+                    }
+                    return false // pass on to other listeners.
+                }
+            }
+        )
+
+
+        searchtEt.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if(s!!.isEmpty()) {
+                    poplarPlants()
+                }
+            }
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+
+            }
+        })
     }
 
     override fun onResume() {
@@ -55,13 +101,13 @@ class Home : Fragment() {
 
     @SuppressLint("WrongConstant")
     private fun checkBackground() {
-        if (AppCompatDelegate.getDefaultNightMode()==2) {
+        if (AppCompatDelegate.getDefaultNightMode() == 2) {
             searchBg!!.background = resources.getDrawable(R.drawable.bg_bottom_line)
             searchtEt!!.background = resources.getDrawable(R.drawable.bg_border_filled)
-            searchBg!!.setPadding(10,0,10,0)
+            searchBg!!.setPadding(10, 0, 10, 0)
         } else {
             searchBg!!.background = resources.getDrawable(android.R.color.transparent)
-            searchtEt!!.setPadding(10,10,10,10)
+            searchtEt!!.setPadding(10, 10, 10, 10)
             searchtEt!!.background = resources.getDrawable(R.drawable.bg_border_filled)
         }
     }
@@ -69,8 +115,10 @@ class Home : Fragment() {
     private fun poplarPlants() {
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
         // set up the RecyclerView
-        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        val horizontalLayoutManagaer2 = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        val horizontalLayoutManagaer =
+            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        val horizontalLayoutManagaer2 =
+            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         rvPopular.layoutManager = horizontalLayoutManagaer
         rvNightUseage.layoutManager = horizontalLayoutManagaer2
         TCCStore.getInstance().getPopularByThisWeek(RetrofitEnums.URL_HBL, object :
@@ -96,7 +144,8 @@ class Home : Fragment() {
     private fun rvPlantsType() {
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
         // set up the RecyclerView
-        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        val horizontalLayoutManagaer =
+            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         rvPlantsType.layoutManager = horizontalLayoutManagaer
         TCCStore.getInstance().getPlantsByType(RetrofitEnums.URL_HBL, object :
             PlantsByTypeCallBack {
@@ -116,15 +165,16 @@ class Home : Fragment() {
         rvPlantsType.adapter = VideosAdapter
         VideosAdapter.notifyDataSetChanged()
         // set up the RecyclerView
-        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        val horizontalLayoutManagaer =
+            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         rvNightUseage.layoutManager = horizontalLayoutManagaer
         TCCStore.getInstance().getNightTimeUsage(RetrofitEnums.URL_HBL, object :
-           NightTimeUsageCallBack {
+            NightTimeUsageCallBack {
             override fun Success(response: NightTimeUsuageResponse) {
                 setNightTimeUsage(response)
             }
 
-            override fun  Failure(baseResponse: BaseResponse) {
+            override fun Failure(baseResponse: BaseResponse) {
                 ToastUtils.showToastWith(activity, baseResponse.message, "")
                 (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
             }
@@ -136,6 +186,37 @@ class Home : Fragment() {
         rvNightUseage.setAdapter(VideosAdapter2)
         VideosAdapter2.notifyDataSetChanged()
         (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+    }
+
+    override fun onClick(v: View?) {
+        when (v!!.id) {
+            R.id.searchFilter -> {
+                var filter = searchtEt!!.text.toString().trim()
+                filterPlants(filter)
+            }
+        }
+    }
+
+    private fun filterPlants(filter: String) {
+        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+        TCCStore.getInstance().getProductSearch(RetrofitEnums.URL_HBL, filter, object :
+            ProductSearchCallBack {
+            override fun Success(response: ProductSearchResponse) {
+                setProdcutSearch(response)
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+
+            override fun Failure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+        })
+    }
+
+    private fun setProdcutSearch(response: ProductSearchResponse) {
+        var VideosAdapter = ProductSearchAdapter(activity, response)
+        rvPopular.setAdapter(VideosAdapter)
+        VideosAdapter.notifyDataSetChanged()
     }
 
 }

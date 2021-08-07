@@ -33,6 +33,7 @@
 
 
             <LinearLayout
+                android:weightSum="3"
                 android:id="@+id/searchBg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,6 +43,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
                 <EditText
+                    android:layout_weight="3"
                     android:layout_margin="@dimen/_5sdp"
                     android:maxLines="1"
                     android:singleLine="true"
@@ -51,12 +53,17 @@
                     android:drawableLeft="@drawable/places_ic_search"
                     android:background="@drawable/bg_border_filled"
                     android:id="@+id/searchtEt"
-                    android:drawableRight="@drawable/ic_filter"
                     android:textSize="@dimen/_12sdp"
                     android:hint="@string/searchPleantsYourLike"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"></EditText>
-
+                <ImageView
+                    android:id="@+id/searchFilter"
+                    android:src="@drawable/ic_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    app:tint="@color/grey" />
             </LinearLayout>
 
         <LinearLayout

@@ -9,7 +9,7 @@ class PlantsByTypeResponseItem() : Parcelable {
     @SerializedName("Category-id")
     var categoryId: Int = 0
     @SerializedName("Category-Image-Url")
-    var categoryImageUrl: Boolean = false
+    var categoryImageUrl: String = ""
     @SerializedName("Category-Name")
     var categoryName: String = ""
     @SerializedName("Total-Product")
@@ -17,14 +17,14 @@ class PlantsByTypeResponseItem() : Parcelable {
 
     constructor(parcel: Parcel) : this() {
         categoryId = parcel.readInt()
-        categoryImageUrl = parcel.readByte() != 0.toByte()
+        categoryImageUrl = parcel.readString().toString()
         categoryName = parcel.readString().toString()
         totalProduct = parcel.readInt()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(categoryId)
-        parcel.writeByte(if (categoryImageUrl) 1 else 0)
+        parcel.writeString(categoryImageUrl)
         parcel.writeString(categoryName)
         parcel.writeInt(totalProduct)
     }

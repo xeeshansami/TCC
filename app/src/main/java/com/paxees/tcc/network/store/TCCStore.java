@@ -2,6 +2,7 @@ package com.paxees.tcc.network.store;
 
 import android.app.Application;
 
+import com.paxees.tcc.network.ResponseHandlers.callbacks.AddressListCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.BrandByCategoryCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.BrandResponseCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.CustomerDetailsCallBack;
@@ -9,8 +10,10 @@ import com.paxees.tcc.network.ResponseHandlers.callbacks.NightTimeUsageCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.PlantsByTypeCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.PopularByThisWeekCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.LoginCallBack;
+import com.paxees.tcc.network.ResponseHandlers.callbacks.ProductSearchCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.RegisterCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.StrainCallBack;
+import com.paxees.tcc.network.ResponseHandlers.handler.AddressListBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.BrandByCategoryBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.BrandResponseBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.CustomerDetailsBaseHR;
@@ -18,6 +21,7 @@ import com.paxees.tcc.network.ResponseHandlers.handler.NightTimeResponseBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.PopularByThisWeekBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.LoginBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.PlantsByTypeBaseHR;
+import com.paxees.tcc.network.ResponseHandlers.handler.ProductSearchBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.RegisterBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.StrainBaseHR;
 import com.paxees.tcc.network.apiInterface.APIInterface;
@@ -49,9 +53,21 @@ public class TCCStore extends Application implements IOnConnectionTimeoutListene
     }
 
     //:TODO post getCustomerDetails
-    public void getCustomerDetails(RetrofitEnums url, CustomerDetailsCallBack loginCallBack) {
+    public void getCustomerDetails(RetrofitEnums url,String email, CustomerDetailsCallBack loginCallBack) {
         APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getCustomerDetails().enqueue(new CustomerDetailsBaseHR(loginCallBack));
+        privateInstanceRetrofit.getCustomerDetails(email).enqueue(new CustomerDetailsBaseHR(loginCallBack));
+    }
+
+    //:TODO post getProductSearch
+    public void getProductSearch(RetrofitEnums url,String email, ProductSearchCallBack callBack) {
+        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
+        privateInstanceRetrofit.getProductSearch(email).enqueue(new ProductSearchBaseHR(callBack));
+    }
+
+    //:TODO post getAddressList
+    public void getAddressList(RetrofitEnums url,int email, AddressListCallBack loginCallBack) {
+        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
+        privateInstanceRetrofit.getAddressList(email).enqueue(new AddressListBaseHR(loginCallBack));
     }
     //:TODO post getRegister
     public void getRegister(RetrofitEnums url, RegistrationRequest request, RegisterCallBack callBack) {

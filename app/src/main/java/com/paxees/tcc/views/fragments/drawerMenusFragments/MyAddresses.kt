@@ -8,8 +8,17 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.paxees.tcc.R
+import com.paxees.tcc.controllers.CIFRootActivity
+import com.paxees.tcc.controllers.launcher
 import com.paxees.tcc.models.mFilterDashboard
+import com.paxees.tcc.network.ResponseHandlers.callbacks.AddressListCallBack
+import com.paxees.tcc.network.enums.RetrofitEnums
+import com.paxees.tcc.network.networkmodels.response.baseResponses.AddressListResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.CustomerDetailsResponse
+import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.SessionManager
+import com.paxees.tcc.utils.ToastUtils
 import com.paxees.tcc.views.adapters.MyAddressesAdapter
 import com.paxees.tcc.views.adapters.PaymentMethodAdapter
 import kotlinx.android.synthetic.main.fragment_add_payment_method.*
@@ -36,7 +45,7 @@ class MyAddresses : Fragment(), View.OnClickListener {
     fun init(view: View?) {
         sessionManager = SessionManager(activity)
         backBtn.setOnClickListener(this)
-        rvAddressFunc()
+        getAddressesList()
     }
 
     override fun onClick(v: View) {
@@ -47,7 +56,23 @@ class MyAddresses : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun rvAddressFunc() {
+    fun getAddressesList(){
+        var userid=(activity as CIFRootActivity).sharedPreferenceManager.customerDetails[0].id
+        TCCStore.getInstance().getAddressList(RetrofitEnums.URL_HBL,userid, object :
+            AddressListCallBack {
+            override fun  Success(response: AddressListResponse) {
+                rvAddressFunc(response)
+                (activity as launcher?)!!.globalClass!!.hideLoader()
+            }
+
+            override fun  Failure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as launcher?)!!.globalClass!!.hideLoader()
+            }
+        })
+    }
+
+    private fun rvAddressFunc(response: AddressListResponse) {
         val rec: ArrayList<mFilterDashboard> = ArrayList<mFilterDashboard>()
         val txt = ArrayList<String>()
         val lbl = ArrayList<String>()

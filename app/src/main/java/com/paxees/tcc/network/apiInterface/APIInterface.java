@@ -1,9 +1,12 @@
 package com.paxees.tcc.network.apiInterface;
 
+import android.provider.Telephony;
+
 import com.paxees.tcc.network.networkmodels.request.BrandDetailsRequest;
 import com.paxees.tcc.network.networkmodels.request.DashboardRequest;
 import com.paxees.tcc.network.networkmodels.request.LoginRequest;
 import com.paxees.tcc.network.networkmodels.request.RegistrationRequest;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.AddressListResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandByCategoryResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandDetailResponse;
@@ -12,6 +15,7 @@ import com.paxees.tcc.network.networkmodels.response.baseResponses.NightTimeUsua
 import com.paxees.tcc.network.networkmodels.response.baseResponses.PlantsByTypeResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.PopularByThisWeekResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.CustomerDetailsResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.ProductSearchResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.StrainResponse;
 
 import org.jetbrains.annotations.NotNull;
@@ -37,8 +41,14 @@ public interface APIInterface {
     @POST("jwt-auth/v1/token")
     Call<LoginResponse> getLogin(@Body LoginRequest request);
 
-    @GET("wc/v3/customers/?email=devtest@gmail.com")
-    Call<CustomerDetailsResponse> getCustomerDetails();
+    @GET("wc/v3/customers/")
+    Call<CustomerDetailsResponse> getCustomerDetails(@Query("email") String email);
+
+    @GET("wc/v3/products")
+    Call<ProductSearchResponse> getProductSearch(@Query("search") String search);
+
+    @GET("wc/v3/customers/{userid}")
+    Call<AddressListResponse> getAddressList(@Path("userid") int userid);
 
     @GET("popular/products")
     Call<PopularByThisWeekResponse> getPopularByThisWeek();
