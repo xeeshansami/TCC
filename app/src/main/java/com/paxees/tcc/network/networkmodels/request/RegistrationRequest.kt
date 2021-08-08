@@ -3,10 +3,11 @@ package com.paxees.tcc.network.networkmodels.request
 
 import com.google.gson.annotations.SerializedName
 import com.paxees.tcc.network.networkmodels.response.baseResponses.Billing
+import com.paxees.tcc.network.networkmodels.response.baseResponses.BillingX
 
 class RegistrationRequest {
     @SerializedName("billing")
-    var billing: Billing = Billing()
+    var billing: BillingX = BillingX()
     @SerializedName("email")
     var email: String = ""
     @SerializedName("first_name")

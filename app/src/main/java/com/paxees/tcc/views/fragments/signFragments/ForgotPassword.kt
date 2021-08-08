@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.paxees.tcc.R
-import com.paxees.tcc.controllers.CIFRootActivity
+import com.paxees.tcc.controllers.launcher
 import com.paxees.tcc.network.ResponseHandlers.callbacks.ForgetPasswordCallBack
 import com.paxees.tcc.network.ResponseHandlers.callbacks.UpdateProfileCallBack
 import com.paxees.tcc.network.enums.RetrofitEnums
@@ -32,7 +32,6 @@ import kotlinx.android.synthetic.main.toolbar.header
 class ForgotPassword : Fragment(), View.OnClickListener {
     var bt_registration: Button? = null
     var request: RegistrationRequest? = null
-    var numberEt: EditText? = null
     var promoEt: EditText? = null
     var maleRB: RadioButton? = null
     var femaleRB: RadioButton? = null
@@ -103,19 +102,19 @@ class ForgotPassword : Fragment(), View.OnClickListener {
     }
 
     private fun forgetPassword() {
-        val email = numberEt!!.text.toString().trim { it <= ' ' }
-        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+        val email = emailEt!!.text.toString().trim { it <= ' ' }
+        (activity as launcher?)!!.globalClass!!.showDialog(activity)
         TCCStore.getInstance().getForgetPassword(RetrofitEnums.URL_HBL,email.toString(),object :
             ForgetPasswordCallBack {
             override fun Success(response: ForgetPasswordResponse) {
-                ToastUtils.showToastWith(activity,"Reset email sent email to your email.")
-                switchFragment(R.id.navigation_home)
-                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+                ToastUtils.showToastWith(activity,"Reset email sent to your mailbox.")
+                switchFragment(R.id.login)
+                (activity as launcher?)!!.globalClass!!.hideLoader()
             }
 
             override fun Failure(baseResponse: BaseResponse) {
                 ToastUtils.showToastWith(activity, baseResponse.message, "")
-                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+                (activity as launcher?)!!.globalClass!!.hideLoader()
             }
         })
     }
