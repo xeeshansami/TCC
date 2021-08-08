@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,7 +29,10 @@ import kotlinx.android.synthetic.main.toolbar.header
 class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, CartAdapter.onItemPlus,
     CartAdapter.onItemRemove {
     var sessionManager: SessionManager? = null
-
+    var total=0
+    var subTotal=0
+    var disc=0
+    var tx=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -91,6 +95,24 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
             }
         })
     }
+
+    private fun deletePopup(data: GetAddToCartResponse?, key: String) {
+        AlertDialog.Builder(activity as CIFRootActivity)
+            .setTitle("Delete Product")
+            .setMessage("Are you sure you want to delete this product?") // Specifying a listener allows you to take an action before dismissing the dialog.
+            // The dialog is automatically dismissed when a dialog button is clicked.
+            .setPositiveButton(android.R.string.yes
+            ) { dialog, which ->
+                removeCart(key)
+                updatePrice(data!!,2)
+            }
+            .setNegativeButton(android.R.string.no
+            ) { dialog, which ->
+            }
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
+    }
+
     private fun updateCart(key:String,quantity: String) {
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
         TCCStore.getInstance().updateCart(RetrofitEnums.URL_HBL,key,quantity, object :
@@ -131,7 +153,7 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
         value: String
     ) {
         updateCart(data[0].key,value)
-        updatePrice(data)
+        updatePrice(data,0)
     }
 
     override fun onItemPlus(
@@ -141,7 +163,7 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
         value: String
     ) {
         updateCart(data[0].key,value)
-        updatePrice(data)
+        updatePrice(data,1)
     }
 
     override fun onItemRemove(
@@ -150,18 +172,39 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
         position: Int,
         value: String?
     ) {
-        removeCart(data!![0].key.toString())
+        deletePopup(data,data!![0].key.toString())
     }
-    private fun updatePrice(data: GetAddToCartResponse) {
-        var total=0
-        var subTotal=0
+    private fun updatePrice(data: GetAddToCartResponse,lessAdd:Int) {
         for (i in 0 until data.size) {
-            total += data[i].lineTotal.toInt()
-            subTotal += data[i].lineSubtotal.toInt()
+            when (lessAdd) {
+                1 -> {
+                    total += data[i].lineTotal.toInt()
+                    subTotal += data[i].lineSubtotal.toInt()
+                    disc=5
+                    tx=data[0].lineTax
+                    updateProfileBtn.isEnabled=true
+                }
+                0 -> {
+                    if(total>0 && subTotal>0) {
+                        total -= data[i].lineTotal.toInt()
+                        subTotal -= data[i].lineSubtotal.toInt()
+                        disc = 5
+                        tx = data[0].lineTax
+                        updateProfileBtn.isEnabled = true
+                    }
+                }
+                else -> {
+                    total=0
+                    subTotal=0
+                    disc=0
+                    tx=0
+                    updateProfileBtn.isEnabled=false
+                }
+            }
         }
-        totolItemPrice.text="$"+total.toString()
-        discount.text="$5"
-        tax.text="$"+data[0].lineTax
+        totolItemPrice.text= "$$total"
+        discount.text="$$disc"
+        tax.text="$$tx"
         subtotal.text="$"+subTotal.toString()
         updateProfileBtn.text= "Pay $$subTotal now"
     }
