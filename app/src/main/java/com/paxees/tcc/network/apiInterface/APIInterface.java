@@ -5,12 +5,14 @@ import com.paxees.tcc.network.networkmodels.request.BrandDetailsRequest;
 import com.paxees.tcc.network.networkmodels.request.DashboardRequest;
 import com.paxees.tcc.network.networkmodels.request.LoginRequest;
 import com.paxees.tcc.network.networkmodels.request.RegistrationRequest;
+import com.paxees.tcc.network.networkmodels.request.UpdateProfileRequest;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.AddressListResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.AddtoCartResponse;
-import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandByCategoryResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandDetailResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.DiscoveryResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.ForgetPasswordResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.UpdateProfileResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.GetAddToCartResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.LoginResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.NightTimeUsuageResponse;
@@ -29,6 +31,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -60,14 +63,17 @@ public interface APIInterface {
     @DELETE("cocart/v1/item")
     Call<String> removeCart(@Query("cart_item_key") String search);
 
-    /*@DELETE("apiuser/v1/forgotpwd/dtest@yopmail.com")
-    Call<String> removeCart(@Query("cart_item_key") String search);*/
+    @GET("apiuser/v1/forgotpwd/{useremail}")
+    Call<ForgetPasswordResponse> getForgetPassword(@Query("useremail") String useremail);
 
     @GET("wc/v3/customers/{userid}")
     Call<AddressListResponse> getAddressList(@Path("userid") int userid);
 
     @GET("popular/products")
     Call<PopularByThisWeekResponse> getPopularByThisWeek();
+
+    @PUT("wc/v3/customers/{userid}")
+    Call<UpdateProfileResponse> profileUpdate(@Path("userid") String userid, @Body UpdateProfileRequest request);
 
     @GET("cocart/v1/get-cart?thumb=true")
     Call<GetAddToCartResponse> getCarts();

@@ -8,6 +8,7 @@ import com.paxees.tcc.network.ResponseHandlers.callbacks.BrandByCategoryCallBack
 import com.paxees.tcc.network.ResponseHandlers.callbacks.BrandResponseCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.CustomerDetailsCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.DiscoveryMenuCallBack;
+import com.paxees.tcc.network.ResponseHandlers.callbacks.ForgetPasswordCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.GetCartsCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.NightTimeUsageCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.PlantsByTypeCallBack;
@@ -18,12 +19,14 @@ import com.paxees.tcc.network.ResponseHandlers.callbacks.RegistrationCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.RemoveCartCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.StrainCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.UpdateCartCallBack;
+import com.paxees.tcc.network.ResponseHandlers.callbacks.UpdateProfileCallBack;
 import com.paxees.tcc.network.ResponseHandlers.handler.AddToCartBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.AddressListBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.BrandByCategoryBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.BrandResponseBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.CustomerDetailsBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.DiscoverMenuBaseHR;
+import com.paxees.tcc.network.ResponseHandlers.handler.ForgetPasswordBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.GetCartsBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.NightTimeResponseBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.PopularByThisWeekBaseHR;
@@ -34,6 +37,7 @@ import com.paxees.tcc.network.ResponseHandlers.handler.RegisterBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.RemoveCartBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.StrainBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.UpdateCartBaseHR;
+import com.paxees.tcc.network.ResponseHandlers.handler.UpdateProfileBaseHR;
 import com.paxees.tcc.network.apiInterface.APIInterface;
 import com.paxees.tcc.network.enums.RetrofitEnums;
 import com.paxees.tcc.network.networkmodels.request.AddToCartRequest;
@@ -41,6 +45,7 @@ import com.paxees.tcc.network.networkmodels.request.BrandDetailsRequest;
 import com.paxees.tcc.network.networkmodels.request.DashboardRequest;
 import com.paxees.tcc.network.networkmodels.request.LoginRequest;
 import com.paxees.tcc.network.networkmodels.request.RegistrationRequest;
+import com.paxees.tcc.network.networkmodels.request.UpdateProfileRequest;
 import com.paxees.tcc.network.timeoutInterface.IOnConnectionTimeoutListener;
 import com.paxees.tcc.utils.GlobalClass;
 import com.paxees.tcc.network.retrofitBuilder.RetrofitBuilder;
@@ -93,10 +98,22 @@ public class TCCStore extends Application implements IOnConnectionTimeoutListene
         privateInstanceRetrofit.removeCart(key).enqueue(new RemoveCartBaseHR(callBack));
     }
 
+    //:TODO post getForgetPassword
+    public void getForgetPassword(RetrofitEnums url,String key, ForgetPasswordCallBack callBack) {
+        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
+        privateInstanceRetrofit.getForgetPassword(key).enqueue(new ForgetPasswordBaseHR(callBack));
+    }
+
     //:TODO post getAddressList
     public void getAddressList(RetrofitEnums url,int email, AddressListCallBack loginCallBack) {
         APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
         privateInstanceRetrofit.getAddressList(email).enqueue(new AddressListBaseHR(loginCallBack));
+    }
+
+    //:TODO post profileUpdate
+    public void profileUpdate(RetrofitEnums url, String userID, UpdateProfileRequest request, UpdateProfileCallBack callBack) {
+        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
+        privateInstanceRetrofit.profileUpdate(userID,request).enqueue(new UpdateProfileBaseHR(callBack));
     }
     //:TODO post getRegister
     public void getRegister(RetrofitEnums url, RegistrationRequest request, RegistrationCallBack callBack) {

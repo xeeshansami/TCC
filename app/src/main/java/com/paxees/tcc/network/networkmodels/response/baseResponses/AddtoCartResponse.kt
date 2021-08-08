@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 class AddtoCartResponse {
     @SerializedName("data")
-    var `data`: DataX = DataX()
+    var `data`: Data= Data()
     @SerializedName("data_hash")
     var dataHash: String = ""
     @SerializedName("key")

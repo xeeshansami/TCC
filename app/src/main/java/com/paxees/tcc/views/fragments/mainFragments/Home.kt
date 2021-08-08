@@ -182,10 +182,13 @@ class Home : Fragment(), View.OnClickListener {
     }
 
     private fun setNightTimeUsage(response: NightTimeUsuageResponse) {
-        var VideosAdapter2 = NightTimeUsageAdapter(activity, response)
-        rvNightUseage.setAdapter(VideosAdapter2)
-        VideosAdapter2.notifyDataSetChanged()
-        (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+        try {
+            var VideosAdapter2 = NightTimeUsageAdapter(activity, response)
+            rvNightUseage.setAdapter(VideosAdapter2)
+            VideosAdapter2.notifyDataSetChanged()
+            (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+        }catch (e:Exception){
+        }
     }
 
     override fun onClick(v: View?) {

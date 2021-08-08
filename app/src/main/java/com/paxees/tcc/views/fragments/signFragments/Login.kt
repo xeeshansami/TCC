@@ -376,6 +376,6 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
     }
 }
 
-private fun String.matches(regex: String): Boolean {
+fun String.matches(regex: String): Boolean {
     return regex == "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+"
 }

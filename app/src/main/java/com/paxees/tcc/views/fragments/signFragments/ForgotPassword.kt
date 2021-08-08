@@ -13,7 +13,16 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.paxees.tcc.R
+import com.paxees.tcc.controllers.CIFRootActivity
+import com.paxees.tcc.network.ResponseHandlers.callbacks.ForgetPasswordCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.UpdateProfileCallBack
+import com.paxees.tcc.network.enums.RetrofitEnums
 import com.paxees.tcc.network.networkmodels.request.RegistrationRequest
+import com.paxees.tcc.network.networkmodels.request.UpdateProfileRequest
+import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.ForgetPasswordResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.UpdateProfileResponse
+import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.ToastUtils
 import kotlinx.android.synthetic.main.fragment_forget.*
 import kotlinx.android.synthetic.main.fragment_forget.mainLoginLayout
@@ -60,7 +69,7 @@ class ForgotPassword : Fragment(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
             R.id.bt_submit -> if (validation()) {
-//                register()
+                forgetPassword()
             }
             R.id.backBtn -> {
                 switchFragment(R.id.login)
@@ -79,23 +88,35 @@ class ForgotPassword : Fragment(), View.OnClickListener {
     }
 
     fun validation(): Boolean {
-        val email = numberEt!!.text.toString().trim { it <= ' ' }
-        val promo = promoEt!!.text.toString().trim { it <= ' ' }
-        if (TextUtils.isEmpty(email)) {
-            numberEt!!.error = "Number should not be empty"
-            numberEt!!.requestFocus()
-            return false
-        }
-        if (TextUtils.isEmpty(promo)) {
-            promoEt!!.error = "Promo code should not be empty"
-            promoEt!!.requestFocus()
-            return false
-        }
-        return if (!maleRB!!.isChecked && !femaleRB!!.isChecked) {
-            ToastUtils.showToastWith(activity, "Please check the gender first", "")
+        val email = emailEt!!.text.toString().trim { it <= ' ' }
+        return if (TextUtils.isEmpty(email)) {
+            emailEt!!.error = "Email should not be empty"
+            emailEt!!.requestFocus()
             false
-        } else {
+        } else if (!email.matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+")) {
+            emailEt!!.error = "Email should be valid"
+            emailEt!!.requestFocus()
+            false
+        }else {
             true
         }
+    }
+
+    private fun forgetPassword() {
+        val email = numberEt!!.text.toString().trim { it <= ' ' }
+        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+        TCCStore.getInstance().getForgetPassword(RetrofitEnums.URL_HBL,email.toString(),object :
+            ForgetPasswordCallBack {
+            override fun Success(response: ForgetPasswordResponse) {
+                ToastUtils.showToastWith(activity,"Reset email sent email to your email.")
+                switchFragment(R.id.navigation_home)
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+
+            override fun Failure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+        })
     }
 }

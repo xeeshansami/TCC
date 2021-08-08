@@ -3,7 +3,7 @@ package com.paxees.tcc.network.networkmodels.response.baseResponses
 
 import com.google.gson.annotations.SerializedName
 
-class RegistrationResponse {
+class UpdateProfileResponse {
     @SerializedName("avatar_url")
     var avatarUrl: String = ""
     @SerializedName("billing")
@@ -27,7 +27,7 @@ class RegistrationResponse {
     @SerializedName("last_name")
     var lastName: String = ""
     @SerializedName("_links")
-    var links: Links= Links()
+    var links: Links = Links()
     @SerializedName("meta_data")
     var metaData: List<MetaData> = listOf()
     @SerializedName("role")

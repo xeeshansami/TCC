@@ -8,6 +8,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
+import android.widget.EditText;
 
 import com.paxees.tcc.network.store.TCCStore;
 import com.paxees.tcc.network.utils.Helper;
@@ -82,6 +83,11 @@ public class GlobalClass extends TCCStore {
     public static String getIP() {
         wManager = (WifiManager) GlobalClass.applicationContext.getSystemService(WIFI_SERVICE);
         return Formatter.formatIpAddress(wManager.getConnectionInfo().getIpAddress());
+    }
+
+    public void setEnabled(EditText editText,boolean isCheck,float value){
+        editText.setEnabled(isCheck);
+        editText.setAlpha(value);
     }
 
 }
