@@ -25,8 +25,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.navigation.NavigationView
 import com.paxees.tcc.R
 import com.paxees.tcc.models.DrawerModel
+import com.paxees.tcc.network.ResponseHandlers.callbacks.GetCartsCallBack
+import com.paxees.tcc.network.enums.RetrofitEnums
+import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.GetAddToCartResponse
+import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.GlobalClass
 import com.paxees.tcc.utils.RecyclerTouchListener
+import com.paxees.tcc.utils.ToastUtils
 import com.paxees.tcc.utils.managers.SharedPreferenceManager
 import com.paxees.tcc.viewModels.SharedCIFViewModel
 import com.paxees.tcc.views.adapters.DrawerAdapter
@@ -58,7 +64,21 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
                 View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
     }
+    private fun getCarts() {
+        globalClass!!.showDialog(this@CIFRootActivity)
+        TCCStore.getInstance().getCarts(RetrofitEnums.URL_HBL, object :
+            GetCartsCallBack {
+            override fun Success(response: GetAddToCartResponse) {
+                orderItems.text=response.size.toString()+" items"
+              globalClass!!.hideLoader()
+            }
 
+            override fun Failure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(this@CIFRootActivity, baseResponse.message, "")
+              globalClass!!.hideLoader()
+            }
+        })
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
@@ -83,6 +103,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
                  backInt = intent.extras!!.getInt(Constants.ACTIVITY_KEY)*/
         start()
         /* switchFragment(R.id.navigation_home)*/
+        getCarts()
         recyclerViewSetup()
 //            }
     }

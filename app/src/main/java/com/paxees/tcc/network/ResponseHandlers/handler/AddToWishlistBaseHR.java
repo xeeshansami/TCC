@@ -1,22 +1,23 @@
 package com.paxees.tcc.network.ResponseHandlers.handler;
 
-import com.paxees.tcc.network.ResponseHandlers.callbacks.RemoveCartCallBack;
+import com.paxees.tcc.network.ResponseHandlers.callbacks.AddToWishlistCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.StrainCallBack;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.AddToWishlistResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.StrainResponse;
 
 import retrofit2.Response;
 
-public class RemoveCartBaseHR extends BaseRH<String> {
+public class AddToWishlistBaseHR extends BaseRH<AddToWishlistResponse> {
 
-    RemoveCartCallBack callBack;
+    AddToWishlistCallBack callBack;
 
-    public RemoveCartBaseHR(RemoveCartCallBack callBack) {
+    public AddToWishlistBaseHR(AddToWishlistCallBack callBack) {
         this.callBack = callBack;
     }
 
     @Override
-    protected void onSuccess(Response<String> response) {
+    protected void onSuccess(Response<AddToWishlistResponse> response) {
         callBack.Success(response.body());
     }
 

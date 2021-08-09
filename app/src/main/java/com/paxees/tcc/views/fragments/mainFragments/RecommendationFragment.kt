@@ -7,35 +7,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager.widget.ViewPager
-import com.google.android.material.tabs.TabLayout
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.CIFRootActivity
-import com.paxees.tcc.controllers.Dashboard
-import com.paxees.tcc.network.ResponseHandlers.callbacks.AddToCartCallBack
-import com.paxees.tcc.network.ResponseHandlers.callbacks.DiscoveryMenuCallBack
-import com.paxees.tcc.network.ResponseHandlers.callbacks.ProductSearchCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.*
 import com.paxees.tcc.network.enums.RetrofitEnums
 import com.paxees.tcc.network.networkmodels.request.AddToCartRequest
-import com.paxees.tcc.network.networkmodels.response.baseResponses.AddtoCartResponse
-import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
-import com.paxees.tcc.network.networkmodels.response.baseResponses.DiscoveryResponse
-import com.paxees.tcc.network.networkmodels.response.baseResponses.ProductSearchResponse
+import com.paxees.tcc.network.networkmodels.request.AddToWishlistRequest
+import com.paxees.tcc.network.networkmodels.response.baseResponses.*
 import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.ToastUtils
-import com.paxees.tcc.views.adapters.IndoorAdapter
-import com.paxees.tcc.views.adapters.ProductSearchAdapter
-import com.paxees.tcc.views.adapters.ViewPagerAdapter
-import kotlinx.android.synthetic.main.fragment_discovery.*
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_home.rvPopular
-import kotlinx.android.synthetic.main.fragment_outdoor.*
-import kotlinx.android.synthetic.main.fragment_outdoor.rvOutdoor
+import com.paxees.tcc.views.adapters.DiscoveryAdapter
 import kotlinx.android.synthetic.main.fragment_recommendation.*
-import kotlinx.android.synthetic.main.toolbar.*
-import kotlinx.android.synthetic.main.toolbar_theme.*
-import kotlinx.android.synthetic.main.toolbar_theme.backBtn
-import kotlinx.android.synthetic.main.toolbar_theme.header
 
 
 class RecommendationFragment : Fragment(), View.OnClickListener {
@@ -113,13 +95,48 @@ class RecommendationFragment : Fragment(), View.OnClickListener {
     private fun setProdcutSearch(response: ProductSearchResponse) {
         val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         rvRecommendation.layoutManager = horizontalLayoutManagaer
-        var VideosAdapter = IndoorAdapter(activity, response, IndoorAdapter.ItemClickListener { view, position, response ->
-            addToCart(response[0].id.toString())
-        })
+        var VideosAdapter = DiscoveryAdapter(
+            activity,
+            response,
+            DiscoveryAdapter.ItemClickListener { view, position, response ->
+                addToCart(response[0].id.toString())
+            },DiscoveryAdapter.ItemClickListener { view, position, response ->
+                getShareKey((activity as CIFRootActivity).sharedPreferenceManager.customerDetails[0].id.toString(), response[0].id.toString())
+            })
         rvRecommendation.setAdapter(VideosAdapter)
         VideosAdapter.notifyDataSetChanged()
     }
+    private fun getShareKey(userID: String,prodId: String) {
+        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+        TCCStore.getInstance().getWishlistShareKeyByUser(RetrofitEnums.URL_HBL,userID.toInt(), object :
+            WishlistShareKeyByUserCallBack {
+            override fun Success(response: WishlistShareKeyByUserResponse) {
+                addToWishlist(response[0].shareKey,prodId)
+            }
 
+            override fun Failure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+        })
+    }
+    private fun addToWishlist(sharekey: String, prodId: String) {
+        var request= AddToWishlistRequest()
+        request.productId=prodId.toInt()
+        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+        TCCStore.getInstance().AddToWishlist(RetrofitEnums.URL_HBL,sharekey,request, object :
+            AddToWishlistCallBack {
+            override fun Success(response: AddToWishlistResponse) {
+                ToastUtils.showToastWith(activity,"Product has been added to wishlist successfully")
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+
+            override fun Failure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+        })
+    }
     override fun onClick(v: View) {
         when (v.id) {
             R.id.backBtn -> {

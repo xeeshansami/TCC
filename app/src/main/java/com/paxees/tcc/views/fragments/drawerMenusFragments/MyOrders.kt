@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.CIFRootActivity
 import com.paxees.tcc.network.ResponseHandlers.callbacks.GetCartsCallBack
-import com.paxees.tcc.network.ResponseHandlers.callbacks.RemoveCartCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.RemoveProdCallBack
 import com.paxees.tcc.network.ResponseHandlers.callbacks.UpdateCartCallBack
 import com.paxees.tcc.network.enums.RetrofitEnums
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
@@ -132,7 +132,7 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
     private fun removeCart(key:String) {
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
         TCCStore.getInstance().removeCart(RetrofitEnums.URL_HBL,key, object :
-            RemoveCartCallBack {
+            RemoveProdCallBack {
             override fun Success(response: String) {
                 ToastUtils.showToastWith(activity,response)
                 getCarts()

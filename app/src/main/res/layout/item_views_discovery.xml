@@ -24,7 +24,15 @@
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/squareImageViewRounded"
             app:srcCompat="@drawable/diagnose9image" />
-
+        <ImageView
+            android:id="@+id/addtowishlist"
+            android:src="@drawable/ic_baseline_star_border_24"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_gravity="right"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            app:tint="@color/grey"></ImageView>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

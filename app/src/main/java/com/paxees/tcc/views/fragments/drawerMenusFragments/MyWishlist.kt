@@ -5,17 +5,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.paxees.tcc.R
-import com.paxees.tcc.models.mFilterDashboard
+import com.paxees.tcc.controllers.CIFRootActivity
+import com.paxees.tcc.network.ResponseHandlers.callbacks.AddToCartCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.GetWishlistCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.RemoveProdCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.WishlistShareKeyByUserCallBack
+import com.paxees.tcc.network.enums.RetrofitEnums
+import com.paxees.tcc.network.networkmodels.request.AddToCartRequest
+import com.paxees.tcc.network.networkmodels.response.baseResponses.*
+import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.SessionManager
-import com.paxees.tcc.views.adapters.StrainAdapter
+import com.paxees.tcc.utils.ToastUtils
 import com.paxees.tcc.views.adapters.WishlistAdapter
 import kotlinx.android.synthetic.main.fragment_my_wishlist.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.header
-import java.util.ArrayList
 
 class MyWishlist : Fragment(), View.OnClickListener {
     var sessionManager: SessionManager? = null
@@ -24,8 +32,10 @@ class MyWishlist : Fragment(), View.OnClickListener {
 
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_my_wishlist, container, false)
     }
@@ -39,7 +49,74 @@ class MyWishlist : Fragment(), View.OnClickListener {
         sessionManager = SessionManager(activity)
         backBtn.setOnClickListener(this)
         header.text = getText(R.string.my_wishlist)
-        rvWishlist()
+        getShareKey((activity as CIFRootActivity).sharedPreferenceManager.customerDetails[0].id.toString())
+    }
+
+    private fun getShareKey(userID: String) {
+        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+        TCCStore.getInstance()
+            .getWishlistShareKeyByUser(RetrofitEnums.URL_HBL, userID.toInt(), object :
+                WishlistShareKeyByUserCallBack {
+                override fun Success(response: WishlistShareKeyByUserResponse) {
+                    getWishlist(response[0].shareKey)
+                }
+
+                override fun Failure(baseResponse: BaseResponse) {
+                    ToastUtils.showToastWith(activity, baseResponse.message, "")
+                    (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+                }
+            })
+    }
+
+    private fun deletePopup(key: String) {
+        AlertDialog.Builder(activity as CIFRootActivity)
+            .setTitle("Delete Product")
+            .setMessage("Are you sure you want to delete this product from wishlist?") // Specifying a listener allows you to take an action before dismissing the dialog.
+            // The dialog is automatically dismissed when a dialog button is clicked.
+            .setPositiveButton(
+                android.R.string.yes
+            ) { dialog, which ->
+                removeCart(key)
+            }
+            .setNegativeButton(
+                android.R.string.no
+            ) { dialog, which ->
+            }
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
+    }
+
+    private fun removeCart(key: String) {
+        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+        TCCStore.getInstance().removeWishlistProd(RetrofitEnums.URL_HBL, key, object :
+            RemoveProdCallBack {
+            override fun Success(response: String) {
+                ToastUtils.showToastWith(activity, response)
+                getShareKey((activity as CIFRootActivity).sharedPreferenceManager.customerDetails[0].id.toString())
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+
+            override fun Failure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+        })
+    }
+
+    private fun getWishlist(sharekey: String) {
+        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+        TCCStore.getInstance().getWishlist(RetrofitEnums.URL_HBL, sharekey, object :
+            GetWishlistCallBack {
+            override fun Success(response: GetWishlistResponse) {
+                rvWishlist(response)
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+
+            override fun Failure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+        })
     }
 
     override fun onClick(v: View) {
@@ -56,31 +133,41 @@ class MyWishlist : Fragment(), View.OnClickListener {
         graph.startDestination = startDestId
         navController.graph = graph
     }
-    private fun rvWishlist() {
-        val rec: ArrayList<mFilterDashboard> = ArrayList<mFilterDashboard>()
-        val txt = ArrayList<String>()
-        val img = ArrayList<Int>()
-        txt.add("Alien Rift")
-        txt.add("Astro")
-        txt.add("Animal Face")
-        txt.add("Blue-Dream2")
-        txt.add("Actual Plants")
-        img.add(R.drawable.alien)
-        img.add(R.drawable.bruce_banner)
-        img.add(R.drawable.diagnose10img)
-        img.add(R.drawable.blue_dream2)
-        img.add(R.drawable.blueberry_og)
-        for (i in txt.indices) {
-            val filterDashboard = mFilterDashboard()
-            filterDashboard.setTxt(txt[i])
-            filterDashboard.img = img[i]
-            rec.add(filterDashboard)
-        }
+
+    private fun rvWishlist(response: GetWishlistResponse) {
         // set up the RecyclerView
-        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        val horizontalLayoutManagaer =
+            LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         rvWishList!!.layoutManager = horizontalLayoutManagaer
-        var VideosAdapter = WishlistAdapter(activity, rec)
+        var VideosAdapter = WishlistAdapter(
+            activity,
+            response,
+            WishlistAdapter.ItemClickListener { data, view, position ->
+                addToCart(response[0].productId.toString())
+            },
+            WishlistAdapter.ItemClickListener { data, view, position ->
+                deletePopup(data[0].itemId.toString())
+            })
         rvWishList!!.setAdapter(VideosAdapter)
         VideosAdapter.notifyDataSetChanged()
+    }
+
+    private fun addToCart(prodId: String) {
+        var request = AddToCartRequest()
+        request.productId = prodId
+        request.quantity = 1
+        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+        TCCStore.getInstance().addToCart(RetrofitEnums.URL_HBL, request, object :
+            AddToCartCallBack {
+            override fun Success(response: AddtoCartResponse) {
+                ToastUtils.showToastWith(activity, "Product has been added successfully")
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+
+            override fun Failure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+        })
     }
 }

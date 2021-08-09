@@ -5,11 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.paxees.tcc.R;
 import com.paxees.tcc.models.mFilterDashboard;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.GetWishlistResponse;
 
 import java.util.ArrayList;
 
@@ -17,17 +19,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHolder> {
     private int row_index;
-    private ArrayList<mFilterDashboard> mData;
+    private GetWishlistResponse mData;
     private LayoutInflater mInflater;
-    private ItemClickListener mClickListener;
+    public ItemClickListener mClickListener;
+    public ItemClickListener mClickListener2;
     private Context context;
     private String branchImage;
 
     // data is passed into the constructor
-    public WishlistAdapter(Context context, ArrayList<mFilterDashboard> data) {
+    public WishlistAdapter(Context context, GetWishlistResponse data,ItemClickListener mClickListener,ItemClickListener mClickListener2) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
+        this.mClickListener=mClickListener;
+        this.mClickListener2=mClickListener2;
     }
 
     // inflates the row layout from xml when needed
@@ -40,9 +45,22 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        mFilterDashboard data = mData.get(position);
-        Glide.with(context).load(data.getImg()).into( holder.imageView);
-        holder.titleLbl.setText(data.getTxt());
+        GetWishlistResponse data = mData;
+        Glide.with(context).load("data.getImg()").placeholder(R.drawable.logo).into( holder.imageView);
+        holder.titleLbl.setText(data.get(position).getProductId()+"");
+        holder.priceTv.setText("$"+data.get(position).getPrice());
+        holder.addtoCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               mClickListener.onItemClick(data,v,position);
+            }
+        });
+        holder.removeProd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mClickListener2.onItemClick(data,v,position);
+            }
+        });
     }
 
     // total number of rows
@@ -53,35 +71,32 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
 
 
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView titleLbl, titleValue;
-        ImageView imageView;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView titleLbl, priceTv;
+        ImageView imageView,removeProd;
+        LinearLayout addtoCart;
 
         ViewHolder(View itemView) {
             super(itemView);
             titleLbl = itemView.findViewById(R.id.txtPopluarName);
             imageView = itemView.findViewById(R.id.imgid);
-            itemView.setOnClickListener(this);
+            priceTv = itemView.findViewById(R.id.priceTv);
+            removeProd = itemView.findViewById(R.id.removeProd);
+            addtoCart = itemView.findViewById(R.id.addtoCart);
         }
 
-        @Override
-        public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
-        }
+
     }
 
     // convenience method for getting data at click position
-    mFilterDashboard getItem(int id) {
-        return mData.get(id);
+    GetWishlistResponse getItem(int id) {
+        return mData;
     }
 
-    // allows clicks events to be caught
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
-    }
+
 
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(GetWishlistResponse data,View view, int position);
     }
 }

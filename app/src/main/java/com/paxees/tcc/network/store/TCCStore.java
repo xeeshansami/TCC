@@ -3,6 +3,7 @@ package com.paxees.tcc.network.store;
 import android.app.Application;
 
 import com.paxees.tcc.network.ResponseHandlers.callbacks.AddToCartCallBack;
+import com.paxees.tcc.network.ResponseHandlers.callbacks.AddToWishlistCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.AddressListCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.BrandByCategoryCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.BrandResponseCallBack;
@@ -10,17 +11,20 @@ import com.paxees.tcc.network.ResponseHandlers.callbacks.CustomerDetailsCallBack
 import com.paxees.tcc.network.ResponseHandlers.callbacks.DiscoveryMenuCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.ForgetPasswordCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.GetCartsCallBack;
+import com.paxees.tcc.network.ResponseHandlers.callbacks.GetWishlistCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.NightTimeUsageCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.PlantsByTypeCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.PopularByThisWeekCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.LoginCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.ProductSearchCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.RegistrationCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.RemoveCartCallBack;
+import com.paxees.tcc.network.ResponseHandlers.callbacks.RemoveProdCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.StrainCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.UpdateCartCallBack;
 import com.paxees.tcc.network.ResponseHandlers.callbacks.UpdateProfileCallBack;
+import com.paxees.tcc.network.ResponseHandlers.callbacks.WishlistShareKeyByUserCallBack;
 import com.paxees.tcc.network.ResponseHandlers.handler.AddToCartBaseHR;
+import com.paxees.tcc.network.ResponseHandlers.handler.AddToWishlistBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.AddressListBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.BrandByCategoryBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.BrandResponseBaseHR;
@@ -28,19 +32,22 @@ import com.paxees.tcc.network.ResponseHandlers.handler.CustomerDetailsBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.DiscoverMenuBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.ForgetPasswordBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.GetCartsBaseHR;
+import com.paxees.tcc.network.ResponseHandlers.handler.GetWishlistBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.NightTimeResponseBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.PopularByThisWeekBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.LoginBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.PlantsByTypeBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.ProductSearchBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.RegisterBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.RemoveCartBaseHR;
+import com.paxees.tcc.network.ResponseHandlers.handler.RemoveProdBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.StrainBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.UpdateCartBaseHR;
 import com.paxees.tcc.network.ResponseHandlers.handler.UpdateProfileBaseHR;
+import com.paxees.tcc.network.ResponseHandlers.handler.WishlistShareKeyByUserBaseHR;
 import com.paxees.tcc.network.apiInterface.APIInterface;
 import com.paxees.tcc.network.enums.RetrofitEnums;
 import com.paxees.tcc.network.networkmodels.request.AddToCartRequest;
+import com.paxees.tcc.network.networkmodels.request.AddToWishlistRequest;
 import com.paxees.tcc.network.networkmodels.request.BrandDetailsRequest;
 import com.paxees.tcc.network.networkmodels.request.DashboardRequest;
 import com.paxees.tcc.network.networkmodels.request.LoginRequest;
@@ -93,9 +100,15 @@ public class TCCStore extends Application implements IOnConnectionTimeoutListene
     }
 
   //:TODO post removeCart
-    public void removeCart(RetrofitEnums url,String key, RemoveCartCallBack callBack) {
+    public void removeCart(RetrofitEnums url,String key, RemoveProdCallBack callBack) {
         APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.removeCart(key).enqueue(new RemoveCartBaseHR(callBack));
+        privateInstanceRetrofit.removeCart(key).enqueue(new RemoveProdBaseHR(callBack));
+    }
+
+    //:TODO post removeWishlistProd
+    public void removeWishlistProd(RetrofitEnums url,String key, RemoveProdCallBack callBack) {
+        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
+        privateInstanceRetrofit.removeWishlistProd(key).enqueue(new RemoveProdBaseHR(callBack));
     }
 
     //:TODO post getForgetPassword
@@ -108,6 +121,25 @@ public class TCCStore extends Application implements IOnConnectionTimeoutListene
     public void getAddressList(RetrofitEnums url,int email, AddressListCallBack loginCallBack) {
         APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
         privateInstanceRetrofit.getAddressList(email).enqueue(new AddressListBaseHR(loginCallBack));
+    }
+
+
+ //:TODO post getWishlistShareKeyByUser
+    public void getWishlistShareKeyByUser(RetrofitEnums url,int userId, WishlistShareKeyByUserCallBack loginCallBack) {
+        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
+        privateInstanceRetrofit.getWishlistShareKeyByUser(userId).enqueue(new WishlistShareKeyByUserBaseHR(loginCallBack));
+    }
+
+//:TODO post AddToWishlist
+    public void AddToWishlist(RetrofitEnums url, String sharekey, AddToWishlistRequest request, AddToWishlistCallBack loginCallBack) {
+        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
+        privateInstanceRetrofit.AddToWishlist(sharekey,request).enqueue(new AddToWishlistBaseHR(loginCallBack));
+    }
+
+//:TODO post getWishlist
+    public void getWishlist(RetrofitEnums url, String sharekey, GetWishlistCallBack loginCallBack) {
+        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
+        privateInstanceRetrofit.getWishlist(sharekey).enqueue(new GetWishlistBaseHR(loginCallBack));
     }
 
     //:TODO post profileUpdate

@@ -11,24 +11,25 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.paxees.tcc.R;
-import com.paxees.tcc.models.mFilterDashboard;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.ProductSearchResponse;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class IndoorAdapter extends RecyclerView.Adapter<IndoorAdapter.ViewHolder> {
+public class DiscoveryAdapter extends RecyclerView.Adapter<DiscoveryAdapter.ViewHolder> {
     private int row_index;
     private ProductSearchResponse mData;
     private LayoutInflater mInflater;
     private ItemClickListener mItemClickListener;
+    private ItemClickListener mItemClickListener2;
     private Context context;
 
     // data is passed into the constructor
-    public IndoorAdapter(Context context, ProductSearchResponse data, ItemClickListener mItemClickListener) {
+    public DiscoveryAdapter(Context context, ProductSearchResponse data, ItemClickListener mItemClickListener, ItemClickListener mItemClickListener2) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
         this.mItemClickListener=mItemClickListener;
+        this.mItemClickListener2=mItemClickListener2;
     }
 
     // inflates the row layout from xml when needed
@@ -50,6 +51,12 @@ public class IndoorAdapter extends RecyclerView.Adapter<IndoorAdapter.ViewHolder
                 @Override
                 public void onClick(View v) {
                     mItemClickListener.onItemClick(v,position,data);
+                }
+            });
+            holder.addtowishlist.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mItemClickListener2.onItemClick(v,position,data);
                 }
             });
         } catch (Exception e) {
@@ -76,7 +83,7 @@ public class IndoorAdapter extends RecyclerView.Adapter<IndoorAdapter.ViewHolder
         ImageView imgid;
         TextView productName, productNameDesc;
         Button addtoCart;
-        ImageView baskitBtn;
+        ImageView baskitBtn,addtowishlist;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -85,6 +92,7 @@ public class IndoorAdapter extends RecyclerView.Adapter<IndoorAdapter.ViewHolder
             productNameDesc = itemView.findViewById(R.id.productNameDesc);
             addtoCart = itemView.findViewById(R.id.addtoCart);
             baskitBtn = itemView.findViewById(R.id.baskitBtn);
+            addtowishlist = itemView.findViewById(R.id.addtowishlist);
         }
 
 
