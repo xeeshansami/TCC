@@ -8,7 +8,6 @@ import com.paxees.tcc.network.networkmodels.request.LoginRequest;
 import com.paxees.tcc.network.networkmodels.request.RegistrationRequest;
 import com.paxees.tcc.network.networkmodels.request.UpdateProfileRequest;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.AddToWishlistResponse;
-import com.paxees.tcc.network.networkmodels.response.baseResponses.AddressListResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.AddtoCartResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandByCategoryResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandDetailResponse;
@@ -27,6 +26,7 @@ import com.paxees.tcc.network.networkmodels.response.baseResponses.RegistrationR
 import com.paxees.tcc.network.networkmodels.response.baseResponses.StrainResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.UpdateCartResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.WishlistShareKeyByUserResponse;
+import com.paxees.tcc.network.networkmodels.response.models.MyAddressesListResponse;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -73,7 +73,7 @@ public interface APIInterface {
     Call<ForgetPasswordResponse> getForgetPassword(@Query("useremail") String useremail);
 
     @GET("wc/v3/customers/{userid}")
-    Call<AddressListResponse> getAddressList(@Path("userid") int userid);
+    Call<MyAddressesListResponse> getAddressList(@Path("userid") int userid);
 
     @GET("wc/v3/wishlist/get_by_user/{userid}")
     Call<WishlistShareKeyByUserResponse> getWishlistShareKeyByUser(@Path("userid") int userid);

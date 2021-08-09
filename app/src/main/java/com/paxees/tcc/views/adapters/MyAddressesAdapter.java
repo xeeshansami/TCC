@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.paxees.tcc.R;
 import com.paxees.tcc.models.mFilterDashboard;
+import com.paxees.tcc.network.networkmodels.response.models.MyAddressesListResponse;
 
 import java.util.ArrayList;
 
@@ -17,14 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MyAddressesAdapter extends RecyclerView.Adapter<MyAddressesAdapter.ViewHolder> {
     private int row_index;
-    private ArrayList<mFilterDashboard> mData;
+    private MyAddressesListResponse mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private Context context;
     private String branchImage;
 
     // data is passed into the constructor
-    public MyAddressesAdapter(Context context, ArrayList<mFilterDashboard> data) {
+    public MyAddressesAdapter(Context context, MyAddressesListResponse data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
@@ -40,16 +41,15 @@ public class MyAddressesAdapter extends RecyclerView.Adapter<MyAddressesAdapter.
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        mFilterDashboard data = mData.get(position);
-        Glide.with(context).load(data.getImg()).into( holder.imageView);
-        holder.titleLbl.setText(data.getTxt());
-        holder.titleValue.setText(data.getValue());
+        MyAddressesListResponse data = mData;
+//        Glide.with(context).load(data.getImg()).into( holder.imageView);
+        holder.titleLbl.setText(data.getBilling().get(position).getBillingAddress1());
+        holder.titleValue.setText(data.getShipping().get(position).getShippingAddress1());
     }
 
-    // total number of rows
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mData.getBilling().size();
     }
 
 
@@ -73,8 +73,8 @@ public class MyAddressesAdapter extends RecyclerView.Adapter<MyAddressesAdapter.
     }
 
     // convenience method for getting data at click position
-    mFilterDashboard getItem(int id) {
-        return mData.get(id);
+    MyAddressesListResponse getItem(int id) {
+        return mData;
     }
 
     // allows clicks events to be caught
