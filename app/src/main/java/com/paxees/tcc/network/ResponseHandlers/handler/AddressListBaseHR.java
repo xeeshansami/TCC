@@ -1,9 +1,7 @@
 package com.paxees.tcc.network.ResponseHandlers.handler;
 
 import com.paxees.tcc.network.ResponseHandlers.callbacks.AddressListCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.StrainCallBack;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse;
-import com.paxees.tcc.network.networkmodels.response.baseResponses.StrainResponse;
 import com.paxees.tcc.network.networkmodels.response.models.MyAddressesListResponse;
 
 import retrofit2.Response;

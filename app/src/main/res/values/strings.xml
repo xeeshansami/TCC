@@ -198,4 +198,7 @@
     <string name="tab_text_2">asdasd</string>
     <string name="tab_text_3">asdasdsad</string>
     <string name="tab_text_4">asdsad</string>
+    <string name="upd">Update</string>
+    <string name="updAddress">Update Address</string>
+    <string name="saveAddress">Save Address</string>
 </resources>

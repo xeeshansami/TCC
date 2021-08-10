@@ -6,6 +6,9 @@ import com.paxees.tcc.network.networkmodels.request.BrandDetailsRequest;
 import com.paxees.tcc.network.networkmodels.request.DashboardRequest;
 import com.paxees.tcc.network.networkmodels.request.LoginRequest;
 import com.paxees.tcc.network.networkmodels.request.RegistrationRequest;
+import com.paxees.tcc.network.networkmodels.request.UpdateAddress2Request;
+import com.paxees.tcc.network.networkmodels.request.UpdateAddressRequest;
+import com.paxees.tcc.network.networkmodels.request.UpdateCartRequest;
 import com.paxees.tcc.network.networkmodels.request.UpdateProfileRequest;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.AddToWishlistResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.AddtoCartResponse;
@@ -14,6 +17,7 @@ import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandDetailRe
 import com.paxees.tcc.network.networkmodels.response.baseResponses.DiscoveryResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.ForgetPasswordResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.GetWishlistResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.PriceSummaryResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.UpdateProfileResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.GetAddToCartResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.LoginResponse;
@@ -34,6 +38,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -60,11 +65,11 @@ public interface APIInterface {
     @GET("wc/v3/products")
     Call<ProductSearchResponse> getDiscoverProducts(@Query("search") String search,@Query("category") String category);
 
-    @GET("cocart/v1/item")
-    Call<UpdateCartResponse> updateCart(@Query("cart_item_key") String search, @Query("quantity") String category);
+    @POST("cocart/v1/item")
+    Call<UpdateCartResponse> updateCart(@Header("Authorization") String header, @Body UpdateCartRequest request);
 
     @DELETE("cocart/v1/item")
-    Call<String> removeCart(@Query("cart_item_key") String search);
+    Call<String> removeCart(@Header("Authorization") String header,@Query("cart_item_key") String search);
 
     @GET("wc/v3/wishlist/remove_product/{key}")
     Call<String> removeWishlistProd(@Path("key") String key);
@@ -75,9 +80,14 @@ public interface APIInterface {
     @GET("wc/v3/customers/{userid}")
     Call<MyAddressesListResponse> getAddressList(@Path("userid") int userid);
 
+    @PUT("wc/v3/customers/{userid}")
+    Call<MyAddressesListResponse> updateShippingAddress(@Path("userid") int userid, @Body UpdateAddressRequest request);
+
+    @PUT("wc/v3/customers/{userid}")
+    Call<MyAddressesListResponse> updateBillingAddress(@Path("userid") int userid, @Body UpdateAddress2Request request);
+
     @GET("wc/v3/wishlist/get_by_user/{userid}")
     Call<WishlistShareKeyByUserResponse> getWishlistShareKeyByUser(@Path("userid") int userid);
-
 
     @POST("wc/v3/wishlist/{sharekey}/add_product")
     Call<AddToWishlistResponse> AddToWishlist(@Path("sharekey") String sharekey, @Body AddToWishlistRequest request);
@@ -92,7 +102,10 @@ public interface APIInterface {
     Call<UpdateProfileResponse> profileUpdate(@Path("userid") String userid, @Body UpdateProfileRequest request);
 
     @GET("cocart/v1/get-cart?thumb=true")
-    Call<GetAddToCartResponse> getCarts();
+    Call<GetAddToCartResponse> getCarts(@Header("Authorization") String header);
+
+    @GET("cocart/v1/totals?html=true")
+    Call<PriceSummaryResponse> getPriceSummary(@Header("Authorization") String header);
 
     @GET("discover/discover-menu")
     Call<DiscoveryResponse> getDiscoverMenu();
@@ -104,7 +117,7 @@ public interface APIInterface {
     Call<BrandByCategoryResponse> getDashboard(@Body DashboardRequest request);
 
     @POST("cocart/v1/add-item")
-    Call<AddtoCartResponse> addToCart(@Body AddToCartRequest request);
+    Call<AddtoCartResponse> addToCart(@Header("Authorization") String header,@Body AddToCartRequest request);
 
     @POST("popularbrands.php")
     Call<BrandByCategoryResponse> getPopularBrands(@Body DashboardRequest request);

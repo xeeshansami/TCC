@@ -295,7 +295,7 @@ class CreateAccount : Fragment(), View.OnClickListener, GoogleApiClient.OnConnec
         request.billing.phone=number
         request.password=rePwd
         request.username=email.substring(0, email.indexOf("@"));
-        TCCStore.getInstance().getRegister(RetrofitEnums.URL_HBL, request, object :
+        TCCStore.instance!!.getRegister(RetrofitEnums.URL_HBL, request, object :
             RegistrationCallBack {
             override fun  Success(response: RegistrationResponse) {
                 ToastUtils.showToastWith(activity, "Account successfully created")

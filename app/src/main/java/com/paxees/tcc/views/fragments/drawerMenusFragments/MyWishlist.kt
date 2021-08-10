@@ -54,7 +54,7 @@ class MyWishlist : Fragment(), View.OnClickListener {
 
     private fun getShareKey(userID: String) {
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
-        TCCStore.getInstance()
+        TCCStore.instance!!!!
             .getWishlistShareKeyByUser(RetrofitEnums.URL_HBL, userID.toInt(), object :
                 WishlistShareKeyByUserCallBack {
                 override fun Success(response: WishlistShareKeyByUserResponse) {
@@ -88,7 +88,7 @@ class MyWishlist : Fragment(), View.OnClickListener {
 
     private fun removeCart(key: String) {
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
-        TCCStore.getInstance().removeWishlistProd(RetrofitEnums.URL_HBL, key, object :
+        TCCStore.instance!!.removeWishlistProd(RetrofitEnums.URL_HBL, key, object :
             RemoveProdCallBack {
             override fun Success(response: String) {
                 ToastUtils.showToastWith(activity, response)
@@ -105,7 +105,7 @@ class MyWishlist : Fragment(), View.OnClickListener {
 
     private fun getWishlist(sharekey: String) {
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
-        TCCStore.getInstance().getWishlist(RetrofitEnums.URL_HBL, sharekey, object :
+        TCCStore.instance!!.getWishlist(RetrofitEnums.URL_HBL, sharekey, object :
             GetWishlistCallBack {
             override fun Success(response: GetWishlistResponse) {
                 rvWishlist(response)
@@ -157,7 +157,7 @@ class MyWishlist : Fragment(), View.OnClickListener {
         request.productId = prodId
         request.quantity = 1
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
-        TCCStore.getInstance().addToCart(RetrofitEnums.URL_HBL, request, object :
+        TCCStore.instance!!.addToCart(RetrofitEnums.URL_HBL, (activity as CIFRootActivity).token,request, object :
             AddToCartCallBack {
             override fun Success(response: AddtoCartResponse) {
                 ToastUtils.showToastWith(activity, "Product has been added successfully")

@@ -1,220 +1,235 @@
-package com.paxees.tcc.network.store;
+package com.paxees.tcc.network.store
 
-import android.app.Application;
+import android.app.Application
+import com.paxees.tcc.network.ResponseHandlers.callbacks.*
+import com.paxees.tcc.network.ResponseHandlers.handler.*
+import com.paxees.tcc.network.enums.RetrofitEnums
+import com.paxees.tcc.network.networkmodels.request.*
+import com.paxees.tcc.network.retrofitBuilder.RetrofitBuilder.getRetrofitInstance
+import com.paxees.tcc.network.timeoutInterface.IOnConnectionTimeoutListener
+import com.paxees.tcc.utils.GlobalClass
+import retrofit2.http.Header
 
-import com.paxees.tcc.network.ResponseHandlers.callbacks.AddToCartCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.AddToWishlistCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.AddressListCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.BrandByCategoryCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.BrandResponseCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.CustomerDetailsCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.DiscoveryMenuCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.ForgetPasswordCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.GetCartsCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.GetWishlistCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.NightTimeUsageCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.PlantsByTypeCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.PopularByThisWeekCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.LoginCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.ProductSearchCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.RegistrationCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.RemoveProdCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.StrainCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.UpdateCartCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.UpdateProfileCallBack;
-import com.paxees.tcc.network.ResponseHandlers.callbacks.WishlistShareKeyByUserCallBack;
-import com.paxees.tcc.network.ResponseHandlers.handler.AddToCartBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.AddToWishlistBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.AddressListBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.BrandByCategoryBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.BrandResponseBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.CustomerDetailsBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.DiscoverMenuBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.ForgetPasswordBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.GetCartsBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.GetWishlistBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.NightTimeResponseBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.PopularByThisWeekBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.LoginBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.PlantsByTypeBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.ProductSearchBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.RegisterBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.RemoveProdBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.StrainBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.UpdateCartBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.UpdateProfileBaseHR;
-import com.paxees.tcc.network.ResponseHandlers.handler.WishlistShareKeyByUserBaseHR;
-import com.paxees.tcc.network.apiInterface.APIInterface;
-import com.paxees.tcc.network.enums.RetrofitEnums;
-import com.paxees.tcc.network.networkmodels.request.AddToCartRequest;
-import com.paxees.tcc.network.networkmodels.request.AddToWishlistRequest;
-import com.paxees.tcc.network.networkmodels.request.BrandDetailsRequest;
-import com.paxees.tcc.network.networkmodels.request.DashboardRequest;
-import com.paxees.tcc.network.networkmodels.request.LoginRequest;
-import com.paxees.tcc.network.networkmodels.request.RegistrationRequest;
-import com.paxees.tcc.network.networkmodels.request.UpdateProfileRequest;
-import com.paxees.tcc.network.timeoutInterface.IOnConnectionTimeoutListener;
-import com.paxees.tcc.utils.GlobalClass;
-import com.paxees.tcc.network.retrofitBuilder.RetrofitBuilder;
-
-public class TCCStore extends Application implements IOnConnectionTimeoutListener {
-
-    private static TCCStore consumerStore;
-
-    //    APIInterface globalBaseUrl = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, RetrofitEnums.URL_HBL);
-    public static TCCStore getInstance() {
-        if (consumerStore == null)
-            return new TCCStore();
-        else
-            return consumerStore;
-    }
-
+open class TCCStore : Application(), IOnConnectionTimeoutListener {
     //:TODO post getLogin
-    public void getLogin(RetrofitEnums url, LoginRequest loginRequest, LoginCallBack loginCallBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getLogin(loginRequest).enqueue(new LoginBaseHR(loginCallBack));
+    fun getLogin(url: RetrofitEnums?, loginRequest: LoginRequest?, loginCallBack: LoginCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getLogin(loginRequest).enqueue(LoginBaseHR(loginCallBack))
     }
 
     //:TODO post getCustomerDetails
-    public void getCustomerDetails(RetrofitEnums url,String email, CustomerDetailsCallBack loginCallBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getCustomerDetails(email).enqueue(new CustomerDetailsBaseHR(loginCallBack));
+    fun getCustomerDetails(
+        url: RetrofitEnums?,
+        email: String?,
+        loginCallBack: CustomerDetailsCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getCustomerDetails(email)
+            .enqueue(CustomerDetailsBaseHR(loginCallBack))
     }
 
     //:TODO post getProductSearch
-    public void getProductSearch(RetrofitEnums url,String email, ProductSearchCallBack callBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getProductSearch(email).enqueue(new ProductSearchBaseHR(callBack));
+    fun getProductSearch(url: RetrofitEnums?, email: String?, callBack: ProductSearchCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getProductSearch(email).enqueue(ProductSearchBaseHR(callBack))
     }
 
     //:TODO post getDiscoverProducts
-    public void getDiscoverProducts(RetrofitEnums url,String search,String catid, ProductSearchCallBack callBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getDiscoverProducts(search,catid).enqueue(new ProductSearchBaseHR(callBack));
+    fun getDiscoverProducts(
+        url: RetrofitEnums?,
+        search: String?,
+        catid: String?,
+        callBack: ProductSearchCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getDiscoverProducts(search, catid)
+            .enqueue(ProductSearchBaseHR(callBack))
     }
 
     //:TODO post updateCart
-    public void updateCart(RetrofitEnums url,String key,String quantity, UpdateCartCallBack callBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.updateCart(key,quantity).enqueue(new UpdateCartBaseHR(callBack));
+    fun updateCart(
+        url: RetrofitEnums?,
+        header: String,
+        request:UpdateCartRequest,
+        callBack: UpdateCartCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.updateCart(header, request)
+            .enqueue(UpdateCartBaseHR(callBack))
     }
 
-  //:TODO post removeCart
-    public void removeCart(RetrofitEnums url,String key, RemoveProdCallBack callBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.removeCart(key).enqueue(new RemoveProdBaseHR(callBack));
+    //:TODO post removeCart
+    fun removeCart(url: RetrofitEnums?,  header: String, key: String?, callBack: RemoveProdCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.removeCart(header,key).enqueue(RemoveProdBaseHR(callBack))
     }
 
     //:TODO post removeWishlistProd
-    public void removeWishlistProd(RetrofitEnums url,String key, RemoveProdCallBack callBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.removeWishlistProd(key).enqueue(new RemoveProdBaseHR(callBack));
+    fun removeWishlistProd(url: RetrofitEnums?, key: String?, callBack: RemoveProdCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.removeWishlistProd(key).enqueue(RemoveProdBaseHR(callBack))
     }
 
     //:TODO post getForgetPassword
-    public void getForgetPassword(RetrofitEnums url,String key, ForgetPasswordCallBack callBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getForgetPassword(key).enqueue(new ForgetPasswordBaseHR(callBack));
+    fun getForgetPassword(url: RetrofitEnums?, key: String?, callBack: ForgetPasswordCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getForgetPassword(key).enqueue(ForgetPasswordBaseHR(callBack))
     }
 
     //:TODO post getAddressList
-    public void getAddressList(RetrofitEnums url,int email, AddressListCallBack loginCallBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getAddressList(email).enqueue(new AddressListBaseHR(loginCallBack));
+    fun getAddressList(url: RetrofitEnums?, email: Int, loginCallBack: AddressListCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getAddressList(email).enqueue(AddressListBaseHR(loginCallBack))
     }
 
-
- //:TODO post getWishlistShareKeyByUser
-    public void getWishlistShareKeyByUser(RetrofitEnums url,int userId, WishlistShareKeyByUserCallBack loginCallBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getWishlistShareKeyByUser(userId).enqueue(new WishlistShareKeyByUserBaseHR(loginCallBack));
+    //:TODO post updateShippingAddress
+    fun updateShippingAddress(url: RetrofitEnums?, email: Int, request:UpdateAddressRequest, loginCallBack: AddressListCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.updateShippingAddress(email,request).enqueue(AddressListBaseHR(loginCallBack))
     }
 
-//:TODO post AddToWishlist
-    public void AddToWishlist(RetrofitEnums url, String sharekey, AddToWishlistRequest request, AddToWishlistCallBack loginCallBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.AddToWishlist(sharekey,request).enqueue(new AddToWishlistBaseHR(loginCallBack));
+    //:TODO post updateBillingAddress
+    fun updateBillingAddress(url: RetrofitEnums?, email: Int, request:UpdateAddress2Request, loginCallBack: AddressListCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.updateBillingAddress(email,request).enqueue(AddressListBaseHR(loginCallBack))
     }
 
-//:TODO post getWishlist
-    public void getWishlist(RetrofitEnums url, String sharekey, GetWishlistCallBack loginCallBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getWishlist(sharekey).enqueue(new GetWishlistBaseHR(loginCallBack));
+    //:TODO post getWishlistShareKeyByUser
+    fun getWishlistShareKeyByUser(
+        url: RetrofitEnums?,
+        userId: Int,
+        loginCallBack: WishlistShareKeyByUserCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getWishlistShareKeyByUser(userId)
+            .enqueue(WishlistShareKeyByUserBaseHR(loginCallBack))
+    }
+
+    //:TODO post AddToWishlist
+    fun AddToWishlist(
+        url: RetrofitEnums?,
+        sharekey: String?,
+        request: AddToWishlistRequest?,
+        loginCallBack: AddToWishlistCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.AddToWishlist(sharekey, request)
+            .enqueue(AddToWishlistBaseHR(loginCallBack))
+    }
+
+    //:TODO post getWishlist
+    fun getWishlist(url: RetrofitEnums?, sharekey: String?, loginCallBack: GetWishlistCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getWishlist(sharekey).enqueue(GetWishlistBaseHR(loginCallBack))
     }
 
     //:TODO post profileUpdate
-    public void profileUpdate(RetrofitEnums url, String userID, UpdateProfileRequest request, UpdateProfileCallBack callBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.profileUpdate(userID,request).enqueue(new UpdateProfileBaseHR(callBack));
+    fun profileUpdate(
+        url: RetrofitEnums?,
+        userID: String?,
+        request: UpdateProfileRequest?,
+        callBack: UpdateProfileCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.profileUpdate(userID, request)
+            .enqueue(UpdateProfileBaseHR(callBack))
     }
+
     //:TODO post getRegister
-    public void getRegister(RetrofitEnums url, RegistrationRequest request, RegistrationCallBack callBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getRegister(request).enqueue(new RegisterBaseHR(callBack));
+    fun getRegister(
+        url: RetrofitEnums?,
+        request: RegistrationRequest?,
+        callBack: RegistrationCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getRegister(request).enqueue(RegisterBaseHR(callBack))
     }
 
     //:TODO post getDashboard
-    public void getDashboard(RetrofitEnums url, DashboardRequest request, BrandResponseCallBack callBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getDashboard(request).enqueue(new BrandResponseBaseHR(callBack));
+    fun getDashboard(
+        url: RetrofitEnums?,
+        request: DashboardRequest?,
+        callBack: BrandResponseCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getDashboard(request).enqueue(BrandResponseBaseHR(callBack))
     }
 
     //:TODO post addToCart
-    public void addToCart(RetrofitEnums url, AddToCartRequest request, AddToCartCallBack callBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.addToCart(request).enqueue(new AddToCartBaseHR(callBack));
+    fun addToCart(url: RetrofitEnums?,  header: String, request: AddToCartRequest?, callBack: AddToCartCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.addToCart(header,request).enqueue(AddToCartBaseHR(callBack))
     }
 
     //:TODO post getPopularBrands
-    public void getPopularBrands(RetrofitEnums url, DashboardRequest request, BrandResponseCallBack callBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getPopularBrands(request).enqueue(new BrandResponseBaseHR(callBack));
+    fun getPopularBrands(
+        url: RetrofitEnums?,
+        request: DashboardRequest?,
+        callBack: BrandResponseCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getPopularBrands(request).enqueue(BrandResponseBaseHR(callBack))
     }
 
     //:TODO post getBrandByCategory
-    public void getBrandsDetails(RetrofitEnums url, BrandDetailsRequest request, BrandByCategoryCallBack callBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getBrandsDetails(request).enqueue(new BrandByCategoryBaseHR(callBack));
+    fun getBrandsDetails(
+        url: RetrofitEnums?,
+        request: BrandDetailsRequest?,
+        callBack: BrandByCategoryCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getBrandsDetails(request).enqueue(BrandByCategoryBaseHR(callBack))
     }
 
     //:TODO getPopularByThisWeek
-    public void getPopularByThisWeek(RetrofitEnums url, PopularByThisWeekCallBack callBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getPopularByThisWeek().enqueue(new PopularByThisWeekBaseHR(callBack));
+    fun getPopularByThisWeek(url: RetrofitEnums?, callBack: PopularByThisWeekCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.popularByThisWeek.enqueue(PopularByThisWeekBaseHR(callBack))
     }
 
     //:TODO getCarts
-    public void getCarts(RetrofitEnums url, GetCartsCallBack callBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getCarts().enqueue(new GetCartsBaseHR(callBack));
+    fun getCarts(url: RetrofitEnums?, headers: String, callBack: GetCartsCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getCarts(headers).enqueue(GetCartsBaseHR(callBack))
+    }
+
+    //:TODO getPriceSummary
+    fun getPriceSummary(url: RetrofitEnums?, headers: String, callBack: PriceSummaryCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getPriceSummary(headers).enqueue(PriceSummaryBaseHR(callBack))
     }
 
     //:TODO getDiscoverMenu
-    public void getDiscoverMenu(RetrofitEnums url, DiscoveryMenuCallBack callBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getDiscoverMenu().enqueue(new DiscoverMenuBaseHR(callBack));
+    fun getDiscoverMenu(url: RetrofitEnums?, callBack: DiscoveryMenuCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.discoverMenu.enqueue(DiscoverMenuBaseHR(callBack))
     }
 
- //:TODO getPlantsByType
-    public void getPlantsByType(RetrofitEnums url, PlantsByTypeCallBack callBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getPlantsByType().enqueue(new PlantsByTypeBaseHR(callBack));
+    //:TODO getPlantsByType
+    fun getPlantsByType(url: RetrofitEnums?, callBack: PlantsByTypeCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.plantsByType.enqueue(PlantsByTypeBaseHR(callBack))
     }
 
     //:TODO getNightTimeUsage
-    public void getNightTimeUsage(RetrofitEnums url, NightTimeUsageCallBack callBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getNightTimeUsage().enqueue(new NightTimeResponseBaseHR(callBack));
+    fun getNightTimeUsage(url: RetrofitEnums?, callBack: NightTimeUsageCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.nightTimeUsage.enqueue(NightTimeResponseBaseHR(callBack))
     }
 
     //:TODO getStrains
-    public void getStrains(RetrofitEnums url, StrainCallBack callBack) {
-        APIInterface privateInstanceRetrofit = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, url);
-        privateInstanceRetrofit.getStrains().enqueue(new StrainBaseHR(callBack));
+    fun getStrains(url: RetrofitEnums?, callBack: StrainCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.strains.enqueue(StrainBaseHR(callBack))
     }
 
-    @Override
-    public void onConnectionTimeout() {
+    override fun onConnectionTimeout() {}
 
+    companion object {
+        private val consumerStore: TCCStore? = null
+
+        //    APIInterface globalBaseUrl = RetrofitBuilder.INSTANCE.getRetrofitInstance(GlobalClass.applicationContext, RetrofitEnums.URL_HBL);
+        val instance: TCCStore?
+            get() = consumerStore ?: TCCStore()
     }
 }

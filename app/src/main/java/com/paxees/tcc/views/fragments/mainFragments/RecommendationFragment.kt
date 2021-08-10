@@ -43,7 +43,7 @@ class RecommendationFragment : Fragment(), View.OnClickListener {
 
     private fun getDiscover() {
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
-        TCCStore.getInstance().getDiscoverMenu(RetrofitEnums.URL_HBL, object :
+        TCCStore.instance!!.getDiscoverMenu(RetrofitEnums.URL_HBL, object :
             DiscoveryMenuCallBack {
             override fun Success(response: DiscoveryResponse) {
                 response.get(2).categoryId.let {
@@ -60,7 +60,7 @@ class RecommendationFragment : Fragment(), View.OnClickListener {
     }
 
     private fun getIndoorProducts(cateId: String) {
-        TCCStore.getInstance().getDiscoverProducts(RetrofitEnums.URL_HBL,"red",cateId, object :
+        TCCStore.instance!!.getDiscoverProducts(RetrofitEnums.URL_HBL,"red",cateId, object :
             ProductSearchCallBack {
             override fun Success(response: ProductSearchResponse) {
                 setProdcutSearch(response)
@@ -79,7 +79,7 @@ class RecommendationFragment : Fragment(), View.OnClickListener {
         request.productId=prodId
         request.quantity=1
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
-        TCCStore.getInstance().addToCart(RetrofitEnums.URL_HBL,request, object :
+        TCCStore.instance!!.addToCart(RetrofitEnums.URL_HBL,(activity as CIFRootActivity).token,request, object :
             AddToCartCallBack {
             override fun Success(response: AddtoCartResponse) {
                 ToastUtils.showToastWith(activity,"Product has been added successfully")
@@ -108,7 +108,7 @@ class RecommendationFragment : Fragment(), View.OnClickListener {
     }
     private fun getShareKey(userID: String,prodId: String) {
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
-        TCCStore.getInstance().getWishlistShareKeyByUser(RetrofitEnums.URL_HBL,userID.toInt(), object :
+        TCCStore.instance!!.getWishlistShareKeyByUser(RetrofitEnums.URL_HBL,userID.toInt(), object :
             WishlistShareKeyByUserCallBack {
             override fun Success(response: WishlistShareKeyByUserResponse) {
                 addToWishlist(response[0].shareKey,prodId)
@@ -124,7 +124,7 @@ class RecommendationFragment : Fragment(), View.OnClickListener {
         var request= AddToWishlistRequest()
         request.productId=prodId.toInt()
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
-        TCCStore.getInstance().AddToWishlist(RetrofitEnums.URL_HBL,sharekey,request, object :
+        TCCStore.instance!!.AddToWishlist(RetrofitEnums.URL_HBL,sharekey,request, object :
             AddToWishlistCallBack {
             override fun Success(response: AddToWishlistResponse) {
                 ToastUtils.showToastWith(activity,"Product has been added to wishlist successfully")

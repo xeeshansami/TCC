@@ -1,4 +1,4 @@
-package com.paxees.tcc.network.networkmodels.request
+package com.paxees.tcc.network.networkmodels.response.models
 
 
 import com.google.gson.annotations.SerializedName
@@ -14,14 +14,10 @@ class Shipping {
     var company: String = ""
     @SerializedName("country")
     var country: String = ""
-    @SerializedName("email")
-    var email: String = ""
     @SerializedName("first_name")
     var firstName: String = ""
     @SerializedName("last_name")
     var lastName: String = ""
-    @SerializedName("phone")
-    var phone: String = ""
     @SerializedName("postcode")
     var postcode: String = ""
     @SerializedName("state")

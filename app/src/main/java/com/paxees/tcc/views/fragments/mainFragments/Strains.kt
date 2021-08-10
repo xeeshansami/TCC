@@ -70,7 +70,7 @@ class Strains : Fragment(), View.OnClickListener {
     private fun rvStrainsFunc() {
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
         // set up the RecyclerView
-        TCCStore.getInstance().getStrains(RetrofitEnums.URL_HBL, object :
+        TCCStore.instance!!.getStrains(RetrofitEnums.URL_HBL, object :
             StrainCallBack {
             override fun Success(response: StrainResponse?) {
                 setStrains(response!!)

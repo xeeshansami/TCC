@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/NestedScrollBarStyle">
+
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        tools:context=".controllers.launcher">
+
+        <include android:id="@+id/toolbar" layout="@layout/toolbar_theme"></include>
+        <TextView android:id="@+id/header"
+            android:gravity="left"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/my_addresses"
+            android:layout_gravity="left|center_vertical"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20sdp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"></TextView>
+        <LinearLayout
+            android:id="@+id/body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header">
+
+            <EditText
+                android:maxLines="1"
+                android:singleLine="true"
+                android:padding="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:textColor="@color/black"
+                android:background="@drawable/bg_border_carts"
+                android:id="@+id/address1"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold"
+                android:hint="@string/address1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/emailLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></EditText>
+            <EditText
+                android:maxLines="1"
+                android:singleLine="true"
+                android:padding="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:textColor="@color/black"
+                android:background="@drawable/bg_border_carts"
+                android:id="@+id/addresss2"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold"
+                android:hint="@string/address2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/emailLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></EditText>
+            <EditText
+                android:maxLines="1"
+                android:singleLine="true"
+                android:padding="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:textColor="@color/black"
+                android:id="@+id/addresstype"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold"
+                android:hint="Address type"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/emailLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></EditText>
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text="Make this my default address?"
+            android:layout_height="wrap_content"
+            ></androidx.appcompat.widget.AppCompatCheckBox>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/myAddresses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_40sdp"
+            android:layout_marginLeft="@dimen/_40sdp"
+            android:text="@string/saveAddress"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:background="@drawable/bg_border_square_green"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/body" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

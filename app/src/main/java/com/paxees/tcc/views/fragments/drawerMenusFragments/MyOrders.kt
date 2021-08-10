@@ -11,11 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.CIFRootActivity
 import com.paxees.tcc.network.ResponseHandlers.callbacks.GetCartsCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.PriceSummaryCallBack
 import com.paxees.tcc.network.ResponseHandlers.callbacks.RemoveProdCallBack
 import com.paxees.tcc.network.ResponseHandlers.callbacks.UpdateCartCallBack
 import com.paxees.tcc.network.enums.RetrofitEnums
+import com.paxees.tcc.network.networkmodels.request.UpdateCartRequest
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
 import com.paxees.tcc.network.networkmodels.response.baseResponses.GetAddToCartResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.PriceSummaryResponse
 import com.paxees.tcc.network.networkmodels.response.baseResponses.UpdateCartResponse
 import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.SessionManager
@@ -29,10 +32,10 @@ import kotlinx.android.synthetic.main.toolbar.header
 class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, CartAdapter.onItemPlus,
     CartAdapter.onItemRemove {
     var sessionManager: SessionManager? = null
-    var total=0
-    var subTotal=0
-    var disc=0
-    var tx=0
+    var total=0.0
+    var subTotal=0.0
+    var disc=10.0
+    var tx=5.0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -82,10 +85,26 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
     }
     private fun getCarts() {
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
-        TCCStore.getInstance().getCarts(RetrofitEnums.URL_HBL, object :
+        TCCStore.instance!!.getCarts(RetrofitEnums.URL_HBL,(activity as CIFRootActivity).token, object :
             GetCartsCallBack {
             override fun Success(response: GetAddToCartResponse) {
                 rvCart(response)
+                getPriceSummary()
+            }
+
+            override fun Failure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+        })
+    }
+
+    private fun getPriceSummary() {
+        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+        TCCStore.instance!!.getPriceSummary(RetrofitEnums.URL_HBL,(activity as CIFRootActivity).token, object :
+            PriceSummaryCallBack {
+            override fun Success(response: PriceSummaryResponse) {
+                updatePrice(response)
                 (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
             }
 
@@ -104,7 +123,6 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
             .setPositiveButton(android.R.string.yes
             ) { dialog, which ->
                 removeCart(key)
-                updatePrice(data!!,2)
             }
             .setNegativeButton(android.R.string.no
             ) { dialog, which ->
@@ -115,7 +133,10 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
 
     private fun updateCart(key:String,quantity: String) {
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
-        TCCStore.getInstance().updateCart(RetrofitEnums.URL_HBL,key,quantity, object :
+        var request=UpdateCartRequest();
+        request.cartItemKey=key
+        request.quantity=quantity.toInt()
+        TCCStore.instance!!.updateCart(RetrofitEnums.URL_HBL,(activity as CIFRootActivity).token,request, object :
             UpdateCartCallBack {
             override fun Success(response: UpdateCartResponse) {
                 ToastUtils.showToastWith(activity,response.message)
@@ -131,7 +152,7 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
 
     private fun removeCart(key:String) {
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
-        TCCStore.getInstance().removeCart(RetrofitEnums.URL_HBL,key, object :
+        TCCStore.instance!!.removeCart(RetrofitEnums.URL_HBL,(activity as CIFRootActivity).token,key, object :
             RemoveProdCallBack {
             override fun Success(response: String) {
                 ToastUtils.showToastWith(activity,response)
@@ -153,7 +174,7 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
         value: String
     ) {
         updateCart(data[0].key,value)
-        updatePrice(data,0)
+        getPriceSummary()
     }
 
     override fun onItemPlus(
@@ -163,7 +184,7 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
         value: String
     ) {
         updateCart(data[0].key,value)
-        updatePrice(data,1)
+        getPriceSummary()
     }
 
     override fun onItemRemove(
@@ -174,38 +195,13 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
     ) {
         deletePopup(data,data!![0].key.toString())
     }
-    private fun updatePrice(data: GetAddToCartResponse,lessAdd:Int) {
-        for (i in 0 until data.size) {
-            when (lessAdd) {
-                1 -> {
-                    total += data[i].lineTotal.toInt()
-                    subTotal += data[i].lineSubtotal.toInt()
-                    disc=5
-                    tx=data[0].lineTax
-                    updateProfileBtn.isEnabled=true
-                }
-                0 -> {
-                    if(total>0 && subTotal>0) {
-                        total -= data[i].lineTotal.toInt()
-                        subTotal -= data[i].lineSubtotal.toInt()
-                        disc = 5
-                        tx = data[0].lineTax
-                        updateProfileBtn.isEnabled = true
-                    }
-                }
-                else -> {
-                    total=0
-                    subTotal=0
-                    disc=0
-                    tx=0
-                    updateProfileBtn.isEnabled=false
-                }
-            }
-        }
-        totolItemPrice.text= "$$total"
+    private fun updatePrice(data: PriceSummaryResponse) {
+        total = data.subtotal.replace("$", "").toDouble()
+        var subtotals=total-(disc-tx)
+        totolItemPrice.text= "$$subtotals"
         discount.text="$$disc"
         tax.text="$$tx"
-        subtotal.text="$"+subTotal.toString()
-        updateProfileBtn.text= "Pay $$subTotal now"
+        subtotal.text= "$$subtotals"
+        updateProfileBtn.text= "Pay $$subtotals now"
     }
 }

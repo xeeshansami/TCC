@@ -23,7 +23,6 @@
             android:textSize="@dimen/_20sdp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/backBtn"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"></TextView>
         <LinearLayout
             android:id="@+id/body"
@@ -34,18 +33,117 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/header">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvAddresses"
+            <!--Billing Address-->
+            <LinearLayout
+                android:id="@+id/billinglayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clipToPadding="true"
-                android:fadingEdge="vertical"
-                android:layoutAnimation="@anim/list_anim_slide_right_to_left"
-                android:paddingTop="@dimen/_10sdp"
-                android:requiresFadingEdge="vertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+                android:gravity="center"
+                android:layout_margin="@dimen/_2ssp"
+                android:background="@drawable/bg_border_carts"
+                android:orientation="horizontal"
+                android:weightSum="5"
+                android:padding="@dimen/_10sdp">
 
+                <ImageView
+                    android:id="@+id/done_icon1"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/ic_done"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"></ImageView>
+                <LinearLayout
+                    android:layout_weight="5"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:weightSum="2">
+                    <TextView android:id="@+id/addresstype1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="visa card"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/_12sdp"
+                        ></TextView>
+                    <TextView android:id="@+id/addressBilling"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_weight="2"
+                        android:maxLines="2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_15sdp"
+                        />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/addressChangeBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:singleLine="true"
+                    android:text="Change"
+                    android:textColor="@color/colorTheme"
+                    android:textSize="@dimen/_12sdp"
+                    ></TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/shippinglayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_margin="@dimen/_2ssp"
+                android:background="@drawable/bg_border_carts"
+                android:orientation="horizontal"
+                android:weightSum="5"
+                android:padding="@dimen/_10sdp">
+
+                <ImageView
+                    android:id="@+id/done_icon2"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/ic_done"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"></ImageView>
+                <LinearLayout
+                    android:layout_weight="5"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:weightSum="2">
+                    <TextView android:id="@+id/addresstype2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="visa card"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/_12sdp"
+                        ></TextView>
+                    <TextView android:id="@+id/addressShipping"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_weight="2"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_15sdp"
+                        />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/addressChangeBtn2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:singleLine="true"
+                    android:text="Change"
+                    android:textColor="@color/colorTheme"
+                    android:textSize="@dimen/_12sdp"
+                    ></TextView>
+            </LinearLayout>
+            <!--ShippingAddress-->
 
 
         </LinearLayout>

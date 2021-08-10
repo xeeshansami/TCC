@@ -53,6 +53,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
     var globalClass: GlobalClass? = null
     @JvmField
     var sharedPreferenceManager: SharedPreferenceManager = SharedPreferenceManager()
+    var token=""
     var TAG: String = this.javaClass.simpleName
     private lateinit var drawerAdapter: DrawerAdapter
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -66,7 +67,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
     }
     private fun getCarts() {
         globalClass!!.showDialog(this@CIFRootActivity)
-        TCCStore.getInstance().getCarts(RetrofitEnums.URL_HBL, object :
+        TCCStore.instance!!.getCarts(RetrofitEnums.URL_HBL,token, object :
             GetCartsCallBack {
             override fun Success(response: GetAddToCartResponse) {
                 orderItems.text=response.size.toString()+" items"
@@ -103,16 +104,22 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
                  backInt = intent.extras!!.getInt(Constants.ACTIVITY_KEY)*/
         start()
         /* switchFragment(R.id.navigation_home)*/
-        getCarts()
+
         recyclerViewSetup()
 //            }
     }
 
+    override fun onResume() {
+        super.onResume()
+        getCarts()
+    }
     @SuppressLint("WrongViewCast")
     fun start() {
+        var accessToken=sharedPreferenceManager.loginData.token
         title = ""
         globalClass = GlobalClass.applicationContext!!.applicationContext as GlobalClass
         sharedPreferenceManager.getInstance(globalClass)
+        token="Bearer $accessToken"
         if(sharedPreferenceManager.getIntFromSharedPreferences(SharedPreferenceManager.DARK_MODE)==1){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }else{

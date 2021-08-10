@@ -133,7 +133,7 @@ class Profile : Fragment(), View.OnClickListener {
         request.billing.firstName=fullname
         request.billing.phone=number
         request.email=email
-        TCCStore.getInstance().profileUpdate(RetrofitEnums.URL_HBL,userId.toString(), request,object :
+        TCCStore.instance!!.profileUpdate(RetrofitEnums.URL_HBL,userId.toString(), request,object :
             UpdateProfileCallBack {
             override fun Success(response: UpdateProfileResponse) {
                 ToastUtils.showToastWith(activity,"Profile has been updated")

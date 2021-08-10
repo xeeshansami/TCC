@@ -104,7 +104,7 @@ class ForgotPassword : Fragment(), View.OnClickListener {
     private fun forgetPassword() {
         val email = emailEt!!.text.toString().trim { it <= ' ' }
         (activity as launcher?)!!.globalClass!!.showDialog(activity)
-        TCCStore.getInstance().getForgetPassword(RetrofitEnums.URL_HBL,email.toString(),object :
+        TCCStore.instance!!.getForgetPassword(RetrofitEnums.URL_HBL,email.toString(),object :
             ForgetPasswordCallBack {
             override fun Success(response: ForgetPasswordResponse) {
                 ToastUtils.showToastWith(activity,"Reset email sent to your mailbox.")

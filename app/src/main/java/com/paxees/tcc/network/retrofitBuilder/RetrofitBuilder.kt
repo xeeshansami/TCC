@@ -1,6 +1,7 @@
 package com.paxees.tcc.network.retrofitBuilder
 
 import android.content.Context
+import com.paxees.tcc.controllers.CIFRootActivity
 import com.paxees.tcc.network.apiInterface.APIInterface
 import com.paxees.tcc.network.enums.RetrofitEnums
 import com.paxees.tcc.network.gson.GsonProvider
@@ -14,12 +15,11 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import java.util.*
 import java.util.concurrent.TimeUnit
-import kotlin.collections.HashMap
 
 
 object RetrofitBuilder {
+    var globalClass = GlobalClass.applicationContext!!.applicationContext as GlobalClass
     private val retrofitHashMap = HashMap<String, APIInterface>()
     fun getRetrofitInstance(context: Context, url: RetrofitEnums): APIInterface {
         val baseUrl = url.url
@@ -73,21 +73,12 @@ object RetrofitBuilder {
 
     class NetworkInterceptorHBL(private val context: Context) : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
+            var token= globalClass.sharedPreferenceManager.loginData.token.toString()
             val original = chain.request()
-//           var token = "Bearer " + (context.applicationContext as GlobalClass).hrToken
-            var token = "test"
-            val headerTag = original.header(APIInterface.HEADER_TAG)
             val builder = original.newBuilder()
-            if (!(headerTag != null || token.equals("", ignoreCase = true))) {
-                builder.addHeader("hrtoken", token)
-            }
             val request = builder
                 .addHeader("Content-Type", "text/plain") // @TODO: add IP method
-                .addHeader(
-                    "oauth_consumer_key",
-                   "ck_53de6fc509778ff6ee02f8b2ce904c70b50cf592"
-                ) // @TODO: add MAC Address method
-                .addHeader("uuid", UUID.randomUUID().toString()) // @TODO: add MAC Address method
+//                .addHeader("Authorization","Bearer $token")
                 .removeHeader(APIInterface.HEADER_TAG)
                 .method(original.method, original.body)
                 .build()

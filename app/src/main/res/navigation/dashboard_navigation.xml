@@ -148,9 +148,18 @@
  </fragment>
     <fragment
         android:id="@+id/navigation_myaddresses"
-        android:name="com.paxees.tcc.views.fragments.drawerMenusFragments.MyAddresses"
+        android:name="com.paxees.tcc.views.fragments.settingsFragments.MyAddresses"
         android:label="MyAddresses"
-        tools:layout="@layout/fragment_myaddresses"></fragment>
+        tools:layout="@layout/fragment_myaddresses">
+        <action
+            android:id="@+id/setting_to_add_new_address"
+            app:destination="@id/navigation_add_new_addresses"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
+    </fragment>
     <fragment
         android:id="@+id/navigation_add_new_payment_method"
         android:name="com.paxees.tcc.views.fragments.settingsFragments.AddPaymentMethod"
@@ -307,5 +316,11 @@
         android:name="com.paxees.tcc.views.fragments.dignosticsFragments.Diagnose11"
         android:label="Diagnose11"
         tools:layout="@layout/fragment_diagnose11"></fragment>
+
+    <fragment
+        android:id="@+id/navigation_add_new_addresses"
+        android:name="com.paxees.tcc.views.fragments.settingsFragments.AddNewAddresses"
+        android:label="Add New Address"
+        tools:layout="@layout/fragment_newaddresses"></fragment>
 
 </navigation>

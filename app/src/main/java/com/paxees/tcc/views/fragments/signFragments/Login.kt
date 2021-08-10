@@ -221,7 +221,7 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
         var request = LoginRequest()
         request.username = email
         request.password = pwd
-        TCCStore.getInstance().getLogin(RetrofitEnums.URL_HBL, request, object : LoginCallBack {
+        TCCStore.instance!!.getLogin(RetrofitEnums.URL_HBL, request, object : LoginCallBack {
             override fun LoginSuccess(response: LoginResponse) {
                 (activity as launcher).sharedPreferenceManager.loginData = response
                 getCustomerDetails(email)
@@ -236,7 +236,7 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
 
 
     fun getCustomerDetails(email:String){
-        TCCStore.getInstance().getCustomerDetails(RetrofitEnums.URL_HBL,email, object : CustomerDetailsCallBack {
+        TCCStore.instance!!.getCustomerDetails(RetrofitEnums.URL_HBL,email, object : CustomerDetailsCallBack {
             override fun  Success(response:  CustomerDetailsResponse) {
                 (activity as launcher).sharedPreferenceManager.customerDetails = response
                 ToastUtils.showToastWith(activity, "Login successfully...")

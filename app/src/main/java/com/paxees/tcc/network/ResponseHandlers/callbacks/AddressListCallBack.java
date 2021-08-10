@@ -1,7 +1,6 @@
 package com.paxees.tcc.network.ResponseHandlers.callbacks;
 
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse;
-import com.paxees.tcc.network.networkmodels.response.baseResponses.LoginResponse;
 import com.paxees.tcc.network.networkmodels.response.models.MyAddressesListResponse;
 
 public interface AddressListCallBack {

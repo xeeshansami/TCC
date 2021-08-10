@@ -121,7 +121,7 @@ class Home : Fragment(), View.OnClickListener {
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         rvPopular.layoutManager = horizontalLayoutManagaer
         rvNightUseage.layoutManager = horizontalLayoutManagaer2
-        TCCStore.getInstance().getPopularByThisWeek(RetrofitEnums.URL_HBL, object :
+        TCCStore.instance!!.getPopularByThisWeek(RetrofitEnums.URL_HBL, object :
             PopularByThisWeekCallBack {
             override fun PopularByThisWeekSuccess(response: PopularByThisWeekResponse) {
                 setCategories(response)
@@ -147,7 +147,7 @@ class Home : Fragment(), View.OnClickListener {
         val horizontalLayoutManagaer =
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         rvPlantsType.layoutManager = horizontalLayoutManagaer
-        TCCStore.getInstance().getPlantsByType(RetrofitEnums.URL_HBL, object :
+        TCCStore.instance!!.getPlantsByType(RetrofitEnums.URL_HBL, object :
             PlantsByTypeCallBack {
             override fun Success(response: PlantsByTypeResponse) {
                 setPlantType(response)
@@ -168,7 +168,7 @@ class Home : Fragment(), View.OnClickListener {
         val horizontalLayoutManagaer =
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         rvNightUseage.layoutManager = horizontalLayoutManagaer
-        TCCStore.getInstance().getNightTimeUsage(RetrofitEnums.URL_HBL, object :
+        TCCStore.instance!!.getNightTimeUsage(RetrofitEnums.URL_HBL, object :
             NightTimeUsageCallBack {
             override fun Success(response: NightTimeUsuageResponse) {
                 setNightTimeUsage(response)
@@ -202,7 +202,7 @@ class Home : Fragment(), View.OnClickListener {
 
     private fun filterPlants(filter: String) {
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
-        TCCStore.getInstance().getProductSearch(RetrofitEnums.URL_HBL, filter, object :
+        TCCStore.instance!!.getProductSearch(RetrofitEnums.URL_HBL, filter, object :
             ProductSearchCallBack {
             override fun Success(response: ProductSearchResponse) {
                 setProdcutSearch(response)

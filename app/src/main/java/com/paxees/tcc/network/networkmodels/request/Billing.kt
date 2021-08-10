@@ -3,7 +3,7 @@ package com.paxees.tcc.network.networkmodels.request
 
 import com.google.gson.annotations.SerializedName
 
-class Shipping {
+class Billing {
     @SerializedName("address_1")
     var address1: String = ""
     @SerializedName("address_2")
