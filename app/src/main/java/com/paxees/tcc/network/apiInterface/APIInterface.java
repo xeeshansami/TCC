@@ -18,6 +18,7 @@ import com.paxees.tcc.network.networkmodels.response.baseResponses.DiscoveryResp
 import com.paxees.tcc.network.networkmodels.response.baseResponses.ForgetPasswordResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.GetWishlistResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.PriceSummaryResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.SingleLocationDetailsResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.UpdateProfileResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.GetAddToCartResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.LoginResponse;
@@ -34,6 +35,7 @@ import com.paxees.tcc.network.networkmodels.response.models.MyAddressesListRespo
 
 import org.jetbrains.annotations.NotNull;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -41,6 +43,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -77,6 +80,9 @@ public interface APIInterface {
     @GET("apiuser/v1/forgotpwd/{useremail}")
     Call<ForgetPasswordResponse> getForgetPassword(@Query("useremail") String useremail);
 
+    @GET("single/location/203")
+    Call<SingleLocationDetailsResponse> getSingleLocationDetails(/*@Path("userid") String userid*/);
+
     @GET("wc/v3/customers/{userid}")
     Call<MyAddressesListResponse> getAddressList(@Path("userid") int userid);
 
@@ -88,6 +94,9 @@ public interface APIInterface {
 
     @GET("wc/v3/wishlist/get_by_user/{userid}")
     Call<WishlistShareKeyByUserResponse> getWishlistShareKeyByUser(@Path("userid") int userid);
+
+    @GET("wp/v2/media")
+    Call<WishlistShareKeyByUserResponse> uploadImageFile(@Part MultipartBody.Part filePart);
 
     @POST("wc/v3/wishlist/{sharekey}/add_product")
     Call<AddToWishlistResponse> AddToWishlist(@Path("sharekey") String sharekey, @Body AddToWishlistRequest request);

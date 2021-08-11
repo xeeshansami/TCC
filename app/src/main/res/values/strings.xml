@@ -71,7 +71,7 @@
     <string name="nearestBrands">Neatest Brands</string>
     <string name="categories">Categories</string>
     <string name="search_address">Search places...</string>
-    <string name="google_places_key">AIzaSyDA8SNeuphjP8KV-jDGJoBycezwAILsh-Y</string>
+    <string name="google_places_key">AIzaSyA2uQ91UIIF-jC_8M_4AzdJ0LY-tTjMqjA</string>
     <string name="imhere">Your location</string>
     <string name="GetStarted">Get Started</string>
     <string name="welcome">Welcome</string>
@@ -201,4 +201,5 @@
     <string name="upd">Update</string>
     <string name="updAddress">Update Address</string>
     <string name="saveAddress">Save Address</string>
+    <string name="map">Map</string>
 </resources>

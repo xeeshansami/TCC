@@ -49,37 +49,41 @@ import kotlinx.android.synthetic.main.toolbar.*
 class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.OnClickListener {
     val viewModel: SharedCIFViewModel by viewModels()
     private var uiModeManager: UiModeManager? = null
+
     @JvmField
     var globalClass: GlobalClass? = null
+
     @JvmField
     var sharedPreferenceManager: SharedPreferenceManager = SharedPreferenceManager()
-    var token=""
+    var token = ""
     var TAG: String = this.javaClass.simpleName
     private lateinit var drawerAdapter: DrawerAdapter
     private lateinit var appBarConfiguration: AppBarConfiguration
     var listOfPages = mutableListOf<DrawerModel>()
-    var profileImg:RelativeLayout?=null
+    var profileImg: RelativeLayout? = null
     var bundle = Bundle()
     var backInt = 0
     private fun hideNavigationBar() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
                 View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
     }
+
     private fun getCarts() {
         globalClass!!.showDialog(this@CIFRootActivity)
-        TCCStore.instance!!.getCarts(RetrofitEnums.URL_HBL,token, object :
+        TCCStore.instance!!.getCarts(RetrofitEnums.URL_HBL, token, object :
             GetCartsCallBack {
             override fun Success(response: GetAddToCartResponse) {
-                orderItems.text=response.size.toString()+" items"
-              globalClass!!.hideLoader()
+                orderItems.text = response.size.toString() + " items"
+                globalClass!!.hideLoader()
             }
 
             override fun Failure(baseResponse: BaseResponse) {
                 ToastUtils.showToastWith(this@CIFRootActivity, baseResponse.message, "")
-              globalClass!!.hideLoader()
+                globalClass!!.hideLoader()
             }
         })
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
@@ -113,36 +117,41 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         super.onResume()
         getCarts()
     }
+
     @SuppressLint("WrongViewCast")
     fun start() {
-        var accessToken=sharedPreferenceManager.loginData.token
+        var accessToken = sharedPreferenceManager.loginData.token
         title = ""
         globalClass = GlobalClass.applicationContext!!.applicationContext as GlobalClass
         sharedPreferenceManager.getInstance(globalClass)
-        token="Bearer $accessToken"
-        if(sharedPreferenceManager.getIntFromSharedPreferences(SharedPreferenceManager.DARK_MODE)==1){
+        token = "Bearer $accessToken"
+        if (sharedPreferenceManager.getIntFromSharedPreferences(SharedPreferenceManager.DARK_MODE) == 1) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        }else{
+        } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
-        username.text=sharedPreferenceManager.customerDetails[0].firstName +" " +sharedPreferenceManager.customerDetails[0].lastName
+        username.text =
+            sharedPreferenceManager.customerDetails[0].firstName + " " + sharedPreferenceManager.customerDetails[0].lastName
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.cifHostFragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
-                setOf(R.id.navigation_home,R.id.navigation_discovery, R.id.navigation_profile,
-                        R.id.navigation_strains,
-                        R.id.navigation_products, R.id.navigation_videos,
-                        R.id.navigation_mywishList, R.id.navigation_myorders,
-                        R.id.navigation_mysettings,
-                        R.id.navigation_diagnose1), drawerLayout
+            setOf(
+                R.id.navigation_home, R.id.navigation_discovery, R.id.navigation_profile,
+                R.id.navigation_strains,
+                R.id.navigation_map,
+                R.id.navigation_products, R.id.navigation_videos,
+                R.id.navigation_mywishList, R.id.navigation_myorders,
+                R.id.navigation_mysettings,
+                R.id.navigation_diagnose1
+            ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         findViewById<Toolbar>(R.id.toolbar)
-                .setupWithNavController(navController, appBarConfiguration)
+            .setupWithNavController(navController, appBarConfiguration)
         logoutFormMenu.setOnClickListener(this)
         requestFormMenu.setOnClickListener(this)
         orderItemsLayout.setOnClickListener(this)
@@ -166,6 +175,10 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
                 R.id.navigation_strains -> {
                     toolbar.visibility = View.GONE
                     tvTitle.text = "Strains"
+                }
+                R.id.navigation_map -> {
+                    toolbar.visibility = View.GONE
+                    tvTitle.text = "Map"
                 }
                 R.id.navigation_products -> {
                     toolbar.visibility = View.GONE
@@ -209,26 +222,26 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         drawerAdapter = DrawerAdapter(viewModel.mList)
         rvDrawer.apply {
             layoutManager = GridLayoutManager(
-                    this@CIFRootActivity,
-                    context.resources.getInteger(R.integer.drawer_column_count)
+                this@CIFRootActivity,
+                context.resources.getInteger(R.integer.drawer_column_count)
             )
             adapter = drawerAdapter
         }
 
         rvDrawer.addOnItemTouchListener(
-                RecyclerTouchListener(
-                        this,
-                        rvDrawer,
-                        object :
-                                RecyclerTouchListener.ClickListener {
-                            override fun onClick(view: View, position: Int) {
-                                changeStartDestination(viewModel.mList[position].title!!)
-                            }
+            RecyclerTouchListener(
+                this,
+                rvDrawer,
+                object :
+                    RecyclerTouchListener.ClickListener {
+                    override fun onClick(view: View, position: Int) {
+                        changeStartDestination(viewModel.mList[position].title!!)
+                    }
 
-                            override fun onLongClick(view: View?, position: Int) {
+                    override fun onLongClick(view: View?, position: Int) {
 
-                            }
-                        })
+                    }
+                })
         )
     }
 
@@ -246,8 +259,8 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val host: NavHostFragment =
-                supportFragmentManager.findFragmentById(R.id.cifHostFragment) as NavHostFragment?
-                        ?: return
+            supportFragmentManager.findFragmentById(R.id.cifHostFragment) as NavHostFragment?
+                ?: return
 //            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment? ?: return
         val fragmen = host.childFragmentManager.fragments.get(0)
         fragmen.onActivityResult(requestCode, resultCode, intent)

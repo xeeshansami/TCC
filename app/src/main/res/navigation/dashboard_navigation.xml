@@ -5,12 +5,6 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
 
-    <activity
-        android:id="@+id/navigation_map"
-        android:name="com.paxees.tcc.controllers.MapsActivity"
-        android:label="MapsActivity"
-        tools:layout="@layout/activity_maps"></activity>
-
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.paxees.tcc.views.fragments.mainFragments.Home"
@@ -322,5 +316,10 @@
         android:name="com.paxees.tcc.views.fragments.settingsFragments.AddNewAddresses"
         android:label="Add New Address"
         tools:layout="@layout/fragment_newaddresses"></fragment>
+    <fragment
+        android:id="@+id/navigation_map"
+        android:name="com.paxees.tcc.views.fragments.mainFragments.MapFragment"
+        android:label="MapFragment"
+        tools:layout="@layout/fragment_maps"></fragment>
 
 </navigation>

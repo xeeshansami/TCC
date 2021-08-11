@@ -75,6 +75,11 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
         val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
         privateInstanceRetrofit.getForgetPassword(key).enqueue(ForgetPasswordBaseHR(callBack))
     }
+    //:TODO post getSingleLocationDetails
+    fun getSingleLocationDetails(url: RetrofitEnums?, /*key: String?,*/ callBack: SingleLocationDetailsCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getSingleLocationDetails(/*key*/).enqueue(SingleLocationDetailsBaseHR(callBack))
+    }
 
     //:TODO post getAddressList
     fun getAddressList(url: RetrofitEnums?, email: Int, loginCallBack: AddressListCallBack?) {

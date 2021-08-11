@@ -55,6 +55,7 @@
     <style name="squareImageViewRounded">
         <item name="cornerSize">5%</item>
     </style>
+
     <style name="DarkTheme" parent="Theme.AppCompat.DayNight">
         <item name="colorPrimary">@color/colorTheme</item>
         <item name="colorPrimaryDark">@color/grey</item>
