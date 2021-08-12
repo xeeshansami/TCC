@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,8 +45,7 @@ import java.util.*
 
 
 class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-    LocationListener, PlaceSelectionListener, GoogleMap.OnMapClickListener, View.OnClickListener,
-    IOnBackPressed {
+    LocationListener, PlaceSelectionListener, GoogleMap.OnMapClickListener, View.OnClickListener{
     private var googleMap: GoogleMap? = null
     private var mGoogleApiClient: GoogleApiClient? = null
     private var mLocationRequest: LocationRequest? = null
@@ -68,6 +68,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
         super.onViewCreated(view, savedInstanceState)
         init()
         placeAddress()
+        onBackPress(view)
     }
 
     private fun getSingleLocationDetails() {
@@ -378,9 +379,19 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
         private const val CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000
     }
 
-    override fun onBackPressed(): Boolean {
-        switchFragment(R.id.navigation_home)
-        return true
+    private fun onBackPress(view:View){
+        view.isFocusableInTouchMode = true
+        view.requestFocus()
+        view.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK&&keyCode == KeyEvent.ACTION_UP) {
+                // handle back button's click listener
+                if (findNavController().currentDestination?.id == R.id.navigation_map) {
+                    switchFragment(R.id.navigation_home)
+                }
+                true
+            }
+            true
+        }
     }
 
 }

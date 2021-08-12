@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.paxees.tcc.R
+import com.paxees.tcc.controllers.CIFRootActivity
 import com.paxees.tcc.utils.SessionManager
 import kotlinx.android.synthetic.main.fragment_diagnose6.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -53,22 +54,23 @@ class Diagnose6 : Fragment(), View.OnClickListener {
                 findNavController().navigateUp()
             }
             R.id.diagnosebtn1 -> {
-                gotoNextScreens()
+                gotoNextScreens("Not So Often")
             }
             R.id.diagnosebtn2 -> {
-                gotoNextScreens()
+                gotoNextScreens("Often")
             }
             R.id.diagnosebtn3 -> {
-                gotoNextScreens()
+                gotoNextScreens("Daily")
             }
             R.id.diagnosebtn4 -> {
-                gotoNextScreens()
+                gotoNextScreens("Every 12 hours")
             }
 
         }
     }
 
-    private fun gotoNextScreens() {
+    private fun gotoNextScreens(value:String) {
+        (activity as CIFRootActivity).dignoseRequest!!.meta.howOftenDoYouWaterPlant=value
         findNavController().navigate(R.id.diagnose6_to_diagonse7)
     }
 }

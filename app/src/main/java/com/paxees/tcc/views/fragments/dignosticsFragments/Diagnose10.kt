@@ -8,8 +8,22 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.paxees.tcc.R
+import com.paxees.tcc.controllers.CIFRootActivity
+import com.paxees.tcc.controllers.launcher
+import com.paxees.tcc.network.ResponseHandlers.callbacks.DiagnoseCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.LoginCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.SingleLocationDetailsCallBack
+import com.paxees.tcc.network.enums.RetrofitEnums
+import com.paxees.tcc.network.networkmodels.request.LoginRequest
+import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.LoginResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.SingleLocationDetailsResponse
+import com.paxees.tcc.network.networkmodels.response.models.DiagnoseResponse
+import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.SessionManager
+import com.paxees.tcc.utils.ToastUtils
 import kotlinx.android.synthetic.main.fragment_diagnose10.*
+import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.header
 
@@ -50,15 +64,50 @@ class Diagnose10 : Fragment(), View.OnClickListener {
                 findNavController().navigateUp()
             }
             R.id.yesBtn -> {
-                gotoNextScreens()
+                gotoNextScreens("Yes")
             }
             R.id.noBtn -> {
-                gotoNextScreens()
+                gotoNextScreens("No")
             }
         }
     }
 
-    private fun gotoNextScreens() {
-        findNavController().navigate(R.id.diagnose10_to_diagonse11)
+    private fun gotoNextScreens(value:String) {
+        (activity as CIFRootActivity).dignoseRequest!!.meta.olderlowerLeavesAffected=value
+        login()
+    }
+    private fun login() {
+        val email = "theclonetest"
+        val pwd = "TheCloneTest1@3\$5"
+        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+        var request = LoginRequest()
+        request.username = email
+        request.password = pwd
+        TCCStore.instance!!.getLogin(RetrofitEnums.URL_HBL, request, object : LoginCallBack {
+            override fun LoginSuccess(response: LoginResponse) {
+                getDianoseCreated(response.token)
+            }
+
+            override fun LoginFailure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+        })
+    }
+    private fun getDianoseCreated(token: String) {
+        TCCStore.instance!!.diagnoseCreate(RetrofitEnums.URL_HBL,
+            "Bearer $token",(activity as CIFRootActivity).dignoseRequest, object :
+            DiagnoseCallBack {
+            override fun Success(response: DiagnoseResponse) {
+                ToastUtils.showToastWith(activity,"Diagnosed completed successfully!")
+                findNavController().navigate(R.id.diagnose10_to_diagonse11)
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+
+            override fun Failure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+        })
     }
 }

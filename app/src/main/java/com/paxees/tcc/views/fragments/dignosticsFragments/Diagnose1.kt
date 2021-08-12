@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.paxees.tcc.R
+import com.paxees.tcc.controllers.CIFRootActivity
 import com.paxees.tcc.utils.SessionManager
 import kotlinx.android.synthetic.main.fragment_diagnose1.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -49,14 +50,17 @@ class Diagnose1 : Fragment(), View.OnClickListener {
                 switchFragment(R.id.navigation_home)
             }
             R.id.insideBtn -> {
-                findNavController().navigate(R.id.diagnose1_to_diagonse2)
+                gotoNextScreens("inside")
             }
             R.id.outsideBtn -> {
-                findNavController().navigate(R.id.diagnose1_to_diagonse2)
+                gotoNextScreens("outside")
             }
         }
     }
-
+    private fun gotoNextScreens(value:String) {
+        findNavController().navigate(R.id.diagnose1_to_diagonse2)
+        (activity as CIFRootActivity).dignoseRequest!!.meta.isYourGrowInsideOrOutside=value
+    }
     private fun switchFragment(startDestId: Int) {
 //        val fragmentContainer = view?.findViewById<View>(R.id.nav_host)
 //        val navController = Navigation.findNavController(fragmentContainer!!)

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.paxees.tcc.R
+import com.paxees.tcc.controllers.CIFRootActivity
 import com.paxees.tcc.models.Plants
 import com.paxees.tcc.utils.SessionManager
 import com.paxees.tcc.views.adapters.RecyclerViewAdapter
@@ -82,7 +83,8 @@ class Diagnose2 : Fragment(), View.OnClickListener, RecyclerViewAdapter.ItemClic
         adapter!!.notifyDataSetChanged()
     }
 
-    override fun onItemClick(view: View?, position: Int) {
+    override fun onItemClick(view: View?, position: Int,value:String) {
         findNavController().navigate(R.id.diagnose2_to_diagonse3)
+        (activity as CIFRootActivity).dignoseRequest!!.meta.whatIsTheSpaceOfYourGrowAreaSqFt=value
     }
 }

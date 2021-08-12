@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.paxees.tcc.R
 import com.paxees.tcc.models.Plants
+import kotlinx.android.synthetic.main.item_views_diagnose.view.*
 import java.util.*
 
 class RecyclerViewAdapter(context: Context, data: ArrayList<Plants>, pos: Int) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
@@ -36,7 +37,7 @@ class RecyclerViewAdapter(context: Context, data: ArrayList<Plants>, pos: Int) :
         val animal = mData[position]
         holder.plantsId.text = animal.plantValue
         holder.itemView.setOnClickListener {
-            this.mClickListener?.onItemClick(view, position)
+            this.mClickListener?.onItemClick(view, position,animal.plantValue!!)
             row_index = position
             notifyDataSetChanged()
         }
@@ -64,7 +65,7 @@ class RecyclerViewAdapter(context: Context, data: ArrayList<Plants>, pos: Int) :
     inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var plantsId: TextView
         override fun onClick(view: View) {
-            if (mClickListener != null) mClickListener!!.onItemClick(view, adapterPosition)
+            if (mClickListener != null) mClickListener!!.onItemClick(view, adapterPosition,itemView.plantsId.text.toString())
         }
 
         init {
@@ -85,7 +86,7 @@ class RecyclerViewAdapter(context: Context, data: ArrayList<Plants>, pos: Int) :
 
     // parent activity will implement this method to respond to click events
     interface ItemClickListener {
-        fun onItemClick(view: View?, position: Int)
+        fun onItemClick(view: View?, position: Int,value:String)
     }
 
     // data is passed into the constructor

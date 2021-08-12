@@ -27,6 +27,7 @@ import com.paxees.tcc.interfaces.IOnBackPressed
 import com.paxees.tcc.models.DrawerModel
 import com.paxees.tcc.network.ResponseHandlers.callbacks.GetCartsCallBack
 import com.paxees.tcc.network.enums.RetrofitEnums
+import com.paxees.tcc.network.networkmodels.request.DiagnoseRequest
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
 import com.paxees.tcc.network.networkmodels.response.baseResponses.GetAddToCartResponse
 import com.paxees.tcc.network.store.TCCStore
@@ -53,6 +54,8 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
     private  var onBackPressed:IOnBackPressed?=null
     @JvmField
     var globalClass: GlobalClass? = null
+    @JvmField
+    var dignoseRequest: DiagnoseRequest? = null
 
     @JvmField
     var sharedPreferenceManager: SharedPreferenceManager = SharedPreferenceManager()
@@ -122,6 +125,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
     @SuppressLint("WrongViewCast")
     fun start() {
         var accessToken = sharedPreferenceManager.loginData.token
+        dignoseRequest=DiagnoseRequest()
         title = ""
         globalClass = GlobalClass.applicationContext!!.applicationContext as GlobalClass
         sharedPreferenceManager.getInstance(globalClass)

@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.paxees.tcc.R
+import com.paxees.tcc.controllers.CIFRootActivity
 import com.paxees.tcc.utils.SessionManager
 import kotlinx.android.synthetic.main.fragment_diagnose7.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -53,22 +54,23 @@ class Diagnose7 : Fragment(), View.OnClickListener {
                 findNavController().navigateUp()
             }
             R.id.diagnosebtn1 -> {
-                gotoNextScreens()
+                gotoNextScreens("Yes")
             }
             R.id.diagnosebtn2 -> {
-                gotoNextScreens()
+                gotoNextScreens("Enter What Brand?")
             }
             R.id.diagnosebtn3 -> {
-                gotoNextScreens()
+                gotoNextScreens("Your Nutrient Cycle?")
             }
             R.id.diagnosebtn4 -> {
-                gotoNextScreens()
+                gotoNextScreens("no")
             }
 
         }
     }
 
-    private fun gotoNextScreens() {
+    private fun gotoNextScreens(value:String) {
+        (activity as CIFRootActivity).dignoseRequest!!.meta.areYouUsingAnyNutrients=value
         findNavController().navigate(R.id.diagnose7_to_diagonse8)
     }
 }

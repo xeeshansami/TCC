@@ -46,7 +46,7 @@
     <Button
         android:id="@+id/btnGetStarted"
         android:background="@drawable/bg_border"
-        android:textColor="@color/black"
+        android:textColor="@color/grey"
         android:textSize="@dimen/_12sdp"
         android:layout_marginLeft="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_5sdp"

@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.paxees.tcc.R
+import com.paxees.tcc.controllers.CIFRootActivity
 import com.paxees.tcc.utils.SessionManager
 import kotlinx.android.synthetic.main.fragment_diagnose2.diaglosePageNoTv
 import kotlinx.android.synthetic.main.fragment_diagnose3.*
@@ -54,21 +55,22 @@ class Diagnose3 : Fragment(), View.OnClickListener {
                 findNavController().navigateUp()
             }
             R.id.diagnosebtn1 -> {
-                gotoNextScreens()
+                gotoNextScreens("HID")
             }
             R.id.diagnosebtn2 -> {
-                gotoNextScreens()
+                gotoNextScreens("LID")
             }
             R.id.diagnosebtn3 -> {
-                gotoNextScreens()
+                gotoNextScreens("CFL")
             }
             R.id.diagnosebtn4 -> {
-                gotoNextScreens()
+                gotoNextScreens("SUN")
             }
         }
     }
 
-    private fun gotoNextScreens() {
+    private fun gotoNextScreens(value:String) {
+        (activity as CIFRootActivity).dignoseRequest!!.meta.whatKindOfLightsAreYouUsing=value
         findNavController().navigate(R.id.diagnose3_to_diagonse4)
     }
 

@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.paxees.tcc.R
+import com.paxees.tcc.controllers.CIFRootActivity
 import com.paxees.tcc.utils.SessionManager
 import kotlinx.android.synthetic.main.fragment_diagnose5.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -52,19 +53,20 @@ class Diagnose5 : Fragment(), View.OnClickListener {
                 findNavController().navigateUp()
             }
             R.id.diagnosebtn1 -> {
-                gotoNextScreens()
+                gotoNextScreens("Vegetation")
             }
             R.id.diagnosebtn2 -> {
-                gotoNextScreens()
+                gotoNextScreens("Flowering")
             }
             R.id.diagnosebtn3 -> {
-                gotoNextScreens()
+                gotoNextScreens("Harvesting")
             }
 
         }
     }
 
-    private fun gotoNextScreens() {
+    private fun gotoNextScreens(value:String) {
+        (activity as CIFRootActivity).dignoseRequest!!.meta.whatPointInTheGrowCycleAreYou=value
         findNavController().navigate(R.id.diagnose5_to_diagonse6)
     }
 }

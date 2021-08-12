@@ -150,6 +150,17 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
         privateInstanceRetrofit.getRegister(request).enqueue(RegisterBaseHR(callBack))
     }
 
+//:TODO post diagnoseCreate
+    fun diagnoseCreate(
+        url: RetrofitEnums?,
+        header:String,
+        request: DiagnoseRequest?,
+        callBack: DiagnoseCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.diagnoseCreate(header,request).enqueue(DiagnoseBaseHR(callBack))
+    }
+
     //:TODO post getDashboard
     fun getDashboard(
         url: RetrofitEnums?,

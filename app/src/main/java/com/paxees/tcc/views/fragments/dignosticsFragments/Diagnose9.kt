@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.paxees.tcc.R
+import com.paxees.tcc.controllers.CIFRootActivity
 import com.paxees.tcc.utils.SessionManager
 import kotlinx.android.synthetic.main.fragment_diagnose9.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -50,15 +51,16 @@ class Diagnose9 : Fragment(), View.OnClickListener {
                 findNavController().navigateUp()
             }
             R.id.yesBtn -> {
-                gotoNextScreens()
+                gotoNextScreens("Yes")
             }
             R.id.noBtn -> {
-                gotoNextScreens()
+                gotoNextScreens("No")
             }
         }
     }
 
-    private fun gotoNextScreens() {
+    private fun gotoNextScreens(value:String) {
+        (activity as CIFRootActivity).dignoseRequest!!.meta.doYouPhBalanceYourWater=value
         findNavController().navigate(R.id.diagnose9_to_diagonse10)
     }
 }

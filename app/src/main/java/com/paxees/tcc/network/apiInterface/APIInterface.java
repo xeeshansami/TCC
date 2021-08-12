@@ -4,6 +4,7 @@ import com.paxees.tcc.network.networkmodels.request.AddToCartRequest;
 import com.paxees.tcc.network.networkmodels.request.AddToWishlistRequest;
 import com.paxees.tcc.network.networkmodels.request.BrandDetailsRequest;
 import com.paxees.tcc.network.networkmodels.request.DashboardRequest;
+import com.paxees.tcc.network.networkmodels.request.DiagnoseRequest;
 import com.paxees.tcc.network.networkmodels.request.LoginRequest;
 import com.paxees.tcc.network.networkmodels.request.RegistrationRequest;
 import com.paxees.tcc.network.networkmodels.request.UpdateAddress2Request;
@@ -31,6 +32,7 @@ import com.paxees.tcc.network.networkmodels.response.baseResponses.RegistrationR
 import com.paxees.tcc.network.networkmodels.response.baseResponses.StrainResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.UpdateCartResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.WishlistShareKeyByUserResponse;
+import com.paxees.tcc.network.networkmodels.response.models.DiagnoseResponse;
 import com.paxees.tcc.network.networkmodels.response.models.MyAddressesListResponse;
 
 import org.jetbrains.annotations.NotNull;
@@ -82,6 +84,9 @@ public interface APIInterface {
 
     @GET("single/location/203")
     Call<SingleLocationDetailsResponse> getSingleLocationDetails(/*@Path("userid") String userid*/);
+
+    @POST("wp/v2/diagnostic")
+    Call<DiagnoseResponse> diagnoseCreate(@Header("Authorization") String header,@Body DiagnoseRequest request);
 
     @GET("wc/v3/customers/{userid}")
     Call<MyAddressesListResponse> getAddressList(@Path("userid") int userid);
