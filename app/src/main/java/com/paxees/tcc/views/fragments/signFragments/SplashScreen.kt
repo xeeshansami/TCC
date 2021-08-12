@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
@@ -17,6 +18,7 @@ import com.paxees.tcc.R
 import com.paxees.tcc.controllers.launcher
 import com.paxees.tcc.utils.SessionManager
 import com.paxees.tcc.utils.ToastUtils
+import com.paxees.tcc.utils.managers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_splash_screen.*
 import java.util.*
 
@@ -25,6 +27,8 @@ class SplashScreen : Fragment(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
+    @JvmField
+    var sharedPreferenceManager: SharedPreferenceManager = SharedPreferenceManager()
     var PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE) // List of permissions required
     private fun checkForPermissions() {
@@ -55,6 +59,12 @@ class SplashScreen : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sessionManager = SessionManager(activity)
+        sharedPreferenceManager.getInstance(activity as launcher)
+        if (sharedPreferenceManager.getIntFromSharedPreferences(SharedPreferenceManager.DARK_MODE) == 1) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
         checkForPermissions()
     }
 
