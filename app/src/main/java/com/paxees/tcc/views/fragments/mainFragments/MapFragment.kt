@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.Status
@@ -27,28 +28,32 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.CIFRootActivity
+import com.paxees.tcc.interfaces.IOnBackPressed
 import com.paxees.tcc.network.ResponseHandlers.callbacks.*
 import com.paxees.tcc.network.enums.RetrofitEnums
 import com.paxees.tcc.network.networkmodels.response.baseResponses.*
 import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.ToastUtils
 import com.paxees.tcc.views.adapters.Strain2Adapter
-import com.paxees.tcc.views.adapters.StrainAdapter
 import kotlinx.android.synthetic.main.fragment_maps.*
-import kotlinx.android.synthetic.main.fragment_maps.rvStrains
+import java.util.*
 
 
 class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-    LocationListener, PlaceSelectionListener, GoogleMap.OnMapClickListener, View.OnClickListener  {
+    LocationListener, PlaceSelectionListener, GoogleMap.OnMapClickListener, View.OnClickListener,
+    IOnBackPressed {
     private var googleMap: GoogleMap? = null
     private var mGoogleApiClient: GoogleApiClient? = null
     private var mLocationRequest: LocationRequest? = null
+    private var latLng: LatLng? = null
     private var currentLatitude = 0.0
     private var currentLongitude = 0.0
-    private var latLng: LatLng? = null
+    private  var lat:kotlin.Double = 0.0
+    private  var lng:kotlin.Double = 0.0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -88,9 +93,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
         locationDisction.text=response.get(0).locationAddress
         rating.numStars=3
         phonenumber.text=response.get(0).phonNumber
+        latLng=LatLng(response[0].latitude.toDouble(),(response[0].longitude.toDouble()))
+        addMarker(latLng!!,response.get(0).locationName,true)
     }
 
     private fun setStrains(response: List<Product>) {
+        Glide.with(activity as CIFRootActivity).load(response.get(0).productImageUrl).placeholder(R.drawable.logo)
+            .into(imgid)
         val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         rvStrains.layoutManager = horizontalLayoutManagaer
         var VideosAdapter = Strain2Adapter(activity, response)
@@ -118,39 +127,43 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
     }
 
     private fun placeAddress() {
-//        if (!Places.isInitialized()) {
-//            Places.initialize((activity as CIFRootActivity), resources.getString(R.string.google_places_key))
-//        }
-
+        if (!Places.isInitialized()) {
+            Places.initialize((activity as CIFRootActivity), resources.getString(R.string.google_places_key))
+        }
+        done.setOnClickListener(View.OnClickListener {
+            addMarker(LatLng(currentLatitude,currentLongitude),"Your location",true)
+        })
         /*Biiling Address City*/
         // Initialize the AutocompleteSupportFragment.
-//        val billingAddressCity = (activity as CIFRootActivity).supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?
+        val billingAddressCity = childFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapview) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
-//        billingAddressCity!!.setOnPlaceSelectedListener(this)
-//        billingAddressCity.setHint(resources.getString(R.string.search_address))
-//        billingAddressCity.setPlaceFields(
-//            Arrays.asList(Place.Field.ID,
-//            Place.Field.NAME,
-//            Place.Field.ADDRESS, Place.Field.LAT_LNG))
-//        billingAddressCity.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-//            override fun onPlaceSelected(place: Place) {
-//                // TODO: Get info about the selected place.
-////                Log.i("Places123", "Place: " + place.getName() + ", " + place.getId());
-//                Log.i("Places123", "Place: " + place.latLng!!.latitude + ", " + place.id)
-//                //                Log.i("Places123", "Place: " + place.getLatLng().latitude + ", " + place.getId());
-//                latLng = place.latLng
-//                addMarker(place.latLng, place.name, true)
+        billingAddressCity!!.setOnPlaceSelectedListener(this)
+        billingAddressCity.setHint(resources.getString(R.string.search_address))
+        billingAddressCity.setPlaceFields(
+            listOf(Place.Field.ID,
+            Place.Field.NAME,
+            Place.Field.ADDRESS, Place.Field.LAT_LNG)
+        )
+        billingAddressCity.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
+                // TODO: Get info about the selected place.
+//                Log.i("Places123", "Place: " + place.getName() + ", " + place.getId());
+                Log.i("Places123", "Place: " + place.latLng!!.latitude + ", " + place.id)
+                //                Log.i("Places123", "Place: " + place.getLatLng().latitude + ", " + place.getId());
+                latLng = place.latLng
+                addMarker(place.latLng!!, place.name, true)
 //                //                lat = 26.00021;
-////                lng = 67.264792;
-//            }
+//                lng = 67.264792;
+            }
 //
-//            override fun onError(status: Status) {
+            override fun onError(status: Status) {
 //                // TODO: Handle the error.
-//                Log.i("Places", "An error occurred: $status")
-//            }
-//        })
+                Log.i("Places", "An error occurred: $status")
+            }
+        })
     }
+
 
 
 
@@ -189,23 +202,46 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
     override fun onMapReady(googleMap: GoogleMap) {
         this.googleMap = googleMap
         this.googleMap!!.setOnMapClickListener(this)
-        if (ActivityCompat.checkSelfPermission((activity as CIFRootActivity), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission((activity as CIFRootActivity), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
-        }
-        this.googleMap!!.isMyLocationEnabled = true
-        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle((activity as CIFRootActivity), R.raw.style_json))
-        if (latLng != null) {
-            addMarker(latLng, resources.getString(R.string.imhere), true)
+    }
+    fun addMarker(latLng: LatLng, title: String?, move: Boolean) {
+        googleMap!!.clear()
+        val mp = MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_pin))
+        mp.position(latLng)
+        mp.snippet(title)
+        if (googleMap != null) {
+            googleMap!!.addMarker(mp)
+            if (ActivityCompat.checkSelfPermission(
+                    activity as CIFRootActivity,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    activity as CIFRootActivity,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return
+            }
+            googleMap!!.isMyLocationEnabled = true
+            if (move) {
+                val cameraPosition = CameraPosition.Builder()
+                    .target(latLng) // Sets the center of the map to Mountain View
+                    .zoom(13f) // Sets the zoom
+                    .bearing(0f) // Sets the orientation of the camera to east
+                    .tilt(10f) // Sets the tilt of the camera to 30 degrees
+                    .build()
+                googleMap!!.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+                googleMap!!.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+                lat = latLng.latitude
+                lng = latLng.longitude
+            }
         }
     }
-
     override fun onResume() {
         super.onResume()
         //Now lets connect to the API
@@ -293,39 +329,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
     override fun onPlaceSelected(place: Place) {
         latLng = place.latLng
         googleMap!!.clear()
-        addMarker(place.latLng, place.name.toString(), true)
+        addMarker(place.latLng!!, place.name.toString(), true)
     }
 
-    fun addMarker(latLng: LatLng?, title: String?, move: Boolean) {
-        googleMap!!.clear()
-        val mp = MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_pin))
-        mp.position(latLng!!)
-        mp.snippet(title)
-        if (googleMap != null) {
-            googleMap!!.addMarker(mp)
-            if (ActivityCompat.checkSelfPermission((activity as CIFRootActivity), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission((activity as CIFRootActivity), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return
-            }
-            googleMap!!.isMyLocationEnabled = true
-            if (move) {
-                val cameraPosition = CameraPosition.Builder()
-                    .target(latLng) // Sets the center of the map to Mountain View
-                    .zoom(13f) // Sets the zoom
-                    .bearing(0f) // Sets the orientation of the camera to east
-                    .tilt(10f) // Sets the tilt of the camera to 30 degrees
-                    .build()
-                googleMap!!.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-                googleMap!!.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-            }
-        }
-    }
+
 
     override fun onError(status: Status) {
         Log.i("PlacessError", """
@@ -369,6 +376,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
     companion object {
         //Define a request code to send to Google Play services
         private const val CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000
+    }
+
+    override fun onBackPressed(): Boolean {
+        switchFragment(R.id.navigation_home)
+        return true
     }
 
 }

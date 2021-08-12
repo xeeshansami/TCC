@@ -10,7 +10,6 @@ import android.view.View
 import android.view.View.OnSystemUiVisibilityChangeListener
 import android.widget.RelativeLayout
 import androidx.activity.viewModels
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
@@ -24,6 +23,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.navigation.NavigationView
 import com.paxees.tcc.R
+import com.paxees.tcc.interfaces.IOnBackPressed
 import com.paxees.tcc.models.DrawerModel
 import com.paxees.tcc.network.ResponseHandlers.callbacks.GetCartsCallBack
 import com.paxees.tcc.network.enums.RetrofitEnums
@@ -46,10 +46,11 @@ import kotlinx.android.synthetic.main.header.*
 import kotlinx.android.synthetic.main.header.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 
+
 class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.OnClickListener {
     val viewModel: SharedCIFViewModel by viewModels()
     private var uiModeManager: UiModeManager? = null
-
+    private  var onBackPressed:IOnBackPressed?=null
     @JvmField
     var globalClass: GlobalClass? = null
 
@@ -326,8 +327,13 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         navController.graph = graph
     }
 
+
     override fun onBackPressed() {
         val navController = findNavController(R.id.cifHostFragment)
+        (navController as? IOnBackPressed)?.onBackPressed()?.not()?.let {
+            super.onBackPressed()
+        }
+
         if (navController.popBackStack()) {
             navController.navigateUp()
         } else {

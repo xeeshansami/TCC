@@ -9,6 +9,7 @@
     android:weightSum="2">
 
     <androidx.appcompat.widget.Toolbar
+        android:visibility="gone"
         android:elevation="@dimen/_10sdp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_60sdp"
@@ -71,7 +72,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_70sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_8sdp"
         android:weightSum="5"
         android:gravity="center_vertical"
@@ -89,11 +90,11 @@
 
         <ImageView
             android:id="@+id/done"
-            android:padding="@dimen/_5sdp"
-            android:src="@mipmap/ic_mylocation"
-            android:layout_toRightOf="@+id/autocomplete_fragment"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
+            android:layout_toRightOf="@+id/autocomplete_fragment"
+            android:padding="@dimen/_5sdp"
+            android:src="@mipmap/ic_mylocation"
             app:tint="@color/colorTheme"></ImageView>
     </LinearLayout>
 
@@ -139,7 +140,6 @@
                     android:layout_gravity="center_vertical"
                     app:shapeAppearanceOverlay="@style/squareImageViewRounded"
                     android:layout_width="@dimen/_80sdp"
-                    app:srcCompat="@drawable/coupons"
                     android:scaleType="center"
                     android:layout_height="@dimen/_80sdp"
                     />
@@ -160,7 +160,6 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:maxLines="1"
-                    android:text="Vegetable Salad"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_20sdp"></TextView>
 
@@ -168,7 +167,6 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="DHA Defence Karacji"
                     android:maxLines="5"
                     android:textSize="@dimen/_14sdp"></TextView>
 
