@@ -169,7 +169,7 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
             emailEt!!.error = "Email should not be empty"
             emailEt!!.requestFocus()
             false
-        } else if (!email.matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+")) {
+        } else if ((!email.isValidEmail())) {
             emailEt!!.error = "Email should be valid"
             emailEt!!.requestFocus()
             false
@@ -233,7 +233,8 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
             }
         })
     }
-
+    fun String.isValidEmail() =
+        isNotEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
     fun getCustomerDetails(email:String){
         TCCStore.instance!!.getCustomerDetails(RetrofitEnums.URL_HBL,email, object : CustomerDetailsCallBack {

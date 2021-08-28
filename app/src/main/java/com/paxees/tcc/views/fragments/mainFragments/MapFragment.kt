@@ -68,7 +68,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
         super.onViewCreated(view, savedInstanceState)
         init()
         placeAddress()
-        onBackPress(view)
     }
 
     private fun getSingleLocationDetails() {

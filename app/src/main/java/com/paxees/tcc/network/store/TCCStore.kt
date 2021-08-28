@@ -9,6 +9,7 @@ import com.paxees.tcc.network.retrofitBuilder.RetrofitBuilder.getRetrofitInstanc
 import com.paxees.tcc.network.timeoutInterface.IOnConnectionTimeoutListener
 import com.paxees.tcc.utils.GlobalClass
 import retrofit2.http.Header
+import retrofit2.http.Query
 
 open class TCCStore : Application(), IOnConnectionTimeoutListener {
     //:TODO post getLogin
@@ -46,11 +47,47 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
             .enqueue(ProductSearchBaseHR(callBack))
     }
 
+  //:TODO post getVideosList
+    fun getVideosList(
+        url: RetrofitEnums?,
+        callBack: VideosListCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getVideosList()
+            .enqueue(VideosListBaseHR(callBack))
+    }
+
+    //:TODO post StrainRequestTokenBaseHR
+    fun getTokenForStrainRequest(
+        url: RetrofitEnums?,
+        callBack: StrainRequestTokenCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getTokenForStrainRequest()
+            .enqueue(StrainRequestTokenBaseHR(callBack))
+    }
+
+
+    //:TODO post createStrainRequestForm
+    fun createStrainRequestForm(
+        url: RetrofitEnums?,
+        header: String,
+        request: StrainRequestFromRequest,
+        callBack: StrainRequestFormCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.createStrainRequestForm(
+            header,
+            request
+        )
+            .enqueue(StrainRequestFormBaseHR(callBack))
+    }
+
     //:TODO post updateCart
     fun updateCart(
         url: RetrofitEnums?,
         header: String,
-        request:UpdateCartRequest,
+        request: UpdateCartRequest,
         callBack: UpdateCartCallBack?
     ) {
         val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
@@ -59,9 +96,14 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
     }
 
     //:TODO post removeCart
-    fun removeCart(url: RetrofitEnums?,  header: String, key: String?, callBack: RemoveProdCallBack?) {
+    fun removeCart(
+        url: RetrofitEnums?,
+        header: String,
+        key: String?,
+        callBack: RemoveProdCallBack?
+    ) {
         val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
-        privateInstanceRetrofit.removeCart(header,key).enqueue(RemoveProdBaseHR(callBack))
+        privateInstanceRetrofit.removeCart(header, key).enqueue(RemoveProdBaseHR(callBack))
     }
 
     //:TODO post removeWishlistProd
@@ -75,10 +117,15 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
         val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
         privateInstanceRetrofit.getForgetPassword(key).enqueue(ForgetPasswordBaseHR(callBack))
     }
+
     //:TODO post getSingleLocationDetails
-    fun getSingleLocationDetails(url: RetrofitEnums?, /*key: String?,*/ callBack: SingleLocationDetailsCallBack?) {
+    fun getSingleLocationDetails(
+        url: RetrofitEnums?, /*key: String?,*/
+        callBack: SingleLocationDetailsCallBack?
+    ) {
         val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
-        privateInstanceRetrofit.getSingleLocationDetails(/*key*/).enqueue(SingleLocationDetailsBaseHR(callBack))
+        privateInstanceRetrofit.getSingleLocationDetails(/*key*/)
+            .enqueue(SingleLocationDetailsBaseHR(callBack))
     }
 
     //:TODO post getAddressList
@@ -88,15 +135,27 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
     }
 
     //:TODO post updateShippingAddress
-    fun updateShippingAddress(url: RetrofitEnums?, email: Int, request:UpdateAddressRequest, loginCallBack: AddressListCallBack?) {
+    fun updateShippingAddress(
+        url: RetrofitEnums?,
+        email: Int,
+        request: UpdateAddressRequest,
+        loginCallBack: AddressListCallBack?
+    ) {
         val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
-        privateInstanceRetrofit.updateShippingAddress(email,request).enqueue(AddressListBaseHR(loginCallBack))
+        privateInstanceRetrofit.updateShippingAddress(email, request)
+            .enqueue(AddressListBaseHR(loginCallBack))
     }
 
     //:TODO post updateBillingAddress
-    fun updateBillingAddress(url: RetrofitEnums?, email: Int, request:UpdateAddress2Request, loginCallBack: AddressListCallBack?) {
+    fun updateBillingAddress(
+        url: RetrofitEnums?,
+        email: Int,
+        request: UpdateAddress2Request,
+        loginCallBack: AddressListCallBack?
+    ) {
         val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
-        privateInstanceRetrofit.updateBillingAddress(email,request).enqueue(AddressListBaseHR(loginCallBack))
+        privateInstanceRetrofit.updateBillingAddress(email, request)
+            .enqueue(AddressListBaseHR(loginCallBack))
     }
 
     //:TODO post getWishlistShareKeyByUser
@@ -150,15 +209,15 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
         privateInstanceRetrofit.getRegister(request).enqueue(RegisterBaseHR(callBack))
     }
 
-//:TODO post diagnoseCreate
+    //:TODO post diagnoseCreate
     fun diagnoseCreate(
         url: RetrofitEnums?,
-        header:String,
+        header: String,
         request: DiagnoseRequest?,
         callBack: DiagnoseCallBack?
     ) {
         val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
-        privateInstanceRetrofit.diagnoseCreate(header,request).enqueue(DiagnoseBaseHR(callBack))
+        privateInstanceRetrofit.diagnoseCreate(header, request).enqueue(DiagnoseBaseHR(callBack))
     }
 
     //:TODO post getDashboard
@@ -172,9 +231,14 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
     }
 
     //:TODO post addToCart
-    fun addToCart(url: RetrofitEnums?,  header: String, request: AddToCartRequest?, callBack: AddToCartCallBack?) {
+    fun addToCart(
+        url: RetrofitEnums?,
+        header: String,
+        request: AddToCartRequest?,
+        callBack: AddToCartCallBack?
+    ) {
         val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
-        privateInstanceRetrofit.addToCart(header,request).enqueue(AddToCartBaseHR(callBack))
+        privateInstanceRetrofit.addToCart(header, request).enqueue(AddToCartBaseHR(callBack))
     }
 
     //:TODO post getPopularBrands

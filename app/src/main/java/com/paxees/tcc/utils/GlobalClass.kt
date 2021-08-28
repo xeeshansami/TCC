@@ -36,6 +36,8 @@ class GlobalClass : TCCStore() {
         Companion.applicationContext = applicationContext
         sharedPreferenceManager.getInstance(this@GlobalClass)
         BASE_URL_HBL = Helper.getConfigValue(Companion.applicationContext, "BASE_URL")
+        BASE_URL_ZOHO = Helper.getConfigValue(Companion.applicationContext, "BASE_URL_ZOHO")
+        BASE_URL_STRAIN_REQUEST_FROM = Helper.getConfigValue(Companion.applicationContext, "BASE_URL_STRAIN_REQUEST_FROM")
     }
 
     fun setEnabled(editText: EditText, isCheck: Boolean, value: Float) {
@@ -50,6 +52,10 @@ class GlobalClass : TCCStore() {
         val LOG_LEVEL_API: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BODY
         @JvmField
         var BASE_URL_HBL = ""
+        @JvmField
+        var BASE_URL_ZOHO = ""
+        @JvmField
+        var BASE_URL_STRAIN_REQUEST_FROM = ""
         @JvmField
         var applicationContext: Context? = null
         private var progressDialog: TransparentProgressDialog? = null

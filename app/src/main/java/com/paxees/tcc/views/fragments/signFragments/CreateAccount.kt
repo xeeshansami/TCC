@@ -56,7 +56,8 @@ class CreateAccount : Fragment(), View.OnClickListener, GoogleApiClient.OnConnec
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_create_account, container, false)
     }
-
+    fun String.isValidEmail() =
+        isNotEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init(view)
@@ -126,7 +127,7 @@ class CreateAccount : Fragment(), View.OnClickListener, GoogleApiClient.OnConnec
             emailEt!!.error = "Email should not be empty"
             emailEt!!.requestFocus()
             false
-        } else if (!email.matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+")) {
+        } else if (!email.isValidEmail()) {
             emailEt!!.error = "Email should be valid"
             emailEt!!.requestFocus()
             false

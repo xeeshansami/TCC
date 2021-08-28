@@ -43,12 +43,14 @@ class RecyclerViewAdapter(context: Context, data: ArrayList<Plants>, pos: Int) :
         }
         if (pos == 0 || pos == 1) {
             if (row_index == position) {
+                this.mClickListener?.onItemClick(view, position,animal.plantValue!!)
                 holder.plantsId.background = context.resources.getDrawable(R.drawable.bg_border_square_green)
             } else {
                 holder.plantsId.background = context.resources.getDrawable(R.drawable.bg_border_square_black)
             }
         } else if (pos == 2) {
             if (row_index == position) {
+                this.mClickListener?.onItemClick(view, position,animal.plantValue!!)
                 holder.plantsId.background = context.resources.getDrawable(R.drawable.bg_border_square_green_diagnose)
             } else {
                 holder.plantsId.background = context.resources.getDrawable(R.drawable.bg_border_square_diagnose)

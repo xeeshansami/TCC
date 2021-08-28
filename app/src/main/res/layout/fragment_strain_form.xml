@@ -289,11 +289,13 @@
                     android:weightSum="2">
 
                     <CheckBox
+                        android:id="@+id/nutreintsCB"
                         android:text="@string/nutreints"
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"></CheckBox>
                     <CheckBox
+                        android:id="@+id/growTentsCB"
                         android:text="@string/grow_tents"
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
@@ -305,11 +307,13 @@
                     android:weightSum="2">
 
                     <CheckBox
+                        android:id="@+id/growLightsCB"
                         android:text="@string/grow_lights"
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"></CheckBox>
                     <CheckBox
+                        android:id="@+id/growMentorshipCB"
                         android:text="@string/grow_mentorship"
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
@@ -317,7 +321,7 @@
 
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/imSeedsLayout"
+                    android:id="@+id/imSeedsLayout2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"

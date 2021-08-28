@@ -7,6 +7,7 @@ import com.paxees.tcc.network.networkmodels.request.DashboardRequest;
 import com.paxees.tcc.network.networkmodels.request.DiagnoseRequest;
 import com.paxees.tcc.network.networkmodels.request.LoginRequest;
 import com.paxees.tcc.network.networkmodels.request.RegistrationRequest;
+import com.paxees.tcc.network.networkmodels.request.StrainRequestFromRequest;
 import com.paxees.tcc.network.networkmodels.request.UpdateAddress2Request;
 import com.paxees.tcc.network.networkmodels.request.UpdateAddressRequest;
 import com.paxees.tcc.network.networkmodels.request.UpdateCartRequest;
@@ -20,6 +21,8 @@ import com.paxees.tcc.network.networkmodels.response.baseResponses.ForgetPasswor
 import com.paxees.tcc.network.networkmodels.response.baseResponses.GetWishlistResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.PriceSummaryResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.SingleLocationDetailsResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.StrainRequestFormResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.StrainRequestTokenResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.UpdateProfileResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.GetAddToCartResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.LoginResponse;
@@ -31,6 +34,7 @@ import com.paxees.tcc.network.networkmodels.response.baseResponses.ProductSearch
 import com.paxees.tcc.network.networkmodels.response.baseResponses.RegistrationResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.StrainResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.UpdateCartResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.VideosListResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.WishlistShareKeyByUserResponse;
 import com.paxees.tcc.network.networkmodels.response.models.DiagnoseResponse;
 import com.paxees.tcc.network.networkmodels.response.models.MyAddressesListResponse;
@@ -69,6 +73,15 @@ public interface APIInterface {
 
     @GET("wc/v3/products")
     Call<ProductSearchResponse> getDiscoverProducts(@Query("search") String search,@Query("category") String category);
+
+    @GET("wp/v2/video")
+    Call<VideosListResponse> getVideosList();
+
+    @GET("refresh/refresh-token")
+    Call<StrainRequestTokenResponse> getTokenForStrainRequest();
+
+    @POST("crm/v2/Leads")
+    Call<StrainRequestFormResponse> createStrainRequestForm(@Header("Authorization") String header, @Body StrainRequestFromRequest request);
 
     @POST("cocart/v1/item")
     Call<UpdateCartResponse> updateCart(@Header("Authorization") String header, @Body UpdateCartRequest request);

@@ -53,8 +53,8 @@
                     android:layout_height="@dimen/_200sdp"
                     android:clipToPadding="true"
                     android:fadingEdge="vertical"
+                    tools:listitem="@layout/item_views_result"
                     android:layoutAnimation="@anim/list_anim_slide_right_to_left"
-                    android:paddingTop="@dimen/_10sdp"
                     android:requiresFadingEdge="vertical" />
             </LinearLayout>
 

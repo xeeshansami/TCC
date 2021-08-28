@@ -24,6 +24,7 @@ public class SharedPreferenceManager {
     public static final String DARK_MODE = "DARK_MODE";
     public static final String LOGIN_KEY = "LOGIN_KEY";
     public static final String CUSTOMER_DETAILS_KEY = "CUSTOMER_DETAILS_KEY";
+    public static final String ZOHO_KEY = "ZOHO_KEY";
     //Is Fingerprint Authentication Enabled
     public static SharedPreferences sSharedPreferences;
     public static final SharedPreferenceManager sharedPrefManagerInstance = new SharedPreferenceManager();
@@ -171,6 +172,8 @@ public class SharedPreferenceManager {
         }
         return companyList;
     }
+
+
     /*public void setLovDoctype(ArrayList<DocsData> data) {
         Gson gson = new Gson();
         String json = gson.toJson(data);

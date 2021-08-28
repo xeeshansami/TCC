@@ -4,28 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/_220sdp"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/_2ssp">
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imgid"
-        android:layout_gravity="center_vertical|center_horizontal"
-        app:shapeAppearanceOverlay="@style/squareImageViewRounded"
-        android:scaleType="centerCrop"
-        android:src="@drawable/image1"
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_200sdp"
-        />
-    <TextView android:id="@+id/tvId"
-        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/playVideo"
+            android:elevation="20dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:src="@android:drawable/ic_media_play"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            ></ImageView>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgid"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200sdp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:scaleType="centerCrop"
+            android:src="@drawable/image1"
+            app:shapeAppearanceOverlay="@style/squareImageViewRounded" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvId"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:background="@android:color/transparent"
-        android:text="@string/app_name"
+        android:gravity="center"
         android:maxLines="1"
         android:singleLine="true"
+        android:text="@string/app_name"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="@dimen/_12sdp"
-        ></TextView>
+        android:textSize="@dimen/_15sdp"></TextView>
 </LinearLayout>

@@ -205,7 +205,7 @@ class Home : Fragment(), View.OnClickListener {
         TCCStore.instance!!.getProductSearch(RetrofitEnums.URL_HBL, filter, object :
             ProductSearchCallBack {
             override fun Success(response: ProductSearchResponse) {
-                setProdcutSearch(response)
+                setProductSearch(response)
                 (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
             }
 
@@ -216,7 +216,7 @@ class Home : Fragment(), View.OnClickListener {
         })
     }
 
-    private fun setProdcutSearch(response: ProductSearchResponse) {
+    private fun setProductSearch(response: ProductSearchResponse) {
         var VideosAdapter = ProductSearchAdapter(activity, response)
         rvPopular.setAdapter(VideosAdapter)
         VideosAdapter.notifyDataSetChanged()
