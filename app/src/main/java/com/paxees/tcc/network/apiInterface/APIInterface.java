@@ -1,5 +1,6 @@
 package com.paxees.tcc.network.apiInterface;
 
+import com.paxees.tcc.network.networkmodels.request.AddConsumerInStripRequest;
 import com.paxees.tcc.network.networkmodels.request.AddToCartRequest;
 import com.paxees.tcc.network.networkmodels.request.AddToWishlistRequest;
 import com.paxees.tcc.network.networkmodels.request.BrandDetailsRequest;
@@ -13,6 +14,7 @@ import com.paxees.tcc.network.networkmodels.request.UpdateAddress2Request;
 import com.paxees.tcc.network.networkmodels.request.UpdateAddressRequest;
 import com.paxees.tcc.network.networkmodels.request.UpdateCartRequest;
 import com.paxees.tcc.network.networkmodels.request.UpdateProfileRequest;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.AddConsumerStripResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.AddToWishlistResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.AddtoCartResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandByCategoryResponse;
@@ -22,6 +24,7 @@ import com.paxees.tcc.network.networkmodels.response.baseResponses.DiscoveryResp
 import com.paxees.tcc.network.networkmodels.response.baseResponses.ForgetPasswordResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.GetWishlistResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.ImageResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.PaymentMethodListResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.PriceSummaryResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.SingleLocationDetailsResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.StrainRequestFormResponse;
@@ -50,6 +53,7 @@ import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -120,6 +124,13 @@ public interface APIInterface {
 
     @GET("wishlist/product-image/{code}")
     Call<WishlistImageResponse> getImageForWishList(@Path("code") String code);
+
+    @FormUrlEncoded
+    @POST("v1/customers")
+    Call<AddConsumerStripResponse> addCustomerToStrip(@Body() AddConsumerInStripRequest request);
+
+    @GET("wc/v3/payment_gateways")
+    Call<PaymentMethodListResponse> getPaymentMethods();
 
     @PUT("wc/v3/customers/{userid}")
     Call<MyAddressesListResponse> updateShippingAddress(@Path("userid") int userid, @Body UpdateAddressRequest request);

@@ -33,7 +33,6 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_weight="2"
             android:maxLines="1"
-            android:password="true"
             android:singleLine="true"
             android:text="123456789123456789"
             android:textColor="@color/black"

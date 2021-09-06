@@ -38,6 +38,7 @@ class GlobalClass : TCCStore() {
         BASE_URL_HBL = Helper.getConfigValue(Companion.applicationContext, "BASE_URL")
         BASE_URL_ZOHO = Helper.getConfigValue(Companion.applicationContext, "BASE_URL_ZOHO")
         BASE_URL_STRAIN_REQUEST_FROM = Helper.getConfigValue(Companion.applicationContext, "BASE_URL_STRAIN_REQUEST_FROM")
+        BASE_URL_STRIP_API = Helper.getConfigValue(Companion.applicationContext, "BASE_URL_STRIP_API")
     }
 
     fun setEnabled(editText: EditText, isCheck: Boolean, value: Float) {
@@ -56,6 +57,8 @@ class GlobalClass : TCCStore() {
         var BASE_URL_ZOHO = ""
         @JvmField
         var BASE_URL_STRAIN_REQUEST_FROM = ""
+        @JvmField
+        var BASE_URL_STRIP_API = ""
         @JvmField
         var applicationContext: Context? = null
         private var progressDialog: TransparentProgressDialog? = null

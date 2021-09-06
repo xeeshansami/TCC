@@ -8,15 +8,19 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.paxees.tcc.R
-import com.paxees.tcc.models.mFilterDashboard
+import com.paxees.tcc.controllers.CIFRootActivity
+import com.paxees.tcc.network.ResponseHandlers.callbacks.PaymentMethodListCallBack
+import com.paxees.tcc.network.enums.RetrofitEnums
+import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.PaymentMethodListResponse
+import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.SessionManager
+import com.paxees.tcc.utils.ToastUtils
 import com.paxees.tcc.views.adapters.PaymentMethodAdapter
-import com.paxees.tcc.views.adapters.StrainAdapter
 import kotlinx.android.synthetic.main.fragment_add_payment_method.*
+import kotlinx.android.synthetic.main.fragment_changedpwd.*
 import kotlinx.android.synthetic.main.fragment_strains.*
-import kotlinx.android.synthetic.main.fragment_strains.rvStrains
 import kotlinx.android.synthetic.main.toolbar_theme.backBtn
-import java.util.ArrayList
 
 class AddPaymentMethod : Fragment(), View.OnClickListener {
     var sessionManager: SessionManager? = null
@@ -36,7 +40,7 @@ class AddPaymentMethod : Fragment(), View.OnClickListener {
     fun init(view: View?) {
         sessionManager = SessionManager(activity)
         backBtn.setOnClickListener(this)
-        rvPaymentFunc()
+        getPaymentMethods()
     }
 
     override fun onClick(v: View) {
@@ -47,31 +51,29 @@ class AddPaymentMethod : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun rvPaymentFunc() {
-        val rec: ArrayList<mFilterDashboard> = ArrayList<mFilterDashboard>()
-        val txt = ArrayList<String>()
-        val lbl = ArrayList<String>()
-        val img = ArrayList<Int>()
-        txt.add("12345678946513654897")
-        txt.add("12345678946513654897")
-        txt.add("12345678946513654897")
-        lbl.add("Master Card - 04/22")
-        lbl.add("Visa Card - 01/21")
-        lbl.add("Master Card - 04/25")
-        img.add(R.mipmap.ic_done)
-        img.add(R.drawable.circle_img)
-        img.add(R.drawable.circle_img)
-        for (i in txt.indices) {
-            val filterDashboard = mFilterDashboard()
-            filterDashboard.setTxt(txt[i])
-            filterDashboard.img = img[i]
-            filterDashboard.value = lbl[i]
-            rec.add(filterDashboard)
-        }
+    fun getPaymentMethods() {
+        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+        TCCStore.instance!!.getPaymentMethods(
+            RetrofitEnums.URL_HBL,
+            object :
+                PaymentMethodListCallBack {
+                override fun Success(response: PaymentMethodListResponse) {
+                    rvPaymentFunc(response)
+                    (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+                }
+
+                override fun Failure(baseResponse: BaseResponse) {
+                    ToastUtils.showToastWith(activity, baseResponse.message, "")
+                    (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+                }
+            })
+    }
+
+    private fun rvPaymentFunc(response: PaymentMethodListResponse) {
         // set up the RecyclerView
         val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         rvPayments.layoutManager = horizontalLayoutManagaer
-        var VideosAdapter = PaymentMethodAdapter(activity, rec)
+        var VideosAdapter = PaymentMethodAdapter(activity, response)
         rvPayments.setAdapter(VideosAdapter)
         VideosAdapter.notifyDataSetChanged()
     }

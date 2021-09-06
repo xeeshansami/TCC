@@ -168,6 +168,12 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
         privateInstanceRetrofit.getImageForWishList(code).enqueue(WishlistImageBaseHR(callBack))
     }
 
+    //:TODO post getPaymentMethods
+    fun getPaymentMethods(url: RetrofitEnums?,  callBack:  PaymentMethodListCallBack) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getPaymentMethods().enqueue(PaymentMethodListBaseHR(callBack))
+    }
+
     //:TODO post updateShippingAddress
     fun updateShippingAddress(
         url: RetrofitEnums?,
@@ -178,6 +184,17 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
         val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
         privateInstanceRetrofit.updateShippingAddress(email, request)
             .enqueue(AddressListBaseHR(loginCallBack))
+    }
+
+    //:TODO post addCustomerToStrip
+    fun addCustomerToStrip(
+        url: RetrofitEnums?,
+        request: AddConsumerInStripRequest,
+        callBack: AddConsumerStripCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.addCustomerToStrip( request)
+            .enqueue(AddConsumerStripBaseHR(callBack))
     }
 
     //:TODO post updateBillingAddress

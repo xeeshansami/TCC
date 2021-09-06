@@ -1,5 +1,6 @@
 package com.paxees.tcc.views.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.paxees.tcc.R;
 import com.paxees.tcc.models.mFilterDashboard;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.PaymentMethodListResponse;
 
 import java.util.ArrayList;
 
@@ -17,14 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdapter.ViewHolder> {
     private int row_index;
-    private ArrayList<mFilterDashboard> mData;
+    private PaymentMethodListResponse mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private Context context;
     private String branchImage;
-
+    private int checkedPosition = 0;
     // data is passed into the constructor
-    public PaymentMethodAdapter(Context context, ArrayList<mFilterDashboard> data) {
+    public PaymentMethodAdapter(Context context, PaymentMethodListResponse data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
@@ -38,12 +40,32 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
     }
 
     // binds the data to the TextView in each row
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        mFilterDashboard data = mData.get(position);
-        Glide.with(context).load(data.getImg()).into( holder.imageView);
-        holder.titleLbl.setText(data.getTxt());
-        holder.titleValue.setText(data.getValue());
+        PaymentMethodListResponse data = mData;
+        holder.titleLbl.setText(data.get(position).getId());
+        holder.titleValue.setText(data.get(position).getTitle());
+        if (checkedPosition == -1) {
+            holder.imageView.setVisibility(View.GONE);
+        } else {
+            if (checkedPosition == position) {
+                holder.imageView.setVisibility(View.VISIBLE);
+            } else {
+                holder.imageView.setVisibility(View.GONE);
+            }
+        }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.imageView.setVisibility(View.VISIBLE);
+                if (checkedPosition != position) {
+                    notifyItemChanged(checkedPosition);
+                    checkedPosition = position;
+                }
+            }
+        });
+
     }
 
     // total number of rows
@@ -63,18 +85,19 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
             titleLbl = itemView.findViewById(R.id.txtCardNum);
             titleValue = itemView.findViewById(R.id.visaCardTv);
             imageView = itemView.findViewById(R.id.payment_method_done);
-            itemView.setOnClickListener(this);
+            imageView.setOnClickListener(this);
         }
 
+
         @Override
-        public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+        public void onClick(View v) {
+            if (mClickListener != null) mClickListener.onItemClick(v, this.getAdapterPosition());
         }
     }
 
     // convenience method for getting data at click position
-    mFilterDashboard getItem(int id) {
-        return mData.get(id);
+    PaymentMethodListResponse getItem(int id) {
+        return mData;
     }
 
     // allows clicks events to be caught
