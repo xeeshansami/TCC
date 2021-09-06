@@ -11,63 +11,16 @@
         android:background="@color/colorPrimary"
         tools:context=".controllers.launcher">
 
-        <include android:id="@+id/toolbar" layout="@layout/toolbar_theme"></include>
-        <TextView android:id="@+id/headerTxt"
-            android:gravity="left"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_width="match_parent"
+        <include android:id="@+id/toolbar" layout="@layout/toolbar"></include>
+
+        <com.manojbhadane.PaymentCardView
+            android:layout_margin="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            android:id="@+id/creditCard"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/my_payments_methods"
-            android:layout_gravity="left|center_vertical"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_20sdp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/backBtn"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"></TextView>
-
-
-
-        <LinearLayout android:id="@+id/header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/headerTxt">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvPayments"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="true"
-                android:fadingEdge="vertical"
-                android:layoutAnimation="@anim/list_anim_slide_right_to_left"
-                android:paddingTop="@dimen/_10sdp"
-                android:requiresFadingEdge="vertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
-
-
-        </LinearLayout>
-
-        <Button android:id="@+id/addtoCart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_40sdp"
-            android:layout_marginRight="@dimen/_40sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:background="@drawable/bg_border_square_green"
-            android:gravity="center|center_vertical"
-            android:drawableTint="@color/white"
-            android:textColor="@color/white"
-            android:paddingLeft="@dimen/_15sdp"
-            android:paddingRight="@dimen/_20sdp"
-            android:text="@string/add_new_payment_method"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header" />
-
+            app:cv_submitBtnText="Done"
+            app:cv_cardTitle="Pay Now"
+            tools:ignore="MissingConstraints" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

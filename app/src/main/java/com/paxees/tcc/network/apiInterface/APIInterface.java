@@ -15,6 +15,7 @@ import com.paxees.tcc.network.networkmodels.request.UpdateAddressRequest;
 import com.paxees.tcc.network.networkmodels.request.UpdateCartRequest;
 import com.paxees.tcc.network.networkmodels.request.UpdateProfileRequest;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.AddConsumerStripResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.AddNewCreditCardResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.AddToWishlistResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.AddtoCartResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandByCategoryResponse;
@@ -53,6 +54,7 @@ import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -81,7 +83,7 @@ public interface APIInterface {
     Call<ProductSearchResponse> getProductSearch(@Query("search") String search);
 
     @GET("wc/v3/products")
-    Call<ProductSearchResponse> getDiscoverProducts(@Query("search") String search,@Query("category") String category);
+    Call<ProductSearchResponse> getDiscoverProducts(@Query("search") String search, @Query("category") String category);
 
     @PUT("wc/v3/customers/{userid}")
     Call<ChangePasswordResponse> changePassword(@Path("userid") String userid, @Body ChangePasswordRequest request);
@@ -102,7 +104,7 @@ public interface APIInterface {
     Call<UpdateCartResponse> updateCart(@Header("Authorization") String header, @Body UpdateCartRequest request);
 
     @DELETE("cocart/v1/item")
-    Call<String> removeCart(@Header("Authorization") String header,@Query("cart_item_key") String search);
+    Call<String> removeCart(@Header("Authorization") String header, @Query("cart_item_key") String search);
 
     @GET("wc/v3/wishlist/remove_product/{key}")
     Call<String> removeWishlistProd(@Path("key") String key);
@@ -114,7 +116,7 @@ public interface APIInterface {
     Call<SingleLocationDetailsResponse> getSingleLocationDetails(/*@Path("userid") String userid*/);
 
     @POST("wp/v2/diagnostic")
-    Call<DiagnoseResponse> diagnoseCreate(@Header("Authorization") String header,@Body DiagnoseRequest request);
+    Call<DiagnoseResponse> diagnoseCreate(@Header("Authorization") String header, @Body DiagnoseRequest request);
 
     @GET("wc/v3/customers/{userid}")
     Call<MyAddressesListResponse> getAddressList(@Path("userid") int userid);
@@ -128,6 +130,13 @@ public interface APIInterface {
     @FormUrlEncoded
     @POST("v1/customers")
     Call<AddConsumerStripResponse> addCustomerToStrip(@Body() AddConsumerInStripRequest request);
+
+    @FormUrlEncoded
+    @POST("v1/tokens")
+    Call<AddNewCreditCardResponse> addNewCreditCard(@Field("card[number]") String number,
+                                                    @Field("card[exp_month]") String exp_month,
+                                                    @Field("card[exp_year]") String exp_year,
+                                                    @Field("card[cvc]") String cvc);
 
     @GET("wc/v3/payment_gateways")
     Call<PaymentMethodListResponse> getPaymentMethods();
@@ -172,7 +181,7 @@ public interface APIInterface {
     Call<BrandByCategoryResponse> getDashboard(@Body DashboardRequest request);
 
     @POST("cocart/v1/add-item")
-    Call<AddtoCartResponse> addToCart(@Header("Authorization") String header,@Body AddToCartRequest request);
+    Call<AddtoCartResponse> addToCart(@Header("Authorization") String header, @Body AddToCartRequest request);
 
     @POST("popularbrands.php")
     Call<BrandByCategoryResponse> getPopularBrands(@Body DashboardRequest request);

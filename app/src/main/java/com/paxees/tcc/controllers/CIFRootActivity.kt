@@ -340,18 +340,14 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
     }
 
 
-    override fun onBackPressed() {
-        val navController = findNavController(R.id.cifHostFragment)
-        (navController as? IOnBackPressed)?.onBackPressed()?.not()?.let {
-            super.onBackPressed()
-        }
-
-        if (navController.popBackStack()) {
-            navController.navigateUp()
-        } else {
-            finish()
-        }
-    }
+//    override fun onBackPressed() {
+//        val navController = findNavController(R.id.cifHostFragment)
+//        if (navController.popBackStack()) {
+//            navController.navigateUp()
+//        } else {
+//            finish()
+//        }
+//    }
 
     @SuppressLint("WrongConstant")
     override fun onClick(v: View?) {

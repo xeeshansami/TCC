@@ -11,6 +11,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -68,8 +69,16 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
         super.onViewCreated(view, savedInstanceState)
         init()
         placeAddress()
+        onBackPressed()
     }
 
+    fun onBackPressed(){
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                switchFragment(R.id.navigation_home)
+            }
+        })
+    }
     private fun getSingleLocationDetails() {
         var userId=(activity as CIFRootActivity).sharedPreferenceManager.customerDetails[0].id
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)

@@ -31,7 +31,7 @@ class AddConsumerStripResponse {
     @SerializedName("livemode")
     var livemode: Boolean = false
     @SerializedName("metadata")
-    var metadata: MetadataX = Metadata()
+    var metadata: MetadataX = MetadataX()
     @SerializedName("name")
     var name: Any? = Any()
     @SerializedName("next_invoice_sequence")

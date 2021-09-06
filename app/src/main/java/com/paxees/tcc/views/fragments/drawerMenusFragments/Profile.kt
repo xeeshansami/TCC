@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -58,6 +59,15 @@ class Profile : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         init(view)
         checkBackground()
+        onBackPressed()
+    }
+
+    fun onBackPressed(){
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                switchFragment(R.id.navigation_home)
+            }
+        })
     }
     @SuppressLint("WrongConstant")
     private fun checkBackground() {

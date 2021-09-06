@@ -162,9 +162,18 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_add_new_payment_method"
-        android:name="com.paxees.tcc.views.fragments.settingsFragments.AddPaymentMethod"
+        android:name="com.paxees.tcc.views.fragments.settingsFragments.MyPaymentMethod"
         android:label="AddPaymentMethod"
-        tools:layout="@layout/fragment_add_payment_method"></fragment>
+        tools:layout="@layout/fragment_add_payment_method">
+        <action
+            android:id="@+id/going_to_add_new_payment_method"
+            app:destination="@id/navigation_add_payment_method"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
+    </fragment>
     <fragment
         android:id="@+id/navigation_diagnose1"
         android:name="com.paxees.tcc.views.fragments.dignosticsFragments.Diagnose1"
@@ -178,6 +187,7 @@
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right"
             app:popUpToInclusive="true"></action>
+
     </fragment>
 
     <fragment
@@ -327,5 +337,10 @@
         android:name="com.paxees.tcc.views.fragments.mainFragments.MapFragment"
         android:label="MapFragment"
         tools:layout="@layout/fragment_maps"></fragment>
+    <fragment
+        android:id="@+id/navigation_add_payment_method"
+        android:name="com.paxees.tcc.views.fragments.settingsFragments.AddPaymentMethod"
+        android:label="AddPaymentMethod"
+        tools:layout="@layout/fragment_add_payment_method"></fragment>
 
 </navigation>

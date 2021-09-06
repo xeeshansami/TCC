@@ -111,8 +111,8 @@ dependencies {
     releaseImplementation("com.readystatesoftware.chuck:library-no-op:1.1.0") {
         exclude group: 'com.android.support', module: 'design'
     }
-    //card screen
-    implementation 'com.braintreepayments:card-form:5.2.0'
+    //card
+    implementation 'com.github.manojbhadane:PaymentCardView:v1.3'
     //permission
     implementation 'com.nabinbhandari.android:permissions:3.7'
     //Glide

@@ -196,6 +196,19 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
         privateInstanceRetrofit.addCustomerToStrip( request)
             .enqueue(AddConsumerStripBaseHR(callBack))
     }
+    //:TODO post addNewCreditCard
+    fun addNewCreditCard(
+        url: RetrofitEnums?,
+        number:String,
+        month:String,
+        year:String,
+        cvv:String,
+        callBack: AddNewCreditCardCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.addNewCreditCard( number,month,year,cvv)
+            .enqueue(AddNewCreditCardBaseHR(callBack))
+    }
 
     //:TODO post updateBillingAddress
     fun updateBillingAddress(
