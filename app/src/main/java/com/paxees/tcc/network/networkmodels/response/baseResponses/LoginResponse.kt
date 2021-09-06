@@ -12,4 +12,6 @@ class LoginResponse {
     var userEmail: String = ""
     @SerializedName("user_nicename")
     var userNicename: String = ""
+    @SerializedName("message")
+    var message: String = ""
 }

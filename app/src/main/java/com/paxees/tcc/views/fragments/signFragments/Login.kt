@@ -223,8 +223,12 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
         request.password = pwd
         TCCStore.instance!!.getLogin(RetrofitEnums.URL_HBL, request, object : LoginCallBack {
             override fun LoginSuccess(response: LoginResponse) {
-                (activity as launcher).sharedPreferenceManager.loginData = response
-                getCustomerDetails(email)
+                if(!response.token.isNullOrEmpty()) {
+                    (activity as launcher).sharedPreferenceManager.loginData = response
+                    getCustomerDetails(email)
+                }else{
+                    ToastUtils.showToastWith(activity,response.message)
+                }
             }
 
             override fun LoginFailure(baseResponse: BaseResponse) {

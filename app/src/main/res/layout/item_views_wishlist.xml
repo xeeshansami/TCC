@@ -17,7 +17,7 @@
         android:layout_gravity="center_vertical"
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/squareImageViewRounded"
-        app:srcCompat="@drawable/diagnose9image" />
+        />
 
     <LinearLayout
         android:layout_weight="5"

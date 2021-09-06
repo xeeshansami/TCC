@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_margin="@dimen/_2ssp"
+    android:background="@drawable/bg_border_carts"
+    android:orientation="horizontal"
+    android:weightSum="5"
+    android:padding="@dimen/_10sdp">
+    <FrameLayout
+        android:id="@+id/framlayoutBlogs"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150sdp">
+        <ImageView
+            android:id="@+id/imageid"
+            app:shapeAppearanceOverlay="@style/squareImageViewRounded"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ImageView>
+        <Button
+            android:id="@+id/followBtn"
+            android:layout_margin="@dimen/_10sdp"
+            android:background="@drawable/bg_border"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_gravity="top|right"
+            android:text="+Follow"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_8sdp"
+           ></Button>
+
+        <LinearLayout
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+            <TextView
+                android:id="@+id/txtPopluarName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:maxLines="1"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:singleLine="true"
+                android:text="Technology"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_18sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:gravity="right"
+                android:id="@+id/value1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="251K"
+                android:layout_weight="1"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/_13sdp"
+                ></TextView>
+            <TextView
+                android:gravity="right"
+                android:id="@+id/value2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="251K"
+                android:layout_weight="1"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/_13sdp"
+                ></TextView>
+        </LinearLayout>
+    </FrameLayout>
+
+
+
+
+</LinearLayout>

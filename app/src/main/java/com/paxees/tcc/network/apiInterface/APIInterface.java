@@ -3,6 +3,7 @@ package com.paxees.tcc.network.apiInterface;
 import com.paxees.tcc.network.networkmodels.request.AddToCartRequest;
 import com.paxees.tcc.network.networkmodels.request.AddToWishlistRequest;
 import com.paxees.tcc.network.networkmodels.request.BrandDetailsRequest;
+import com.paxees.tcc.network.networkmodels.request.ChangePasswordRequest;
 import com.paxees.tcc.network.networkmodels.request.DashboardRequest;
 import com.paxees.tcc.network.networkmodels.request.DiagnoseRequest;
 import com.paxees.tcc.network.networkmodels.request.LoginRequest;
@@ -16,9 +17,11 @@ import com.paxees.tcc.network.networkmodels.response.baseResponses.AddToWishlist
 import com.paxees.tcc.network.networkmodels.response.baseResponses.AddtoCartResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandByCategoryResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandDetailResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.ChangePasswordResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.DiscoveryResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.ForgetPasswordResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.GetWishlistResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.ImageResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.PriceSummaryResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.SingleLocationDetailsResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.StrainRequestFormResponse;
@@ -35,7 +38,9 @@ import com.paxees.tcc.network.networkmodels.response.baseResponses.RegistrationR
 import com.paxees.tcc.network.networkmodels.response.baseResponses.StrainResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.UpdateCartResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.VideosListResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.WishlistImageResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.WishlistShareKeyByUserResponse;
+import com.paxees.tcc.network.networkmodels.response.models.CategoriesResponse;
 import com.paxees.tcc.network.networkmodels.response.models.DiagnoseResponse;
 import com.paxees.tcc.network.networkmodels.response.models.MyAddressesListResponse;
 
@@ -74,11 +79,17 @@ public interface APIInterface {
     @GET("wc/v3/products")
     Call<ProductSearchResponse> getDiscoverProducts(@Query("search") String search,@Query("category") String category);
 
+    @PUT("wc/v3/customers/{userid}")
+    Call<ChangePasswordResponse> changePassword(@Path("userid") String userid, @Body ChangePasswordRequest request);
+
     @GET("wp/v2/video")
     Call<VideosListResponse> getVideosList();
 
     @GET("refresh/refresh-token")
     Call<StrainRequestTokenResponse> getTokenForStrainRequest();
+
+    @GET("wp/v2/categories")
+    Call<CategoriesResponse> getCategories();
 
     @POST("crm/v2/Leads")
     Call<StrainRequestFormResponse> createStrainRequestForm(@Header("Authorization") String header, @Body StrainRequestFromRequest request);
@@ -103,6 +114,12 @@ public interface APIInterface {
 
     @GET("wc/v3/customers/{userid}")
     Call<MyAddressesListResponse> getAddressList(@Path("userid") int userid);
+
+    @GET("image-url/{code}")
+    Call<ImageResponse> getImage(@Path("code") String code);
+
+    @GET("wishlist/product-image/{code}")
+    Call<WishlistImageResponse> getImageForWishList(@Path("code") String code);
 
     @PUT("wc/v3/customers/{userid}")
     Call<MyAddressesListResponse> updateShippingAddress(@Path("userid") int userid, @Body UpdateAddressRequest request);

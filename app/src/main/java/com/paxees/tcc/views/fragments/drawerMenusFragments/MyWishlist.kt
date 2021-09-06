@@ -140,14 +140,18 @@ class MyWishlist : Fragment(), View.OnClickListener {
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         rvWishList!!.layoutManager = horizontalLayoutManagaer
         var VideosAdapter = WishlistAdapter(
-            activity,
-            response,
-            WishlistAdapter.ItemClickListener { data, view, position ->
-                addToCart(response[0].productId.toString())
+            activity as CIFRootActivity,response,
+            object : WishlistAdapter.ItemClickListener{
+                override fun onItemClick(data: GetWishlistResponse?, view: View?, position: Int) {
+                    addToCart(response[0].productId.toString())
+                }
             },
-            WishlistAdapter.ItemClickListener { data, view, position ->
-                deletePopup(data[0].itemId.toString())
-            })
+            object : WishlistAdapter.ItemClickListener{
+                override fun onItemClick(data: GetWishlistResponse?, view: View?, position: Int) {
+                    deletePopup(data?.get(0)!!.itemId.toString())
+                }
+            }
+           )
         rvWishList!!.setAdapter(VideosAdapter)
         VideosAdapter.notifyDataSetChanged()
     }

@@ -20,6 +20,12 @@
             app:popUpToInclusive="true"></action>
     </fragment>
     <fragment
+        android:id="@+id/navigation_blogs"
+        android:name="com.paxees.tcc.views.fragments.mainFragments.BlogsFragment"
+        android:label="BlogsFragment"
+        tools:layout="@layout/fragment_blogs">
+    </fragment>
+    <fragment
         android:id="@+id/navigation_discovery"
         android:name="com.paxees.tcc.views.fragments.mainFragments.Discovery"
         android:label="Discovery"

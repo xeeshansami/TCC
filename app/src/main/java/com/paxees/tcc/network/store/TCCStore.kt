@@ -47,6 +47,18 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
             .enqueue(ProductSearchBaseHR(callBack))
     }
 
+ //:TODO post changePassword
+    fun changePassword(
+        url: RetrofitEnums?,
+        userId: String?,
+        request:ChangePasswordRequest,
+        callBack: ChangePasswordCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.changePassword(userId,request)
+            .enqueue(ChangePasswordBaseHR(callBack))
+    }
+
   //:TODO post getVideosList
     fun getVideosList(
         url: RetrofitEnums?,
@@ -65,6 +77,16 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
         val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
         privateInstanceRetrofit.getTokenForStrainRequest()
             .enqueue(StrainRequestTokenBaseHR(callBack))
+    }
+
+    //:TODO post getCategories
+    fun getCategories(
+        url: RetrofitEnums?,
+        callBack: CategoryCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getCategories()
+            .enqueue(CategoryBaseHR(callBack))
     }
 
 
@@ -132,6 +154,18 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
     fun getAddressList(url: RetrofitEnums?, email: Int, loginCallBack: AddressListCallBack?) {
         val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
         privateInstanceRetrofit.getAddressList(email).enqueue(AddressListBaseHR(loginCallBack))
+    }
+
+    //:TODO post getImage
+    fun getImage(url: RetrofitEnums?, code: String, callBack:  ImageCallBack) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getImage(code).enqueue(ImageBaseHR(callBack))
+    }
+
+    //:TODO post getImageForWishList
+    fun getImageForWishList(url: RetrofitEnums?, code: String, callBack:  WishlistImageCallBack) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getImageForWishList(code).enqueue(WishlistImageBaseHR(callBack))
     }
 
     //:TODO post updateShippingAddress

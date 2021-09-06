@@ -144,7 +144,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_discovery, R.id.navigation_profile,
+                R.id.navigation_home, R.id.navigation_blogs, R.id.navigation_discovery, R.id.navigation_profile,
                 R.id.navigation_strains,
                 R.id.navigation_map,
                 R.id.navigation_products, R.id.navigation_videos,
@@ -168,6 +168,10 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
                 R.id.navigation_home -> {
                     toolbar.visibility = View.VISIBLE
                     tvTitle.text = "Home"
+                }
+                R.id.navigation_blogs -> {
+                    toolbar.visibility = View.GONE
+                    tvTitle.text = "Blogs"
                 }
                 R.id.navigation_discovery -> {
                     toolbar.visibility = View.VISIBLE
@@ -311,6 +315,10 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
 
             getString(R.string.Videos) -> {
                 switchFragment(R.id.navigation_videos)
+                drawer_layout.closeDrawer(Gravity.START, true)
+            }
+            getString(R.string.Blog) -> {
+                switchFragment(R.id.navigation_blogs)
                 drawer_layout.closeDrawer(Gravity.START, true)
             }
             getString(R.string.Diagnose) -> {
