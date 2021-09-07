@@ -7,7 +7,7 @@ class ChangePasswordResponse {
     @SerializedName("avatar_url")
     var avatarUrl: String = ""
     @SerializedName("billing")
-    var billing: BillingXX = BillingXX()
+    var billing: Billing = Billing()
     @SerializedName("date_created")
     var dateCreated: String = ""
     @SerializedName("date_created_gmt")

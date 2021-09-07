@@ -202,4 +202,5 @@
     <string name="updAddress">Update Address</string>
     <string name="saveAddress">Save Address</string>
     <string name="map">Map</string>
+    <string name="deliver_to">Deliver to</string>
 </resources>

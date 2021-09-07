@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/NestedScrollBarStyle">
+
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        tools:context=".controllers.launcher">
+        <include android:id="@+id/toolbar"
+            layout="@layout/toolbar"></include>
+
+
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@color/black"
+            android:weightSum="4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            <TextView
+                android:id="@+id/cartItems"
+                android:text="3 items in a cart."
+                android:textSize="@dimen/_13sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_weight="4.5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                android:weightSum="2"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <TextView android:text="Sub Total: "
+                android:textSize="@dimen/_13sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/totalAmount"
+                    android:text="$125"
+                    android:textSize="@dimen/_17sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:textColor="@color/white"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:gravity="right"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/_10sdp"
+            android:id="@+id/body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:weightSum="6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header">
+            <Button
+                android:drawableTop="@drawable/ic_home_black_24dp"
+                android:text="Home"
+                android:drawableTint="@color/grey"
+                android:textSize="@dimen/_10sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:textColor="@color/grey"
+                android:textStyle="bold"
+                android:background="@android:color/transparent"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp" />
+
+            <LinearLayout
+                android:layout_weight="2"
+                android:weightSum="2"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/homeAddress"
+                    android:text="the President's Inaugural speech. \n123 Main Street, New York, NY 10030 "
+                    android:textSize="@dimen/_13sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:textColor="@color/grey"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="wrap_content" />
+                <CheckBox
+                    android:id="@+id/homeAddressCB"
+                    android:text="Use this as deliver address"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:textColor="@color/grey"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        <ImageView
+            android:id="@+id/editHomeAddressIcon"
+            android:src="@android:drawable/ic_menu_edit"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            app:tint="@color/grey"></ImageView>
+        </LinearLayout>
+        <View
+            android:id="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/body"
+            android:background="@color/grey"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"></View>
+        <LinearLayout
+            android:layout_marginTop="@dimen/_10sdp"
+            android:id="@+id/body2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:weightSum="6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/space">
+            <Button
+                android:drawableTop="@android:drawable/stat_sys_download_done"
+                android:text="Office"
+                android:drawableTint="@color/grey"
+                android:textSize="@dimen/_10sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:textColor="@color/grey"
+                android:textStyle="bold"
+                android:background="@android:color/transparent"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp" />
+
+            <LinearLayout
+                android:layout_weight="2"
+                android:weightSum="2"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/officeAddress"
+                    android:text="3425 Stone Street, Apt. 2A, Jacksonville, FL 39404"
+                    android:textSize="@dimen/_13sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:textColor="@color/grey"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="wrap_content" />
+                <CheckBox
+                    android:id="@+id/officeAddressCB"
+                    android:text="Use this as deliver address"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:textColor="@color/grey"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/officeAddressIcon"
+                android:src="@android:drawable/ic_menu_edit"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                app:tint="@color/grey"></ImageView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/_20sdp"
+            android:id="@+id/shippinglayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/body2"
+            android:layout_weight="2"
+            android:weightSum="2"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:background="@drawable/bg_border"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView android:text="Shipping Method"
+                android:textSize="@dimen/_17sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <CheckBox
+                android:id="@+id/fixedRateCB"
+                android:textStyle="bold"
+                android:text="Fixed (Flat Rate)"
+                android:textSize="@dimen/_10sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:textColor="@color/grey"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+                <CheckBox
+                    android:id="@+id/tableRateCB"
+                    android:text="Table Rate (Best Way)"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:textColor="@color/grey"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+        <Button android:id="@+id/nextButtonCreateOrder"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginLeft="@dimen/_40sdp"
+            android:layout_marginRight="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:background="@drawable/button_border"
+            android:drawableRight="@drawable/ic_baseline_navigate_next_24"
+            android:drawableTint="@color/white"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="@dimen/_15sdp"
+            android:paddingRight="@dimen/_20sdp"
+            android:text="Next"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/shippinglayout"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
+

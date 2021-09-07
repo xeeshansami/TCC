@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.paxees.tcc.R;
 import com.paxees.tcc.models.mFilterDashboard;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.DataXX;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.GetPaymentMethodListOfConsumerResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.PaymentMethodListResponse;
 
 import java.util.ArrayList;
@@ -19,14 +21,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdapter.ViewHolder> {
     private int row_index;
-    private PaymentMethodListResponse mData;
+    private GetPaymentMethodListOfConsumerResponse mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private Context context;
     private String branchImage;
     private int checkedPosition = 0;
     // data is passed into the constructor
-    public PaymentMethodAdapter(Context context, PaymentMethodListResponse data) {
+    public PaymentMethodAdapter(Context context, GetPaymentMethodListOfConsumerResponse data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
@@ -43,16 +45,19 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        PaymentMethodListResponse data = mData;
-        holder.titleLbl.setText(data.get(position).getId());
-        holder.titleValue.setText(data.get(position).getTitle());
+        GetPaymentMethodListOfConsumerResponse data = mData;
+        DataXX dataXX=data.getData().get(position);
+        String number = "grou353fp23g3qprwog"+dataXX.getLast4();
+        String mask = number.replaceAll("\\w(?=\\w{4})", "*");
+        holder.titleLbl.setText(mask);
+        holder.titleValue.setText(dataXX.getBrand()+" "+dataXX.getExpMonth()+"/"+dataXX.getExpYear());
         if (checkedPosition == -1) {
-            holder.imageView.setVisibility(View.GONE);
+            holder.imageView.setVisibility(View.INVISIBLE);
         } else {
             if (checkedPosition == position) {
                 holder.imageView.setVisibility(View.VISIBLE);
             } else {
-                holder.imageView.setVisibility(View.GONE);
+                holder.imageView.setVisibility(View.INVISIBLE);
             }
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -68,11 +73,16 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
 
     }
 
-    // total number of rows
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mData.getData().size();
     }
+
+    // total number of rows
+/*    @Override
+    public int getItemCount() {
+        return mData.size();
+    }*/
 
 
     // stores and recycles views as they are scrolled off screen
@@ -96,7 +106,7 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
     }
 
     // convenience method for getting data at click position
-    PaymentMethodListResponse getItem(int id) {
+    GetPaymentMethodListOfConsumerResponse getItem(int id) {
         return mData;
     }
 

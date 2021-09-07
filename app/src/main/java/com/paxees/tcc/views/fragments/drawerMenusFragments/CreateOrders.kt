@@ -30,7 +30,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.header
 
 
-class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, CartAdapter.onItemPlus,
+class CreateOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, CartAdapter.onItemPlus,
     CartAdapter.onItemRemove {
     var sessionManager: SessionManager? = null
     var total=0.0
@@ -46,7 +46,7 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_order, container, false)
+        return inflater.inflate(R.layout.fragment_create_order, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,21 +65,17 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
 
     fun init(view: View?) {
         sessionManager = SessionManager(activity)
-        updateProfileBtn.setOnClickListener(this)
         backBtn.setOnClickListener(this)
-        header.text = getText(R.string.myCart)
+        header.text = getText(R.string.deliver_to)
         val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        rvCarts.layoutManager = horizontalLayoutManagaer
-        getCarts()
+//        rvCarts.layoutManager = horizontalLayoutManagaer
+//        getCarts()
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.backBtn -> {
                 switchFragment(R.id.navigation_home)
-            }
-            R.id.updateProfileBtn -> {
-                findNavController().navigate(R.id.goto_create_order)
             }
         }
     }
@@ -94,7 +90,7 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
     private fun rvCart(response: GetAddToCartResponse) {
         // set up the RecyclerView
         var VideosAdapter = CartAdapter(activity, response, this, this,this)
-        rvCarts.adapter = VideosAdapter
+//        rvCarts.adapter = VideosAdapter
         VideosAdapter.notifyDataSetChanged()
     }
     private fun getCarts() {
@@ -212,10 +208,10 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
     private fun updatePrice(data: PriceSummaryResponse) {
         total = data.subtotal.replace("$", "").toDouble()
         var subtotals=total-(disc-tx)
-        totolItemPrice.text= "$$subtotals"
-        discount.text="$$disc"
-        tax.text="$$tx"
-        subtotal.text= "$$subtotals"
-        updateProfileBtn.text= "Pay $$subtotals now"
+//        totolItemPrice.text= "$$subtotals"
+//        discount.text="$$disc"
+//        tax.text="$$tx"
+//        subtotal.text= "$$subtotals"
+//        updateProfileBtn.text= "Pay $$subtotals now"
     }
 }

@@ -12,10 +12,21 @@
         tools:context=".controllers.launcher">
 
         <include android:id="@+id/toolbar" layout="@layout/toolbar"></include>
-
+        <TextView android:id="@+id/headerTxt"
+            android:gravity="left"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_new_payment_method"
+            android:layout_gravity="left|center_vertical"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20sdp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"></TextView>
         <com.manojbhadane.PaymentCardView
             android:layout_margin="@dimen/_10sdp"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintTop_toBottomOf="@id/headerTxt"
             android:id="@+id/creditCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

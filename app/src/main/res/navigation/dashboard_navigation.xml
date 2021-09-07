@@ -62,7 +62,16 @@
         android:id="@+id/navigation_myorders"
         android:name="com.paxees.tcc.views.fragments.drawerMenusFragments.MyOrders"
         android:label="MyOrders"
-        tools:layout="@layout/fragment_my_order"></fragment>
+        tools:layout="@layout/fragment_my_order">
+        <action
+            android:id="@+id/goto_create_order"
+            app:destination="@id/navigation_create_order"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_mywishList"
@@ -83,6 +92,7 @@
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right"
             app:popUpToInclusive="true"></action>
+
         <action
             android:id="@+id/setting_to_help"
             app:destination="@id/navigation_help"
@@ -342,5 +352,11 @@
         android:name="com.paxees.tcc.views.fragments.settingsFragments.AddPaymentMethod"
         android:label="AddPaymentMethod"
         tools:layout="@layout/fragment_add_payment_method"></fragment>
+
+    <fragment
+        android:id="@+id/navigation_create_order"
+        android:name="com.paxees.tcc.views.fragments.drawerMenusFragments.CreateOrders"
+        android:label="CreateOrders"
+        tools:layout="@layout/fragment_create_order"></fragment>
 
 </navigation>

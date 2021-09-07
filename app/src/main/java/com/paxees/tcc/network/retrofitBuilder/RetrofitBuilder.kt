@@ -77,8 +77,6 @@ object RetrofitBuilder {
             val original = chain.request()
             val builder = original.newBuilder()
             val request = builder
-                .addHeader("Content-Type", "text/plain") // @TODO: add IP method
-//                .addHeader("Authorization","Bearer $token")
                 .removeHeader(APIInterface.HEADER_TAG)
                 .method(original.method, original.body)
                 .build()

@@ -8,6 +8,7 @@ import com.paxees.tcc.network.networkmodels.request.*
 import com.paxees.tcc.network.retrofitBuilder.RetrofitBuilder.getRetrofitInstance
 import com.paxees.tcc.network.timeoutInterface.IOnConnectionTimeoutListener
 import com.paxees.tcc.utils.GlobalClass
+import okhttp3.RequestBody
 import retrofit2.http.Header
 import retrofit2.http.Query
 
@@ -168,6 +169,12 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
         privateInstanceRetrofit.getImageForWishList(code).enqueue(WishlistImageBaseHR(callBack))
     }
 
+    //:TODO post getPaymentMethodsListOfConsumer
+    fun getPaymentMethodsListOfConsumer(url: RetrofitEnums?, code: String, callBack:  GetPaymentMethodConusmerCallBack) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getPaymentMethodsListOfConsumer(code).enqueue(GetPaymentMethodConsumerBaseHR(callBack))
+    }
+
     //:TODO post getPaymentMethods
     fun getPaymentMethods(url: RetrofitEnums?,  callBack:  PaymentMethodListCallBack) {
         val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
@@ -199,14 +206,16 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
     //:TODO post addNewCreditCard
     fun addNewCreditCard(
         url: RetrofitEnums?,
+        header:RequestBody/*,
+        type:String,
         number:String,
-        month:String,
+        mon:String,
         year:String,
-        cvv:String,
+        cvv:String*/,
         callBack: AddNewCreditCardCallBack?
     ) {
         val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
-        privateInstanceRetrofit.addNewCreditCard( number,month,year,cvv)
+        privateInstanceRetrofit.addNewCreditCard( header/*,type,number,mon,year,cvv*/)
             .enqueue(AddNewCreditCardBaseHR(callBack))
     }
 
@@ -282,6 +291,16 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
     ) {
         val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
         privateInstanceRetrofit.diagnoseCreate(header, request).enqueue(DiagnoseBaseHR(callBack))
+    }
+
+//:TODO post createOrder
+    fun createOrder(
+        url: RetrofitEnums?,
+        request: CreateOrderRequest?,
+        callBack: CreateOrderCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.createOrder(request).enqueue(CreateOrderBaseHR(callBack))
     }
 
     //:TODO post getDashboard

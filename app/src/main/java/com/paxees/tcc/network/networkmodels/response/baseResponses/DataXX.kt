@@ -3,7 +3,7 @@ package com.paxees.tcc.network.networkmodels.response.baseResponses
 
 import com.google.gson.annotations.SerializedName
 
-class Card {
+class DataXX {
     @SerializedName("address_city")
     var addressCity: Any? = Any()
     @SerializedName("address_country")
@@ -24,6 +24,8 @@ class Card {
     var brand: String = ""
     @SerializedName("country")
     var country: String = ""
+    @SerializedName("customer")
+    var customer: String = ""
     @SerializedName("cvc_check")
     var cvcCheck: String = ""
     @SerializedName("dynamic_last4")

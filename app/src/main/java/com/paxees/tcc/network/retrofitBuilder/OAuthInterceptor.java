@@ -100,7 +100,6 @@ public class OAuthInterceptor implements Interceptor {
         Log.d("Signature", signature);
 
         HttpUrl url = originalHttpUrl.newBuilder()
-
                 .addQueryParameter(OAUTH_SIGNATURE_METHOD, OAUTH_SIGNATURE_METHOD_VALUE)
                 .addQueryParameter(OAUTH_CONSUMER_KEY, consumerKey)
                 .addQueryParameter(OAUTH_VERSION, OAUTH_VERSION_VALUE)

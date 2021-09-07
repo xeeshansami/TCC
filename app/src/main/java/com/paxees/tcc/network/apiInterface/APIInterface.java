@@ -5,6 +5,7 @@ import com.paxees.tcc.network.networkmodels.request.AddToCartRequest;
 import com.paxees.tcc.network.networkmodels.request.AddToWishlistRequest;
 import com.paxees.tcc.network.networkmodels.request.BrandDetailsRequest;
 import com.paxees.tcc.network.networkmodels.request.ChangePasswordRequest;
+import com.paxees.tcc.network.networkmodels.request.CreateOrderRequest;
 import com.paxees.tcc.network.networkmodels.request.DashboardRequest;
 import com.paxees.tcc.network.networkmodels.request.DiagnoseRequest;
 import com.paxees.tcc.network.networkmodels.request.LoginRequest;
@@ -21,8 +22,10 @@ import com.paxees.tcc.network.networkmodels.response.baseResponses.AddtoCartResp
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandByCategoryResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandDetailResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.ChangePasswordResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.CreateOrderResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.DiscoveryResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.ForgetPasswordResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.GetPaymentMethodListOfConsumerResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.GetWishlistResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.ImageResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.PaymentMethodListResponse;
@@ -51,13 +54,14 @@ import com.paxees.tcc.network.networkmodels.response.models.MyAddressesListRespo
 import org.jetbrains.annotations.NotNull;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
@@ -118,6 +122,10 @@ public interface APIInterface {
     @POST("wp/v2/diagnostic")
     Call<DiagnoseResponse> diagnoseCreate(@Header("Authorization") String header, @Body DiagnoseRequest request);
 
+
+    @POST("wc/v3/orders")
+    Call<CreateOrderResponse> createOrder(@Body CreateOrderRequest request);
+
     @GET("wc/v3/customers/{userid}")
     Call<MyAddressesListResponse> getAddressList(@Path("userid") int userid);
 
@@ -127,16 +135,22 @@ public interface APIInterface {
     @GET("wishlist/product-image/{code}")
     Call<WishlistImageResponse> getImageForWishList(@Path("code") String code);
 
+    @Headers({"Authorization: Bearer sk_test_lWIOYLjp3fBuFPJiUTLOhSZh00DhWRHj6p"})
+    @GET("v1/customers/{code}}/sources")
+    Call<GetPaymentMethodListOfConsumerResponse> getPaymentMethodsListOfConsumer(@Path("code") String code);
+
     @FormUrlEncoded
     @POST("v1/customers")
     Call<AddConsumerStripResponse> addCustomerToStrip(@Body() AddConsumerInStripRequest request);
 
-    @FormUrlEncoded
+    @Headers({"Authorization: Bearer sk_test_lWIOYLjp3fBuFPJiUTLOhSZh00DhWRHj6p"})
     @POST("v1/tokens")
-    Call<AddNewCreditCardResponse> addNewCreditCard(@Field("card[number]") String number,
+    Call<AddNewCreditCardResponse> addNewCreditCard(@Body() RequestBody body
+                                                    /*@Header("Content-Type") String type,
+                                                    @Field("card[number]") String number,
                                                     @Field("card[exp_month]") String exp_month,
                                                     @Field("card[exp_year]") String exp_year,
-                                                    @Field("card[cvc]") String cvc);
+                                                    @Field("card[number]") String cvc*/);
 
     @GET("wc/v3/payment_gateways")
     Call<PaymentMethodListResponse> getPaymentMethods();

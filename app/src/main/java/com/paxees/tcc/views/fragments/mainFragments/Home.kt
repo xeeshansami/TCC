@@ -15,10 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.CIFRootActivity
-import com.paxees.tcc.network.ResponseHandlers.callbacks.NightTimeUsageCallBack
-import com.paxees.tcc.network.ResponseHandlers.callbacks.PlantsByTypeCallBack
-import com.paxees.tcc.network.ResponseHandlers.callbacks.PopularByThisWeekCallBack
-import com.paxees.tcc.network.ResponseHandlers.callbacks.ProductSearchCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.*
 import com.paxees.tcc.network.enums.RetrofitEnums
 import com.paxees.tcc.network.networkmodels.response.baseResponses.*
 import com.paxees.tcc.network.store.TCCStore
@@ -27,6 +24,7 @@ import com.paxees.tcc.views.adapters.NightTimeUsageAdapter
 import com.paxees.tcc.views.adapters.PlantTypeAdapter
 import com.paxees.tcc.views.adapters.PopularAdapter
 import com.paxees.tcc.views.adapters.ProductSearchAdapter
+import kotlinx.android.synthetic.main.drawer_bottom_layout.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class Home : Fragment(), View.OnClickListener {
@@ -48,6 +46,22 @@ class Home : Fragment(), View.OnClickListener {
         init(view)
     }
 
+    private fun getCarts() {
+        var accessToken =   (activity as CIFRootActivity?)!!.sharedPreferenceManager.loginData.token
+        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+        TCCStore.instance!!.getCarts(RetrofitEnums.URL_HBL, accessToken, object :
+            GetCartsCallBack {
+            override fun Success(response: GetAddToCartResponse) {
+                orderItems.text = response.size.toString() + " items"
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+
+            override fun Failure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+        })
+    }
     fun init(view: View?) {
         searchFilter!!.setOnClickListener(this)
         poplarPlants()
@@ -97,6 +111,7 @@ class Home : Fragment(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         checkBackground()
+        getCarts()
     }
 
     @SuppressLint("WrongConstant")
