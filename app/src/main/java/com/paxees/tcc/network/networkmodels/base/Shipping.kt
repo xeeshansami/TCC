@@ -1,4 +1,4 @@
-package com.paxees.tcc.network.networkmodels.request
+package com.paxees.tcc.network.networkmodels.base
 
 
 import com.google.gson.annotations.SerializedName

@@ -136,7 +136,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
         username.text =
-            sharedPreferenceManager.customerDetails[0].firstName + " " + sharedPreferenceManager.customerDetails[0].lastName
+            sharedPreferenceManager.customerDetails.getOrNull(0)?.firstName + " " + sharedPreferenceManager.customerDetails.getOrNull(0)?.lastName
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.cifHostFragment)

@@ -4,27 +4,29 @@ import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.CIFRootActivity
-import com.paxees.tcc.network.ResponseHandlers.callbacks.GetPaymentMethodConusmerCallBack
-import com.paxees.tcc.network.enums.RetrofitEnums
-import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
-import com.paxees.tcc.network.networkmodels.response.baseResponses.GetPaymentMethodListOfConsumerResponse
-import com.paxees.tcc.network.store.TCCStore
+import com.paxees.tcc.network.networkmodels.response.baseResponses.DataXXX
+import com.paxees.tcc.network.networkmodels.response.baseResponses.GetExistingConsumerList
+import com.paxees.tcc.utils.Constants
 import com.paxees.tcc.utils.SessionManager
 import com.paxees.tcc.utils.ToastUtils
 import com.paxees.tcc.utils.TransparentProgressDialog
-import com.paxees.tcc.views.adapters.PaymentMethodAdapter
-import kotlinx.android.synthetic.main.fragment_mypayment_method.*
-import kotlinx.android.synthetic.main.toolbar_theme.backBtn
+import com.paxees.tcc.views.adapters.GetExistingConsumerAdapter
+import kotlinx.android.synthetic.main.fragment_get_consumer_list.*
+import kotlinx.android.synthetic.main.toolbar_theme.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -32,85 +34,59 @@ import okhttp3.RequestBody
 import okhttp3.Response
 import java.io.IOException
 
-class MyPaymentMethod : Fragment(), View.OnClickListener {
+
+class GetConsumerList : Fragment(), View.OnClickListener {
     var sessionManager: SessionManager? = null
+    var header: TextView? =null
+    var alertDialog: AlertDialog? =null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mypayment_method, container, false)
+        return inflater.inflate(R.layout.fragment_get_consumer_list, container, false)
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init(view)
     }
-
     fun init(view: View?) {
         sessionManager = SessionManager(activity)
         backBtn.setOnClickListener(this)
-        addNewPaymentMethodBtn.setOnClickListener(this)
-        getConsumerCards()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        getConsumerCards()
-    }
-
-    fun getConsumerCards(){
-        if (!arguments?.getString("CONSUMER_CODE").isNullOrEmpty()) {
-            var obj = addConusmerInStrip(
-                arguments?.getString("CONSUMER_CODE").toString(),
-                activity as CIFRootActivity
-            )
-            obj.execute()
-        } else {
-            var code = (activity as CIFRootActivity).sharedPreferenceManager.singleConsumer.id
-            var obj = addConusmerInStrip(code, activity as CIFRootActivity)
-            obj.execute()
-        }
+        var obj =getExistingConsumers(activity)
+        obj.execute()
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.backBtn -> {
-                findNavController().popBackStack()
+               findNavController().popBackStack()
             }
-            R.id.addNewPaymentMethodBtn -> {
-                findNavController().navigate(R.id.going_to_add_new_credit_card)
-            }
-
         }
     }
 
-    private class addConusmerInStrip(
-        code: String,
+
+    private class getExistingConsumers(
         activity: FragmentActivity?
     ) :
         AsyncTask<Void?, Response?, Response?>() {
-        var code = ""
-        var context: Context? = null
+        var desc=""
+        var email=""
+        var context: Context?=null
         private var progressDialog: TransparentProgressDialog? = null
-
         init {
-            this.context = activity
-            this.code = code
+            this.context=activity
+            this.desc=desc
+            this.email=email
         }
-
         fun getProgressDialogInstance(context: Context?): TransparentProgressDialog? {
             if (progressDialog == null) progressDialog = TransparentProgressDialog(
                 context!!
             )
             return progressDialog
         }
-
         fun showDialog(context: Context?) {
             progressDialog = getProgressDialogInstance(context)
             progressDialog!!.setCancelable(false)
@@ -123,10 +99,9 @@ class MyPaymentMethod : Fragment(), View.OnClickListener {
                 progressDialog = null
             }
         }
-
         override fun onPreExecute() {
             super.onPreExecute()
-            showDialog(this.context as CIFRootActivity)
+            showDialog( this.context as CIFRootActivity)
             //this method will be running on UI thread
         }
 
@@ -137,13 +112,13 @@ class MyPaymentMethod : Fragment(), View.OnClickListener {
             val client = OkHttpClient().newBuilder()
                 .build()
             val mediaType = "application/x-www-form-urlencoded".toMediaTypeOrNull()
-//            var string="description=$desc&email=$email"
+            var string="description=$desc&email=$email"
             val body = RequestBody.create(
                 mediaType,
-                ""
+                string
             )
             val request: Request = Request.Builder()
-                .url("https://api.stripe.com/v1/customers/$code/sources")
+                .url("https://api.stripe.com/v1/customers")
                 .method("GET", null)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
                 .addHeader("Authorization", "Bearer sk_test_lWIOYLjp3fBuFPJiUTLOhSZh00DhWRHj6p")
@@ -153,7 +128,7 @@ class MyPaymentMethod : Fragment(), View.OnClickListener {
 
         override fun onPostExecute(result: Response?) {
             super.onPostExecute(result)
-            if (result!!.isSuccessful) {
+            if(result!!.isSuccessful){
                 var responses: Response? = null
                 try {
                     responses = result
@@ -163,42 +138,35 @@ class MyPaymentMethod : Fragment(), View.OnClickListener {
                 val jsonData = responses!!.body!!.string()
                 var gson = Gson().fromJson(
                     jsonData,
-                    GetPaymentMethodListOfConsumerResponse::class.java
+                    GetExistingConsumerList::class.java
                 )
-                val horizontalLayoutManagaer =
-                    LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
-                (this.context as CIFRootActivity).rvPayments.layoutManager =
-                    horizontalLayoutManagaer
-                var VideosAdapter = PaymentMethodAdapter(this.context, gson)
-                (this.context as CIFRootActivity).rvPayments.setAdapter(VideosAdapter)
+                Log.i("ResponseStrip",gson.toString())
+                var list=ArrayList<DataXXX>()
+                val email = (context as CIFRootActivity?)!!.sharedPreferenceManager.loginData.userEmail
+                for(x in gson.data){
+                    if(email.equals(x.email)){
+                        list.add(x)
+                    }
+                }
+                (this.context as CIFRootActivity).sharedPreferenceManager.setExistingConsumerInStripe(gson)
+
+                val horizontalLayoutManagaer = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+                (this.context as CIFRootActivity).rvConsumers.layoutManager = horizontalLayoutManagaer
+                var VideosAdapter = GetExistingConsumerAdapter(this.context, list
+                ) { view, position ,data->
+                    (this.context as CIFRootActivity).sharedPreferenceManager.singleConsumer = data
+                    val bundle = bundleOf("CONSUMER_CODE" to  data.id.toString())
+                    (this.context as CIFRootActivity).findNavController(R.id.cifHostFragment).navigate(R.id.going_to_mypayment_method,bundle)
+                }
+                (this.context as CIFRootActivity).rvConsumers.setAdapter(VideosAdapter)
                 VideosAdapter.notifyDataSetChanged()
-                Log.i("ResponseStrip", gson.toString())
+            }else{
+                ToastUtils.showToastWith(this.context,"Something went wrong, please try again","")
             }
             hideLoader()
         }
     }
 
 
-    fun getPaymentMethods() {
-        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
-        TCCStore.instance!!.getPaymentMethodsListOfConsumer(
-            RetrofitEnums.URL_STRIP_API, "cus_J10foBiIbM03zL",
-            object :
-                GetPaymentMethodConusmerCallBack {
-                override fun Success(response: GetPaymentMethodListOfConsumerResponse) {
 
-                    (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
-                }
-
-                override fun Failure(baseResponse: BaseResponse) {
-                    ToastUtils.showToastWith(activity, baseResponse.message, "")
-                    (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
-                }
-            })
-    }
-
-    private fun rvPaymentFunc(response: GetPaymentMethodListOfConsumerResponse) {
-        // set up the RecyclerView
-
-    }
 }

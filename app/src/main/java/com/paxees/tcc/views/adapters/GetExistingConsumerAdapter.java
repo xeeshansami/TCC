@@ -8,31 +8,27 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.paxees.tcc.R;
-import com.paxees.tcc.controllers.CIFRootActivity;
-import com.paxees.tcc.models.mFilterDashboard;
-import com.paxees.tcc.network.networkmodels.response.baseResponses.DataXX;
-import com.paxees.tcc.network.networkmodels.response.baseResponses.GetPaymentMethodListOfConsumerResponse;
-import com.paxees.tcc.network.networkmodels.response.baseResponses.PaymentMethodListResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.DataXXX;
 
 import java.util.ArrayList;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdapter.ViewHolder> {
+public class GetExistingConsumerAdapter extends RecyclerView.Adapter<GetExistingConsumerAdapter.ViewHolder> {
     private int row_index;
-    private GetPaymentMethodListOfConsumerResponse mData;
+    private ArrayList<DataXXX> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private Context context;
     private String branchImage;
     private int checkedPosition = 0;
     // data is passed into the constructor
-    public PaymentMethodAdapter(Context context, GetPaymentMethodListOfConsumerResponse data) {
+    public GetExistingConsumerAdapter(Context context, ArrayList<DataXXX> data,ItemClickListener mClickListener) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
+        this.mClickListener=mClickListener;
     }
 
     // inflates the row layout from xml when needed
@@ -46,31 +42,15 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        GetPaymentMethodListOfConsumerResponse data = mData;
-        DataXX dataXX=data.getData().get(position);
-        String number = "grou353fp23g3qprwog"+dataXX.getLast4();
-        String mask = number.replaceAll("\\w(?=\\w{4})", "*");
-        holder.titleLbl.setText(mask);
-        holder.titleValue.setText(dataXX.getBrand()+" "+dataXX.getExpMonth()+"/"+dataXX.getExpYear());
-//        if (checkedPosition == -1) {
-//            holder.imageView.setVisibility(View.INVISIBLE);
-//        } else {
-            if (((CIFRootActivity)context).sharedPreferenceManager.getCardSaved().getId().equalsIgnoreCase(dataXX.getId())) {
-                checkedPosition=position;
-                holder.imageView.setImageResource(R.mipmap.ic_done);
-            } else {
-                holder.imageView.setImageResource(R.mipmap.ic_undone);
-            }
-//        }
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
+        DataXXX dataXX=mData.get(position);
+        holder.titleLbl.setText(dataXX.getEmail());
+        holder.imageView.setVisibility(View.GONE);
+        holder.titleValue.setVisibility(View.GONE);
+        holder.paymentMethodDelete.setVisibility(View.GONE);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.imageView.setImageResource(R.mipmap.ic_done);
-                if (checkedPosition != position) {
-                    ((CIFRootActivity)context).sharedPreferenceManager.setCardSave(dataXX);
-                    notifyItemChanged(checkedPosition);
-                    checkedPosition = position;
-                }
+                mClickListener.onItemClick(v,position,dataXX);
             }
         });
 
@@ -78,7 +58,7 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
 
     @Override
     public int getItemCount() {
-        return mData.getData().size();
+        return mData.size();
     }
 
     // total number of rows
@@ -90,11 +70,12 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView titleLbl, titleValue;
+        TextView titleLbl,paymentMethodDelete, titleValue;
         ImageView imageView;
 
         ViewHolder(View itemView) {
             super(itemView);
+            paymentMethodDelete = itemView.findViewById(R.id.paymentMethodDelete);
             titleLbl = itemView.findViewById(R.id.txtCardNum);
             titleValue = itemView.findViewById(R.id.visaCardTv);
             imageView = itemView.findViewById(R.id.payment_method_done);
@@ -104,12 +85,12 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
 
         @Override
         public void onClick(View v) {
-            if (mClickListener != null) mClickListener.onItemClick(v, this.getAdapterPosition());
+            if (mClickListener != null) mClickListener.onItemClick(v, this.getAdapterPosition(), mData.get(this.getAdapterPosition()));
         }
     }
 
     // convenience method for getting data at click position
-    GetPaymentMethodListOfConsumerResponse getItem(int id) {
+    ArrayList<DataXXX> getItem(int id) {
         return mData;
     }
 
@@ -120,6 +101,6 @@ public class PaymentMethodAdapter extends RecyclerView.Adapter<PaymentMethodAdap
 
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(View view, int position, DataXXX dataXX);
     }
 }

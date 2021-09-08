@@ -15,7 +15,7 @@
     <ImageView
         android:id="@+id/payment_method_done"
         android:layout_gravity="center_vertical"
-        android:src="@mipmap/ic_done"
+        android:src="@mipmap/ic_undone"
         android:layout_width="@dimen/_20sdp"
         android:layout_height="@dimen/_20sdp"></ImageView>
     <LinearLayout

@@ -124,14 +124,14 @@
     <string name="add_discount_promotion_code">Add Discount/Promotion Code</string>
     <string name="price_summary">Price Summary</string>
     <string name="discount">Discount</string>
-    <string name="_130">$130</string>
+    <string name="_130">0</string>
     <string name="include_text_and_tax_codes">Include text and tax codes</string>
     <string name="total_item_price">Total Item Price</string>
-    <string name="_10">$10</string>
+    <string name="_10">0</string>
     <string name="tax">Tax</string>
-    <string name="_5">$5</string>
+    <string name="_5">$0</string>
     <string name="sub_total">Sub Total</string>
-    <string name="_125">$125</string>
+    <string name="_125">0</string>
     <string name="my_orders">My Orders</string>
     <string name="genuine_products_15_days_return_100_secure">Genuine Products 15 days return, 100% secure</string>
     <!-- Preference Titles -->
@@ -166,7 +166,7 @@
     <string name="EnterNewPwd">New Password</string>
     <string name="EnterConfirmNewPwd">Confirm New Password</string>
     <string name="addAnotherAddresses">Add Another Addresses</string>
-    <string name="add_new_payment_method">Add New Payment Method</string>
+    <string name="add_new_payment_method">Add New Another Payment Method</string>
     <string name="strain_form">Strain Request Form</string>
     <string name="address1">Address line 1</string>
     <string name="address2">Address line 2</string>
@@ -203,4 +203,5 @@
     <string name="saveAddress">Save Address</string>
     <string name="map">Map</string>
     <string name="deliver_to">Deliver to</string>
+    <string name="final_review">Final Review</string>
 </resources>

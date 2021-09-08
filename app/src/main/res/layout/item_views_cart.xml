@@ -57,6 +57,7 @@
                 android:textSize="@dimen/_15sdp"
                 android:textStyle="bold" />
             <TextView
+                android:id="@+id/XLabl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"

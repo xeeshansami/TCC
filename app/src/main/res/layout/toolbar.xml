@@ -22,11 +22,8 @@
 
     <TextView android:id="@+id/header"
         android:layout_weight="5"
-        android:gravity="center"
-        android:paddingRight="@dimen/_40sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/profile"
         android:layout_gravity="center|center_horizontal"
         android:textColor="@color/black"
         android:textSize="@dimen/_15sdp"

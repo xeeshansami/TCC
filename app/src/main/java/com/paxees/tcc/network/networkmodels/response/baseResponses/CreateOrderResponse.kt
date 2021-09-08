@@ -1,9 +1,11 @@
 package com.paxees.tcc.network.networkmodels.response.baseResponses
 
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
-class CreateOrderResponse {
+class CreateOrderResponse() : Parcelable {
     @SerializedName("billing")
     var billing: Billing = Billing()
     @SerializedName("cart_hash")
@@ -90,4 +92,82 @@ class CreateOrderResponse {
     var transactionId: String = ""
     @SerializedName("version")
     var version: String = ""
+
+    constructor(parcel: Parcel) : this() {
+        cartHash = parcel.readString().toString()
+        cartTax = parcel.readString().toString()
+        createdVia = parcel.readString().toString()
+        currency = parcel.readString().toString()
+        currencySymbol = parcel.readString().toString()
+        customerId = parcel.readInt()
+        customerIpAddress = parcel.readString().toString()
+        customerNote = parcel.readString().toString()
+        customerUserAgent = parcel.readString().toString()
+        dateCreated = parcel.readString().toString()
+        dateCreatedGmt = parcel.readString().toString()
+        dateModified = parcel.readString().toString()
+        dateModifiedGmt = parcel.readString().toString()
+        discountTax = parcel.readString().toString()
+        discountTotal = parcel.readString().toString()
+        id = parcel.readInt().toInt()
+        number = parcel.readString().toString()
+        orderKey = parcel.readString().toString()
+        parentId = parcel.readInt().toInt()
+        paymentMethod = parcel.readString().toString()
+        paymentMethodTitle = parcel.readString().toString()
+        pricesIncludeTax = parcel.readByte() != 0.toByte()
+        shippingTax = parcel.readString().toString()
+        shippingTotal = parcel.readString().toString()
+        status = parcel.readString().toString()
+        total = parcel.readString().toString()
+        totalTax = parcel.readString().toString()
+        transactionId = parcel.readString().toString()
+        version = parcel.readString().toString()
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(cartHash)
+        parcel.writeString(cartTax)
+        parcel.writeString(createdVia)
+        parcel.writeString(currency)
+        parcel.writeString(currencySymbol)
+        parcel.writeInt(customerId)
+        parcel.writeString(customerIpAddress)
+        parcel.writeString(customerNote)
+        parcel.writeString(customerUserAgent)
+        parcel.writeString(dateCreated)
+        parcel.writeString(dateCreatedGmt)
+        parcel.writeString(dateModified)
+        parcel.writeString(dateModifiedGmt)
+        parcel.writeString(discountTax)
+        parcel.writeString(discountTotal)
+        parcel.writeInt(id)
+        parcel.writeString(number)
+        parcel.writeString(orderKey)
+        parcel.writeInt(parentId)
+        parcel.writeString(paymentMethod)
+        parcel.writeString(paymentMethodTitle)
+        parcel.writeByte(if (pricesIncludeTax) 1 else 0)
+        parcel.writeString(shippingTax)
+        parcel.writeString(shippingTotal)
+        parcel.writeString(status)
+        parcel.writeString(total)
+        parcel.writeString(totalTax)
+        parcel.writeString(transactionId)
+        parcel.writeString(version)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<CreateOrderResponse> {
+        override fun createFromParcel(parcel: Parcel): CreateOrderResponse {
+            return CreateOrderResponse(parcel)
+        }
+
+        override fun newArray(size: Int): Array<CreateOrderResponse?> {
+            return arrayOfNulls(size)
+        }
+    }
 }

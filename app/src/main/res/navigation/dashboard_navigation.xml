@@ -127,7 +127,7 @@
             app:popUpToInclusive="true"></action>
         <action
             android:id="@+id/setting_to_add_new_payment_method"
-            app:destination="@id/navigation_add_new_payment_method"
+            app:destination="@id/navigation_add_consumer_method"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/slide_in_left"
@@ -159,10 +159,10 @@
     <fragment
         android:id="@+id/navigation_myaddresses"
         android:name="com.paxees.tcc.views.fragments.settingsFragments.MyAddresses"
-        android:label="MyAddresses"
+        android:label="AddNewAddresses"
         tools:layout="@layout/fragment_myaddresses">
         <action
-            android:id="@+id/setting_to_add_new_address"
+            android:id="@+id/myaddress_to_new_addresses"
             app:destination="@id/navigation_add_new_addresses"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
@@ -170,20 +170,7 @@
             app:popExitAnim="@android:anim/slide_out_right"
             app:popUpToInclusive="true"></action>
     </fragment>
-    <fragment
-        android:id="@+id/navigation_add_new_payment_method"
-        android:name="com.paxees.tcc.views.fragments.settingsFragments.MyPaymentMethod"
-        android:label="AddPaymentMethod"
-        tools:layout="@layout/fragment_add_payment_method">
-        <action
-            android:id="@+id/going_to_add_new_payment_method"
-            app:destination="@id/navigation_add_payment_method"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right"
-            app:popUpToInclusive="true"></action>
-    </fragment>
+
     <fragment
         android:id="@+id/navigation_diagnose1"
         android:name="com.paxees.tcc.views.fragments.dignosticsFragments.Diagnose1"
@@ -339,7 +326,7 @@
 
     <fragment
         android:id="@+id/navigation_add_new_addresses"
-        android:name="com.paxees.tcc.views.fragments.settingsFragments.AddNewAddresses"
+        android:name="com.paxees.tcc.views.fragments.settingsFragments.MyAddNewAddresses"
         android:label="Add New Address"
         tools:layout="@layout/fragment_newaddresses"></fragment>
     <fragment
@@ -348,15 +335,79 @@
         android:label="MapFragment"
         tools:layout="@layout/fragment_maps"></fragment>
     <fragment
-        android:id="@+id/navigation_add_payment_method"
-        android:name="com.paxees.tcc.views.fragments.settingsFragments.AddPaymentMethod"
-        android:label="AddPaymentMethod"
-        tools:layout="@layout/fragment_add_payment_method"></fragment>
+        android:id="@+id/navigation_add_credit_card"
+        android:name="com.paxees.tcc.views.fragments.settingsFragments.AddCreditCard"
+        android:label="AddCreditCard"
+        tools:layout="@layout/fragment_add_creadit_card"></fragment>
 
     <fragment
         android:id="@+id/navigation_create_order"
         android:name="com.paxees.tcc.views.fragments.drawerMenusFragments.CreateOrders"
         android:label="CreateOrders"
-        tools:layout="@layout/fragment_create_order"></fragment>
-
+        tools:layout="@layout/fragment_create_order">
+        <action
+            android:id="@+id/going_to_address"
+            app:destination="@id/navigation_myaddresses"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
+        <action
+            android:id="@+id/going_to_payment"
+            app:destination="@id/navigation_final_review"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_add_consumer_method"
+        android:name="com.paxees.tcc.views.fragments.settingsFragments.AddConsumerMethod"
+        android:label="AddConsumerMethod"
+        tools:layout="@layout/fragment_add_consumer_method">
+        <action
+            android:id="@+id/going_get_consumer_list"
+            app:destination="@id/navigation_get_consumer_list"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_get_consumer_list"
+        android:name="com.paxees.tcc.views.fragments.settingsFragments.GetConsumerList"
+        android:label="GetConsumerList"
+        tools:layout="@layout/fragment_get_consumer_list">
+        <action
+            android:id="@+id/going_to_mypayment_method"
+            app:destination="@id/navigation_my_payment_method"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_my_payment_method"
+        android:name="com.paxees.tcc.views.fragments.settingsFragments.MyPaymentMethod"
+        android:label="AddPaymentMethod"
+        tools:layout="@layout/fragment_mypayment_method">
+        <action
+            android:id="@+id/going_to_add_new_credit_card"
+            app:destination="@id/navigation_add_credit_card"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_final_review"
+        android:name="com.paxees.tcc.views.fragments.drawerMenusFragments.FinalReview"
+        android:label="FinalReview"
+        tools:layout="@layout/fragment_final_review">
+    </fragment>
 </navigation>

@@ -2,14 +2,16 @@ package com.paxees.tcc.network.networkmodels.request
 
 
 import com.google.gson.annotations.SerializedName
+import com.paxees.tcc.network.networkmodels.base.Billing
+import com.paxees.tcc.network.networkmodels.base.Shipping
 
 class CreateOrderRequest {
     @SerializedName("billing")
     var billing: Billing = Billing()
     @SerializedName("line_items")
-    var lineItems: List<LineItem> = listOf()
+    var lineItems: ArrayList<LineItem> = ArrayList<LineItem>()
     @SerializedName("meta_data")
-    var metaData: List<MetaData> = listOf()
+    var metaData: ArrayList<MetaData> = ArrayList<MetaData>()
     @SerializedName("payment_method")
     var paymentMethod: String = ""
     @SerializedName("payment_method_title")
@@ -19,5 +21,5 @@ class CreateOrderRequest {
     @SerializedName("shipping")
     var shipping: Shipping = Shipping()
     @SerializedName("shipping_lines")
-    var shippingLines: List<ShippingLine> = listOf()
+    var shippingLines: ArrayList<ShippingLine> = ArrayList<ShippingLine>()
 }

@@ -23,15 +23,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public onItemRemove removeProd;
     private Context context;
     private String branchImage;
+    private int check=0;
 
     // data is passed into the constructor
-    public CartAdapter(Context context, GetAddToCartResponse data, onItemPlus onItemPlus, onItemMinus onItemMinus,onItemRemove removeProd) {
+    public CartAdapter(Context context, GetAddToCartResponse data, onItemPlus onItemPlus, onItemMinus onItemMinus,onItemRemove removeProd,int check) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
         this.onItemPlus=onItemPlus;
         this.onItemMinus=onItemMinus;
         this.removeProd=removeProd;
+        this.check=check;
     }
 
     // inflates the row layout from xml when needed
@@ -97,12 +99,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView titleLbl, priceTv,btnMinus,btnPlus,idQuantity,txtQuantityCart;
+        TextView titleLbl, priceTv,btnMinus,btnPlus,idQuantity,txtQuantityCart,XLabl;
         ImageView imgid,removeProd;
 
         ViewHolder(View itemView) {
             super(itemView);
             txtQuantityCart = itemView.findViewById(R.id.txtQuantityCart);
+            XLabl = itemView.findViewById(R.id.XLabl);
             btnMinus = itemView.findViewById(R.id.idMinus);
             idQuantity = itemView.findViewById(R.id.idQuantity);
             btnPlus = itemView.findViewById(R.id.btnPlus);
@@ -110,6 +113,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             priceTv = itemView.findViewById(R.id.priceTv);
             imgid = itemView.findViewById(R.id.imgid);
             removeProd = itemView.findViewById(R.id.removeProd);
+            if(check==2){
+                btnMinus.setVisibility(View.GONE);
+                btnPlus.setVisibility(View.GONE);
+                idQuantity.setVisibility(View.GONE);
+                removeProd.setVisibility(View.GONE);
+                txtQuantityCart.setVisibility(View.GONE);
+                XLabl.setVisibility(View.GONE);
+            }
             itemView.setOnClickListener(this);
         }
 

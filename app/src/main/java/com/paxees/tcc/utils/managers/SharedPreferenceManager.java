@@ -6,7 +6,13 @@ import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.AddNewConsumerResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.AddNewCreditCardResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.CardAddedInConsumerStripeResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.CustomerDetailsResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.DataXX;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.DataXXX;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.GetExistingConsumerList;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.LoginResponse;
 
 import java.lang.reflect.Type;
@@ -25,6 +31,13 @@ public class SharedPreferenceManager {
     public static final String LOGIN_KEY = "LOGIN_KEY";
     public static final String CUSTOMER_DETAILS_KEY = "CUSTOMER_DETAILS_KEY";
     public static final String ZOHO_KEY = "ZOHO_KEY";
+    public static final String CARD_STRIPE = "CARD_STRIPE";
+    public static final String CONSUMER_STRIPE = "CONSUMER_STRIPE";
+    public static final String EXISTING_CONSUMER_STRIPE = "EXISTING_CONSUMER_STRIPE";
+    public static final String ADDRESS_USE = "ADDRESS_USE";
+    public static final String SINGLE_CONSUMER_STRIPE = "SINGLE_CONSUMER_STRIPE";
+    public static final String SAVED_CARD_INFO = "SAVED_CARD_INFO";
+    public static final String CARD_ADDED_IN_CONSUMER_STRIPE = "CARD_ADDED_IN_CONSUMER_STRIPE";
     //Is Fingerprint Authentication Enabled
     public static SharedPreferences sSharedPreferences;
     public static final SharedPreferenceManager sharedPrefManagerInstance = new SharedPreferenceManager();
@@ -129,6 +142,26 @@ public class SharedPreferenceManager {
         }
         return companyList;
     }
+
+    public void setAddressUse(String value) {
+        SharedPreferences.Editor editor = sSharedPreferences.edit();
+        editor.putString(ADDRESS_USE, value);
+        editor.commit();
+    }
+
+    public Object getAddressUse() {
+        Object companyList = new Object();
+        String json = new Gson().toJson(companyList);
+        if (sSharedPreferences != null) {
+            Gson gson = new Gson();
+            String string = sSharedPreferences.getString(ADDRESS_USE, json);
+            Type type = new TypeToken<Object>() {
+            }.getType();
+            companyList = gson.fromJson(string, type);
+            return companyList;
+        }
+        return companyList;
+    }
  public void setLoginData(LoginResponse data) {
         Gson gson = new Gson();
         String json = gson.toJson(data);
@@ -150,6 +183,139 @@ public class SharedPreferenceManager {
         }
         return companyList;
     }
+    public void setCardInStripe(AddNewCreditCardResponse data) {
+        Gson gson = new Gson();
+        String json = gson.toJson(data);
+        SharedPreferences.Editor editor = sSharedPreferences.edit();
+        editor.putString(CARD_STRIPE, json);
+        editor.commit();
+    }
+
+    public AddNewCreditCardResponse getCardFromStripe() {
+        AddNewCreditCardResponse companyList = new AddNewCreditCardResponse();
+        String json = new Gson().toJson(companyList);
+        if (sSharedPreferences != null) {
+            Gson gson = new Gson();
+            String string = sSharedPreferences.getString(CARD_STRIPE, json);
+            Type type = new TypeToken<AddNewCreditCardResponse>() {
+            }.getType();
+            companyList = gson.fromJson(string, type);
+            return companyList;
+        }
+        return companyList;
+    }
+
+ public void setCardAddedInConsumerStripe(CardAddedInConsumerStripeResponse data) {
+        Gson gson = new Gson();
+        String json = gson.toJson(data);
+        SharedPreferences.Editor editor = sSharedPreferences.edit();
+        editor.putString(CARD_ADDED_IN_CONSUMER_STRIPE, json);
+        editor.commit();
+    }
+
+    public CardAddedInConsumerStripeResponse getCardAddedInConsumerStripe() {
+        CardAddedInConsumerStripeResponse companyList = new CardAddedInConsumerStripeResponse();
+        String json = new Gson().toJson(companyList);
+        if (sSharedPreferences != null) {
+            Gson gson = new Gson();
+            String string = sSharedPreferences.getString(CARD_ADDED_IN_CONSUMER_STRIPE, json);
+            Type type = new TypeToken<CardAddedInConsumerStripeResponse>() {
+            }.getType();
+            companyList = gson.fromJson(string, type);
+            return companyList;
+        }
+        return companyList;
+    }
+
+    public void setConsumerInStripe(AddNewConsumerResponse data) {
+        Gson gson = new Gson();
+        String json = gson.toJson(data);
+        SharedPreferences.Editor editor = sSharedPreferences.edit();
+        editor.putString(CONSUMER_STRIPE, json);
+        editor.commit();
+    }
+
+    public AddNewConsumerResponse getConsumerFromStripe() {
+        AddNewConsumerResponse companyList = new AddNewConsumerResponse();
+        String json = new Gson().toJson(companyList);
+        if (sSharedPreferences != null) {
+            Gson gson = new Gson();
+            String string = sSharedPreferences.getString(CONSUMER_STRIPE, json);
+            Type type = new TypeToken<AddNewConsumerResponse>() {
+            }.getType();
+            companyList = gson.fromJson(string, type);
+            return companyList;
+        }
+        return companyList;
+    }
+
+
+    public void setExistingConsumerInStripe(GetExistingConsumerList data) {
+        Gson gson = new Gson();
+        String json = gson.toJson(data);
+        SharedPreferences.Editor editor = sSharedPreferences.edit();
+        editor.putString(EXISTING_CONSUMER_STRIPE, json);
+        editor.commit();
+    }
+
+    public GetExistingConsumerList getExistingConsumerFromStripe() {
+        GetExistingConsumerList companyList = new GetExistingConsumerList();
+        String json = new Gson().toJson(companyList);
+        if (sSharedPreferences != null) {
+            Gson gson = new Gson();
+            String string = sSharedPreferences.getString(EXISTING_CONSUMER_STRIPE, json);
+            Type type = new TypeToken<GetExistingConsumerList>() {
+            }.getType();
+            companyList = gson.fromJson(string, type);
+            return companyList;
+        }
+        return companyList;
+    }
+
+  public void setSingleConsumer(DataXXX data) {
+        Gson gson = new Gson();
+        String json = gson.toJson(data);
+        SharedPreferences.Editor editor = sSharedPreferences.edit();
+        editor.putString(SINGLE_CONSUMER_STRIPE, json);
+        editor.commit();
+    }
+
+    public DataXXX getSingleConsumer() {
+        DataXXX companyList = new DataXXX();
+        String json = new Gson().toJson(companyList);
+        if (sSharedPreferences != null) {
+            Gson gson = new Gson();
+            String string = sSharedPreferences.getString(SINGLE_CONSUMER_STRIPE, json);
+            Type type = new TypeToken<DataXXX>() {
+            }.getType();
+            companyList = gson.fromJson(string, type);
+            return companyList;
+        }
+        return companyList;
+    }
+
+    public void setCardSave(DataXX data) {
+        Gson gson = new Gson();
+        String json = gson.toJson(data);
+        SharedPreferences.Editor editor = sSharedPreferences.edit();
+        editor.putString(SAVED_CARD_INFO, json);
+        editor.commit();
+    }
+
+    public DataXX getCardSaved() {
+        DataXX companyList = new DataXX();
+        String json = new Gson().toJson(companyList);
+        if (sSharedPreferences != null) {
+            Gson gson = new Gson();
+            String string = sSharedPreferences.getString(SAVED_CARD_INFO, json);
+            Type type = new TypeToken<DataXX>() {
+            }.getType();
+            companyList = gson.fromJson(string, type);
+            return companyList;
+        }
+        return companyList;
+    }
+
 
     public void setCustomerDetails(CustomerDetailsResponse data) {
         Gson gson = new Gson();

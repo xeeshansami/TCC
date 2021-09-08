@@ -3,6 +3,7 @@ package com.paxees.tcc.network.ResponseHandlers.handler;
 
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse;
 import com.paxees.tcc.utils.GlobalClass;
+import com.paxees.tcc.utils.ToastUtils;
 
 import java.net.SocketTimeoutException;
 
@@ -19,10 +20,11 @@ public abstract class BaseRH<T> implements Callback<T> {
         if (response.isSuccessful()) {
             onSuccess(response);
         }else{
+//            ToastUtils.normalShowToast(GlobalClass.applicationContext.getApplicationContext(),"Something went wrong, please try again later");
+//            onSuccess(response);
             globalClass.hideLoader();
         }
     }
-
     @Override
     public void onFailure(Call<T> call, Throwable t) {
         if (t.getMessage().equalsIgnoreCase("timeout")) {

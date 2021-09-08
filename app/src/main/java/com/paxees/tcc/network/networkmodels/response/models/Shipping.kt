@@ -4,6 +4,8 @@ package com.paxees.tcc.network.networkmodels.response.models
 import com.google.gson.annotations.SerializedName
 
 class Shipping {
+    @SerializedName("tag")
+    var tag: String = "shipping"
     @SerializedName("address_1")
     var address1: String = ""
     @SerializedName("address_2")

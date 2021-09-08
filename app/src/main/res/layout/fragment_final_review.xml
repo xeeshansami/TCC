@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/NestedScrollBarStyle">
+
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        tools:context=".controllers.launcher">
+        <include android:id="@+id/toolbar"
+            layout="@layout/toolbar"></include>
+        <TextView
+            android:background="@color/black"
+            android:id="@+id/carteDetails"
+            android:layout_weight="5"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingRight="@dimen/_40sdp"
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="@dimen/_40sdp"
+            android:text="@string/profile"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            ></TextView>
+
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/carteDetails">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="@dimen/_10sdp"
+                android:id="@+id/rvCarts"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:clipToPadding="true"
+                android:fadingEdge="vertical"
+                android:layoutAnimation="@anim/list_anim_slide_right_to_left"
+                android:requiresFadingEdge="vertical"
+                />
+
+
+        </LinearLayout>
+        <View
+            android:id="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/header"
+            android:background="@color/grey"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"></View>
+
+        <LinearLayout
+            android:padding="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:id="@+id/shippinglayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/space"
+            android:layout_weight="2"
+            android:weightSum="2"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:background="@drawable/bg_border"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="Deliver Address"
+                android:textSize="@dimen/_17sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="wrap_content" />
+
+
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <Button
+                    android:drawableTop="@drawable/ic_home_black_24dp"
+                    android:text="Shipping Address"
+                    android:drawableTint="@color/grey"
+                    android:textSize="@dimen/_10sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/grey"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:background="@android:color/transparent"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_40sdp" />
+                <TextView
+                    android:gravity="left"
+                    android:id="@+id/billingAddress"
+                    android:text="the President's Inaugural speech. \n123 Main Street, New York, NY 10030 "
+                    android:textSize="@dimen/_13sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/grey"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/paymentRate"
+                android:text="Fixed Rate"
+                android:textSize="@dimen/_17sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <Button android:id="@+id/nextButtonCreateOrder"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginLeft="@dimen/_40sdp"
+            android:layout_marginRight="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:background="@drawable/button_border"
+            android:drawableRight="@drawable/ic_baseline_navigate_next_24"
+            android:drawableTint="@color/white"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="@dimen/_15sdp"
+            android:paddingRight="@dimen/_20sdp"
+            android:text="Pay 0 now"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/shippinglayout"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
+

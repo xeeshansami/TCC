@@ -71,4 +71,8 @@ public class Constants {
     public static final String GRANT_TYPE_1="authorization_code";
     @NotNull
     public static final String GRANT_TYPE_2="refresh_token";
+    @NotNull
+    public static final Object CONSUMER_CODE="CONSUMER_CODE";
+    @Nullable
+    public static final String ORDER_RESPONSE="ORDER_RESPONSE";
 }

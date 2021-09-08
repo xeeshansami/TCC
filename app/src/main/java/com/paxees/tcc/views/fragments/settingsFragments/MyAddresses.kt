@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import com.google.gson.Gson
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.CIFRootActivity
 import com.paxees.tcc.network.ResponseHandlers.callbacks.AddressListCallBack
@@ -16,6 +17,9 @@ import com.paxees.tcc.network.enums.RetrofitEnums
 import com.paxees.tcc.network.networkmodels.request.UpdateAddress2Request
 import com.paxees.tcc.network.networkmodels.request.UpdateAddressRequest
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.GetPaymentMethodListOfConsumerResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.Shipping
+import com.paxees.tcc.network.networkmodels.response.models.Billing
 import com.paxees.tcc.network.networkmodels.response.models.MyAddressesListResponse
 import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.SessionManager
@@ -26,6 +30,9 @@ import kotlinx.android.synthetic.main.toolbar_theme.*
 
 class MyAddresses : Fragment(), View.OnClickListener {
     var sessionManager: SessionManager? = null
+    var address: MyAddressesListResponse? = null
+    var alertDialog: AlertDialog? = null
+    var checkAddress = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,7 +43,7 @@ class MyAddresses : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_newaddresses, container, false)
+        return inflater.inflate(R.layout.fragment_myaddresses, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,7 +54,27 @@ class MyAddresses : Fragment(), View.OnClickListener {
     fun init(view: View?) {
         sessionManager = SessionManager(activity)
         backBtn.setOnClickListener(this)
+        done_icon1.setOnClickListener(this)
+        done_icon2.setOnClickListener(this)
+        myAddresses.setOnClickListener(this)
+        addressChangeBtn.setOnClickListener(this)
+        addressChangeBtn2.setOnClickListener(this)
+        setCurrentPosition()
+        getAddressesList()
+    }
 
+    fun setCurrentPosition() {
+        var json = (activity as CIFRootActivity).sharedPreferenceManager.addressUse.toString()
+        if (json.contains("billing", true)) {
+            done_icon1.setImageResource(R.mipmap.ic_done)
+            done_icon2.setImageResource(R.mipmap.ic_undone)
+        } else if (json.contains("shipping", true)) {
+            done_icon2.setImageResource(R.mipmap.ic_done)
+            done_icon1.setImageResource(R.mipmap.ic_undone)
+        } else {
+            done_icon1.setImageResource(R.mipmap.ic_undone)
+            done_icon2.setImageResource(R.mipmap.ic_undone)
+        }
     }
 
     override fun onClick(v: View) {
@@ -55,14 +82,129 @@ class MyAddresses : Fragment(), View.OnClickListener {
             R.id.backBtn -> {
                 findNavController().popBackStack()
             }
-
+            R.id.addressChangeBtn -> {
+                changeAddressAlert("Billing Address")
+            }
             R.id.addressChangeBtn2 -> {
-                NavHostFragment.findNavController(this@MyAddresses).navigate(R.id.setting_to_add_new_address)
+                changeAddressAlert("Shipping Address")
+            }
+            R.id.done_icon1 -> {
+                done_icon1.setImageResource(R.mipmap.ic_done)
+                done_icon2.setImageResource(R.mipmap.ic_undone)
+                var json = Gson().toJson(address!!.billing)
+                (activity as CIFRootActivity).sharedPreferenceManager.setAddressUse(json)
+            }
+            R.id.done_icon2 -> {
+                var json = Gson().toJson(address!!.shipping)
+                (activity as CIFRootActivity).sharedPreferenceManager.setAddressUse(json)
+                done_icon2.setImageResource(R.mipmap.ic_done)
+                done_icon1.setImageResource(R.mipmap.ic_undone)
             }
 
+            R.id.myAddresses -> {
+                findNavController().navigate(R.id.myaddress_to_new_addresses)
+            }
         }
     }
 
+    private fun changeAddressAlert(addressType: String) {
+        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(activity as CIFRootActivity)
+        val inflater = this.layoutInflater
+        val dialogView: View = inflater.inflate(R.layout.change_address_popup, null)
+        dialogBuilder.setCancelable(false)
+        dialogBuilder.setView(dialogView)
+        alertDialog = dialogBuilder.create()
+        dialogView.addresstype.text = addressType
+        if (addressType == "Billing Address") {
+            dialogView.address1Et.setText(address!!.billing.address1.toString())
+            dialogView.address2Et.setText(address!!.billing.address2.toString())
+        } else {
+            dialogView.address1Et.setText(address!!.shipping.address1.toString())
+            dialogView.address2Et.setText(address!!.shipping.address2.toString())
+        }
+        dialogView.updateBtn.setOnClickListener(View.OnClickListener {
+            var address1 = dialogView.address1Et.text.toString().trim()
+            var address2 = dialogView.address2Et.text.toString().trim()
+            if (validation(address1, address2, dialogView)) {
+                updateAddress(addressType, address1, address2)
+            }
+        })
+        dialogView.cancelBtn.setOnClickListener(View.OnClickListener {
+            alertDialog!!.dismiss()
+        })
+        alertDialog!!.show()
+    }
+
+    private fun validation(address1: String, address2: String, dialogView: View): Boolean {
+        return if (TextUtils.isEmpty(address1)) {
+            dialogView.address1Et!!.error = "Address 1 should not be empty"
+            dialogView.address1Et!!.requestFocus()
+            false
+        } else if (TextUtils.isEmpty(address2)) {
+            dialogView.address2Et!!.error = "Address 2 should not be empty"
+            dialogView.address2Et!!.requestFocus()
+            false
+        } else {
+            true
+        }
+    }
+
+    private fun updateAddress(
+        addressType: String,
+        address1: String,
+        address2: String
+    ) {
+        var userid = (activity as CIFRootActivity).sharedPreferenceManager.customerDetails[0].id
+        var email = (activity as CIFRootActivity).sharedPreferenceManager.customerDetails[0].email
+        var request = UpdateAddressRequest()
+        var request2 = UpdateAddress2Request()
+        if (addressType == "Billing Address") {
+            request2.billing.email = email
+            request2.billing.address1 = address1
+            request2.billing.address2 = address2
+            (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+            TCCStore.instance!!.updateBillingAddress(
+                RetrofitEnums.URL_HBL,
+                userid,
+                request2,
+                object :
+                    AddressListCallBack {
+                    override fun Success(response: MyAddressesListResponse) {
+                        ToastUtils.showToastWith(activity, "$addressType has been updated")
+                        alertDialog!!.dismiss()
+                        getAddressesList()
+                    }
+
+                    override fun Failure(baseResponse: BaseResponse) {
+                        ToastUtils.showToastWith(activity, baseResponse.message, "")
+                        (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+                    }
+                })
+        } else {
+            request.shipping.email = email
+            request.shipping.address1 = address1
+            request.shipping.address2 = address2
+            (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+            TCCStore.instance!!.updateShippingAddress(
+                RetrofitEnums.URL_HBL,
+                userid,
+                request,
+                object :
+                    AddressListCallBack {
+                    override fun Success(response: MyAddressesListResponse) {
+                        ToastUtils.showToastWith(activity, "$addressType has been updated")
+                        alertDialog!!.dismiss()
+                        getAddressesList()
+                    }
+
+                    override fun Failure(baseResponse: BaseResponse) {
+                        ToastUtils.showToastWith(activity, baseResponse.message, "")
+                        (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+                    }
+                })
+        }
+
+    }
 
     fun getAddressesList() {
         var userid = (activity as CIFRootActivity).sharedPreferenceManager.customerDetails[0].id
@@ -70,6 +212,8 @@ class MyAddresses : Fragment(), View.OnClickListener {
         TCCStore.instance!!.getAddressList(RetrofitEnums.URL_HBL, userid, object :
             AddressListCallBack {
             override fun Success(response: MyAddressesListResponse) {
+                rvAddressFunc(response)
+                response.let { address = it }
                 (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
             }
 
@@ -80,5 +224,15 @@ class MyAddresses : Fragment(), View.OnClickListener {
         })
     }
 
-
+    private fun rvAddressFunc(response: MyAddressesListResponse) {
+        address = response
+        addressChangeBtn.setOnClickListener(this)
+        addressChangeBtn2.setOnClickListener(this)
+        addresstype1.text = "Billing Address"
+        addressBilling.text =
+            response.billing.address1 + " " + response.billing.city + " " + response.billing.country
+        addresstype2.text = "Shipping Address"
+        addressShipping.text =
+            response.shipping.address1 + " " + response.shipping.city + " " + response.shipping.country
+    }
 }

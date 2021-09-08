@@ -5,10 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.gson.Gson
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.CIFRootActivity
 import com.paxees.tcc.network.ResponseHandlers.callbacks.*
@@ -23,16 +22,20 @@ import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.Constants
 import com.paxees.tcc.utils.SessionManager
 import com.paxees.tcc.utils.ToastUtils
-import kotlinx.android.synthetic.main.fragment_create_order.*
+import com.paxees.tcc.views.adapters.CartAdapter
+import kotlinx.android.synthetic.main.fragment_final_review.*
+import kotlinx.android.synthetic.main.fragment_final_review.rvCarts
+import kotlinx.android.synthetic.main.fragment_my_order.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.header
-import org.json.JSONObject
 
 
-class CreateOrders : Fragment(), View.OnClickListener {
+class FinalReview : Fragment(), View.OnClickListener, CartAdapter.onItemPlus,
+    CartAdapter.onItemMinus, CartAdapter.onItemRemove {
     var sessionManager: SessionManager? = null
     var address: MyAddressesListResponse? = null
     var orders: GetAddToCartResponse? = null
+    var ordersResponse: CreateOrderResponse? = null
     var total = 0.0
     var subTotal = 0.0
     var disc = 10.0
@@ -46,39 +49,23 @@ class CreateOrders : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_order, container, false)
+        return inflater.inflate(R.layout.fragment_final_review, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init(view)
         onBackPressed()
-        getAddressesList()
+        ordersResponse= arguments?.getParcelable("ORDER_RESPONSE")
+        getCarts()
+        rvAddressFunc()
     }
 
-    fun getAddressesList() {
-        var userid = (activity as CIFRootActivity).sharedPreferenceManager.customerDetails[0].id
-        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
-        TCCStore.instance!!.getAddressList(RetrofitEnums.URL_HBL, userid, object :
-            AddressListCallBack {
-            override fun Success(response: MyAddressesListResponse) {
-                rvAddressFunc(response)
-                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
-            }
-
-            override fun Failure(baseResponse: BaseResponse) {
-                ToastUtils.showToastWith(activity, baseResponse.message, "")
-                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
-            }
-        })
-    }
-
-    private fun rvAddressFunc(response: MyAddressesListResponse) {
-        address=response
-        billingAddress.text =
-            response.billing.address1 + "\n" + response.billing.city + " " + response.billing.country + "\n" + response.billing.address2
-        shippingAddress.text =
-            response.shipping.address1 + "\n" + response.shipping.city + " " + response.shipping.country + "\n" + response.shipping.address2
+    private fun rvAddressFunc() {
+        paymentRate.text=ordersResponse!!.shippingLines[0].methodTitle.toUpperCase()
+        nextButtonCreateOrder.text="Pay $"+ordersResponse!!.total+" Now"
+        nextButtonCreateOrder.setOnClickListener(this)
+        billingAddress.text =ordersResponse!!.billing.address1+" "+ordersResponse!!.billing.city+" "+ordersResponse!!.billing.country+"\n"+ordersResponse!!.billing.address2
     }
 
     fun onBackPressed() {
@@ -94,34 +81,7 @@ class CreateOrders : Fragment(), View.OnClickListener {
     fun init(view: View?) {
         sessionManager = SessionManager(activity)
         backBtn.setOnClickListener(this)
-        nextButtonCreateOrder.setOnClickListener(this)
-        editHomeAddressIcon.setOnClickListener(this)
-        officeAddressIcon.setOnClickListener(this)
-        fixedRateCB.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                fixedRateCB.isChecked = true
-                tableRateCB.isChecked = false
-            }
-        }
-        tableRateCB.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                fixedRateCB.isChecked = false
-                tableRateCB.isChecked = true
-            }
-        }
-        shippingAddressCB.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                shippingAddressCB.isChecked = true
-                billingAddressCB.isChecked = false
-            }
-        }
-        billingAddressCB.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                shippingAddressCB.isChecked = false
-                billingAddressCB.isChecked = true
-            }
-        }
-        header.text = getText(R.string.deliver_to)
+        header.text = getText(R.string.final_review)
         getCarts()
     }
 
@@ -130,32 +90,26 @@ class CreateOrders : Fragment(), View.OnClickListener {
             R.id.backBtn -> {
                 findNavController().popBackStack()
             }
-            R.id.editHomeAddressIcon -> {
-                findNavController().navigate(R.id.going_to_address)
-            }
-            R.id.officeAddressIcon -> {
-                findNavController().navigate(R.id.going_to_address)
-            }
             R.id.nextButtonCreateOrder -> {
-                if (validation()) {
-                    createOrder()
-                }
+//                if (validation()) {
+//                    createOrder()
+//                }
             }
 
         }
     }
 
-    private fun validation(): Boolean {
-        if (!shippingAddressCB.isChecked && !billingAddressCB.isChecked) {
-            ToastUtils.showToastWith(activity, "Please check the Use this as deliver address","")
-            return false
-        } else if (!fixedRateCB.isChecked && !tableRateCB.isChecked) {
-            ToastUtils.showToastWith(activity, "Please check the shipping method","")
-            return false
-        } else {
-            return true
-        }
-    }
+//    private fun validation(): Boolean {
+//        if (!shippingAddressCB.isChecked && !billingAddressCB.isChecked) {
+//            ToastUtils.showToastWith(activity, "Please check the Use this as deliver address","")
+//            return false
+//        } else if (!fixedRateCB.isChecked && !tableRateCB.isChecked) {
+//            ToastUtils.showToastWith(activity, "Please check the shipping method","")
+//            return false
+//        } else {
+//            return true
+//        }
+//    }
 
     private fun switchFragment(startDestId: Int) {
         val navController = findNavController()
@@ -165,9 +119,13 @@ class CreateOrders : Fragment(), View.OnClickListener {
     }
 
     private fun rvCart(response: GetAddToCartResponse) {
-        orders=response
-        cartItems.text = response.size.toString() + " items in a cart."
-        totalAmount.text = "$" + response[0].lineSubtotal.toString()
+        // set up the RecyclerView
+        carteDetails.text=response.size.toString()+" items"
+        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        rvCarts.layoutManager = horizontalLayoutManagaer
+        var VideosAdapter = CartAdapter(activity, response, this, this,this,2)
+        rvCarts.adapter = VideosAdapter
+        VideosAdapter.notifyDataSetChanged()
     }
 
     private fun getCarts() {
@@ -200,15 +158,15 @@ class CreateOrders : Fragment(), View.OnClickListener {
         request.setPaid=false
         metaData.key="strip_id"
         metaData.value=(activity as CIFRootActivity).sharedPreferenceManager.singleConsumer.id
-        if (fixedRateCB.isChecked) {
-            shippingLine.methodId = "flat_rate"
-            shippingLine.methodTitle = "Flat Rate"
-            shippingLine.total = "10.00"
-        } else if (tableRateCB.isChecked) {
-            shippingLine.methodId = "table_rate"
-            shippingLine.methodTitle = "Table Rate"
-            request.shippingLines[0].total = "50.00"
-        }
+//        if (fixedRateCB.isChecked) {
+//            shippingLine.methodId = "flat_rate"
+//            shippingLine.methodTitle = "Flat Rate"
+//            shippingLine.total = "10.00"
+//        } else if (tableRateCB.isChecked) {
+//            shippingLine.methodId = "table_rate"
+//            shippingLine.methodTitle = "Table Rate"
+//            request.shippingLines[0].total = "50.00"
+//        }
         for(x in 0 until  orders!!.size){
             lineItem.productId=orders!![x].productId
             lineItem.quantity=orders!![x].quantity
@@ -236,8 +194,6 @@ class CreateOrders : Fragment(), View.OnClickListener {
                 CreateOrderCallBack {
                 override fun Success(response: CreateOrderResponse) {
                     ToastUtils.showToastWith(activity,"Order created successfully")
-                    val bundle = bundleOf("ORDER_RESPONSE" to response)
-                    findNavController().navigate(R.id.going_to_payment,bundle)
                     (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
                 }
 
@@ -246,6 +202,33 @@ class CreateOrders : Fragment(), View.OnClickListener {
                     (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
                 }
             })
+    }
+
+    override fun onItemPlus(
+        data: GetAddToCartResponse?,
+        view: View?,
+        position: Int,
+        value: String?
+    ) {
+
+    }
+
+    override fun onItemMinus(
+        data: GetAddToCartResponse?,
+        view: View?,
+        position: Int,
+        value: String?
+    ) {
+
+    }
+
+    override fun onItemRemove(
+        data: GetAddToCartResponse?,
+        view: View?,
+        position: Int,
+        value: String?
+    ) {
+
     }
 
 }

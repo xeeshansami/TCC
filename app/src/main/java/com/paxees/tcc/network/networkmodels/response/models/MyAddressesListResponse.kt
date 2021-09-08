@@ -7,7 +7,7 @@ class MyAddressesListResponse {
     @SerializedName("avatar_url")
     var avatarUrl: String = ""
     @SerializedName("billing")
-    var billing: Billing = Billing()
+    var billing: com.paxees.tcc.network.networkmodels.base.Billing = com.paxees.tcc.network.networkmodels.base.Billing()
     @SerializedName("date_created")
     var dateCreated: String = ""
     @SerializedName("date_created_gmt")
@@ -33,7 +33,7 @@ class MyAddressesListResponse {
     @SerializedName("role")
     var role: String = ""
     @SerializedName("shipping")
-    var shipping: Shipping = Shipping()
+    var shipping: com.paxees.tcc.network.networkmodels.base.Shipping = com.paxees.tcc.network.networkmodels.base.Shipping()
     @SerializedName("username")
     var username: String = ""
 }

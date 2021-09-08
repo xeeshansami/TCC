@@ -79,7 +79,11 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
                 switchFragment(R.id.navigation_home)
             }
             R.id.updateProfileBtn -> {
-                findNavController().navigate(R.id.goto_create_order)
+                if(tncCB.isChecked) {
+                    findNavController().navigate(R.id.goto_create_order)
+                }else{
+                    ToastUtils.showToastWith(activity,"Please checked the Genuine Products 15 days return, 100% secure")
+                }
             }
         }
     }
@@ -93,7 +97,7 @@ class MyOrders : Fragment(), View.OnClickListener, CartAdapter.onItemMinus, Cart
 
     private fun rvCart(response: GetAddToCartResponse) {
         // set up the RecyclerView
-        var VideosAdapter = CartAdapter(activity, response, this, this,this)
+        var VideosAdapter = CartAdapter(activity, response, this, this,this,0)
         rvCarts.adapter = VideosAdapter
         VideosAdapter.notifyDataSetChanged()
     }

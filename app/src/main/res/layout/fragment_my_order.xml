@@ -206,7 +206,7 @@
                     android:layout_margin="@dimen/_10sdp"
                     android:textColor="@color/grey"
                     android:text="@string/genuine_products_15_days_return_100_secure"
-                    android:id="@+id/cartCB"
+                    android:id="@+id/tncCB"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"></CheckBox>
             </LinearLayout>
@@ -225,7 +225,7 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="@dimen/_15sdp"
             android:paddingRight="@dimen/_20sdp"
-            android:text="Pay $125 now"
+            android:text="Pay 0 now"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"

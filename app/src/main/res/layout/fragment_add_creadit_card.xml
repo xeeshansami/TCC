@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/NestedScrollBarStyle">
+
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        tools:context=".controllers.launcher">
+
+        <include android:id="@+id/toolbar" layout="@layout/toolbar"></include>
+        <TextView android:id="@+id/headerTxt"
+            android:gravity="left"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Credit Card"
+            android:layout_gravity="left|center_vertical"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20sdp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"></TextView>
+        <com.manojbhadane.PaymentCardView
+            android:layout_margin="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@id/headerTxt"
+            android:id="@+id/creditCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cv_submitBtnText="Done"
+            app:cv_cardTitle="Pay Now"
+            tools:ignore="MissingConstraints" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

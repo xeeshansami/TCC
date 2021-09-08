@@ -80,14 +80,14 @@
             app:layout_constraintTop_toBottomOf="@+id/header">
             <Button
                 android:drawableTop="@drawable/ic_home_black_24dp"
-                android:text="Home"
+                android:text="Billing Address"
                 android:drawableTint="@color/grey"
                 android:textSize="@dimen/_10sdp"
                 android:layout_margin="@dimen/_5sdp"
                 android:textColor="@color/grey"
                 android:textStyle="bold"
                 android:background="@android:color/transparent"
-                android:layout_width="@dimen/_40sdp"
+                android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_40sdp" />
 
             <LinearLayout
@@ -98,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/homeAddress"
+                    android:id="@+id/billingAddress"
                     android:text="the President's Inaugural speech. \n123 Main Street, New York, NY 10030 "
                     android:textSize="@dimen/_13sdp"
                     android:layout_margin="@dimen/_5sdp"
@@ -107,7 +107,7 @@
                     android:layout_width="@dimen/_200sdp"
                     android:layout_height="wrap_content" />
                 <CheckBox
-                    android:id="@+id/homeAddressCB"
+                    android:id="@+id/shippingAddressCB"
                     android:text="Use this as deliver address"
                     android:textSize="@dimen/_10sdp"
                     android:layout_margin="@dimen/_5sdp"
@@ -144,14 +144,14 @@
             app:layout_constraintTop_toBottomOf="@+id/space">
             <Button
                 android:drawableTop="@android:drawable/stat_sys_download_done"
-                android:text="Office"
+                android:text="Shipping Address"
                 android:drawableTint="@color/grey"
                 android:textSize="@dimen/_10sdp"
                 android:layout_margin="@dimen/_5sdp"
                 android:textColor="@color/grey"
                 android:textStyle="bold"
                 android:background="@android:color/transparent"
-                android:layout_width="@dimen/_40sdp"
+                android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_40sdp" />
 
             <LinearLayout
@@ -162,7 +162,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/officeAddress"
+                    android:id="@+id/shippingAddress"
                     android:text="3425 Stone Street, Apt. 2A, Jacksonville, FL 39404"
                     android:textSize="@dimen/_13sdp"
                     android:layout_margin="@dimen/_5sdp"
@@ -171,7 +171,7 @@
                     android:layout_width="@dimen/_200sdp"
                     android:layout_height="wrap_content" />
                 <CheckBox
-                    android:id="@+id/officeAddressCB"
+                    android:id="@+id/billingAddressCB"
                     android:text="Use this as deliver address"
                     android:textSize="@dimen/_10sdp"
                     android:layout_margin="@dimen/_5sdp"
@@ -189,6 +189,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:padding="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:id="@+id/shippinglayout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -215,6 +216,10 @@
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+                <RadioGroup
+                    android:checkedButton="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
             <CheckBox
                 android:id="@+id/fixedRateCB"
                 android:textStyle="bold"
@@ -234,6 +239,7 @@
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+                </RadioGroup>
             </LinearLayout>
         </LinearLayout>
         <Button android:id="@+id/nextButtonCreateOrder"
