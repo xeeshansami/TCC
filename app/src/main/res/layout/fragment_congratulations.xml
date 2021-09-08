@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/NestedScrollBarStyle">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:padding="@dimen/_5sdp"
+        tools:context=".controllers.launcher">
+        <include android:id="@+id/toolbar"
+            layout="@layout/toolbar"></include>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_100sdp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            <ImageView
+                android:drawableTop="@drawable/ic_home_black_24dp"
+                android:text="Shipping Address"
+                android:drawableTint="@color/grey"
+                android:textSize="@dimen/_10sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_gravity="center"
+                android:textColor="@color/grey"
+                android:textStyle="bold"
+                android:src="@mipmap/ic_done"
+                android:gravity="center"
+                android:background="@android:color/transparent"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_40sdp" />
+            <TextView
+                android:id="@+id/brandLbl3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@android:color/transparent"
+                android:text="Congratulations"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:textColor="@color/colorTheme"
+                android:textSize="@dimen/_17sdp"></TextView>
+
+            <TextView
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@android:color/transparent"
+                android:text="Your order placed successfully.\nFor More details, Check Orders"
+                android:textStyle="bold"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/_17sdp"></TextView>
+
+            <Button android:id="@+id/done"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginLeft="@dimen/_40sdp"
+                android:layout_marginRight="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:background="@drawable/button_border"
+                android:gravity="center"
+                android:paddingLeft="@dimen/_15sdp"
+                android:paddingRight="@dimen/_20sdp"
+                android:text="Done"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/shippinglayout"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

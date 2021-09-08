@@ -409,5 +409,20 @@
         android:name="com.paxees.tcc.views.fragments.drawerMenusFragments.FinalReview"
         android:label="FinalReview"
         tools:layout="@layout/fragment_final_review">
+        <action
+            android:id="@+id/going_to_congratulations"
+            app:destination="@id/navigation_congratulations_screen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_congratulations_screen"
+        android:name="com.paxees.tcc.views.fragments.drawerMenusFragments.Congratulation"
+        android:label="Congratulation"
+        tools:layout="@layout/fragment_congratulations">
     </fragment>
 </navigation>

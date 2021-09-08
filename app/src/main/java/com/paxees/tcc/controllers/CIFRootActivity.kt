@@ -329,7 +329,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
         }
     }
 
-    private fun switchFragment(startDestId: Int) {
+    fun switchFragment(startDestId: Int) {
 //        val fragmentContainer = view?.findViewById<View>(R.id.nav_host)
 //        val navController = Navigation.findNavController(fragmentContainer!!)
         val navController = findNavController(R.id.cifHostFragment)
