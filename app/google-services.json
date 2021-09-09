@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "79506243204",
-    "project_id": "mapfreelance-82052",
-    "storage_bucket": "mapfreelance-82052.appspot.com"
+    "project_number": "9298055393",
+    "project_id": "tcc82331",
+    "storage_bucket": "tcc82331.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:79506243204:android:be441bd7ff57a204064cd1",
+        "mobilesdk_app_id": "1:9298055393:android:1e7c5e409ca63de71ae7a0",
         "android_client_info": {
           "package_name": "com.paxees.tcc"
         }
       },
       "oauth_client": [
         {
-          "client_id": "79506243204-d8ioshf3k812f3u08njmt4t2cfh3njqb.apps.googleusercontent.com",
+          "client_id": "9298055393-eb5ov8lq9ugh390ebu03qrnuc9g1fm49.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.paxees.tcc",
-            "certificate_hash": "7dbee2224ef7cba8020ed6d3291ba2f5a8f81455"
+            "certificate_hash": "1ff70cbf63aa6daed1d738f326fad58cdf984868"
           }
         },
         {
-          "client_id": "79506243204-bhd26udvs6gur8migmqcrjqqcu09ji4n.apps.googleusercontent.com",
+          "client_id": "9298055393-sfpoq6gboa58od54ejpioedrpc8da9fv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyClUubxgRUdJn5EyAeu1wSK9IY8fa6V1P4"
+          "current_key": "AIzaSyDqnVCoqK4YKCi-o6JWhq6G0AW0VNKK0PY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "79506243204-bhd26udvs6gur8migmqcrjqqcu09ji4n.apps.googleusercontent.com",
+              "client_id": "9298055393-sfpoq6gboa58od54ejpioedrpc8da9fv.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -1,9 +1,13 @@
 package com.paxees.tcc.network.ResponseHandlers.handler;
 
 
+import com.google.gson.Gson;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse;
 import com.paxees.tcc.utils.GlobalClass;
 import com.paxees.tcc.utils.ToastUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.SocketTimeoutException;
 
@@ -19,12 +23,12 @@ public abstract class BaseRH<T> implements Callback<T> {
     public void onResponse(Call<T> call, Response<T> response) {
         if (response.isSuccessful()) {
             onSuccess(response);
-        }else{
-//            ToastUtils.normalShowToast(GlobalClass.applicationContext.getApplicationContext(),"Something went wrong, please try again later");
-//            onSuccess(response);
+        } else {
+            ToastUtils.normalShowToast(globalClass.getApplicationContext(),"Something went wrong, try again later",2000);
             globalClass.hideLoader();
         }
     }
+
     @Override
     public void onFailure(Call<T> call, Throwable t) {
         if (t.getMessage().equalsIgnoreCase("timeout")) {

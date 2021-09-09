@@ -58,7 +58,8 @@
     <string name="userId">kanas9192@gmail.com</string>
     <string name="userPwd">ibmdellsony</string>
     <string name="somethingWentWrong">Something went wrong, please try again later.</string>
-    <string name="facebook_app_id">384741896100258</string>
+    <string name="facebook_app_id">527900741771513</string>
+    <string name="fb_login_protocol_scheme">fb527900741771513</string>
     <string name="phoneNumberHint">03412030258</string>
     <string name="promo">Promo*</string>
     <string name="gender">Gender</string>

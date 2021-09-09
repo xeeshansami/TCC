@@ -24,15 +24,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
+import com.google.gson.Gson
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.launcher
 import com.paxees.tcc.network.ResponseHandlers.callbacks.CustomerDetailsCallBack
 import com.paxees.tcc.network.ResponseHandlers.callbacks.LoginCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.RegistrationCallBack
 import com.paxees.tcc.network.enums.RetrofitEnums
 import com.paxees.tcc.network.networkmodels.request.LoginRequest
+import com.paxees.tcc.network.networkmodels.request.RegistrationRequest
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
 import com.paxees.tcc.network.networkmodels.response.baseResponses.CustomerDetailsResponse
 import com.paxees.tcc.network.networkmodels.response.baseResponses.LoginResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.RegistrationResponse
 import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.Constants
 import com.paxees.tcc.utils.SessionManager
@@ -42,6 +46,7 @@ import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.emailEt
 import kotlinx.android.synthetic.main.fragment_login.etPassword
 import kotlinx.android.synthetic.main.fragment_login.mainLoginLayout
+import org.json.JSONObject
 
 class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
     private var callbackManager: CallbackManager? = null
@@ -52,8 +57,10 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
@@ -90,7 +97,9 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
     override fun onClick(v: View) {
         when (v.id) {
             R.id.bt_login -> if (validation()) {
-                login()
+                val email = emailEt!!.text.toString().trim { it <= ' ' }
+                val pwd = etPassword!!.text.toString().trim { it <= ' ' }
+                login(email, pwd)
             }
             R.id.gmailBtn -> signIn()
             R.id.forgetPwd -> forgetPwd()
@@ -133,12 +142,15 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
         if (mGoogleApiClient == null || !mGoogleApiClient!!.isConnected) {
             try {
                 val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestEmail()
-                        .build()
+                    .requestEmail()
+                    .build()
                 mGoogleApiClient = GoogleApiClient.Builder(requireActivity())
-                        .enableAutoManage(requireActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                        .build()
+                    .enableAutoManage(
+                        requireActivity() /* FragmentActivity */,
+                        this /* OnConnectionFailedListener */
+                    )
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                    .build()
                 mGoogleApiClient!!.connect()
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -186,48 +198,51 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
     fun facebook() {
         callbackManager = CallbackManager.Factory.create()
         facebookBtnLogin!!.setReadPermissions("email", "public_profile")
-        facebookBtnLogin!!.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
-            override fun onSuccess(loginResult: LoginResult) {
-                val request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken()) { `object`, response ->
-                    (activity as launcher?)!!.globalClass!!.hideLoader()
-                    Log.i("Facebook", """
+        facebookBtnLogin!!.registerCallback(
+            callbackManager,
+            object : FacebookCallback<LoginResult> {
+                override fun onSuccess(loginResult: LoginResult) {
+                    val request =
+                        GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken()) { `object`, response ->
+                            (activity as launcher?)!!.globalClass!!.hideLoader()
+                            Log.i(
+                                "Facebook", """
      facebook response$response
      ${loginResult.accessToken}
-     """.trimIndent())
-                    //                        getFacebookDetails(loginResult.getAccessToken());
+     """.trimIndent()
+                            )
+                            //                        getFacebookDetails(loginResult.getAccessToken());
+                        }
+                    val parameters = Bundle()
+                    parameters.putString("fields", "id,name,email")
+                    request.parameters = parameters
+                    request.executeAsync()
                 }
-                val parameters = Bundle()
-                parameters.putString("fields", "id,name,email")
-                request.parameters = parameters
-                request.executeAsync()
-            }
 
-            override fun onCancel() {
-                (activity as launcher?)!!.globalClass!!.hideLoader()
-                Log.i("cancel", "cancel")
-            }
+                override fun onCancel() {
+                    (activity as launcher?)!!.globalClass!!.hideLoader()
+                    Log.i("cancel", "cancel")
+                }
 
-            override fun onError(error: FacebookException) {
-                Log.i("FacebookException", error.message!!)
-                Log.i("FacebookException", error.cause.toString() + "")
-            }
-        })
+                override fun onError(error: FacebookException) {
+                    Log.i("FacebookException", error.message!!)
+                    Log.i("FacebookException", error.cause.toString() + "")
+                }
+            })
     }
 
-    private fun login() {
-        val email = emailEt!!.text.toString().trim { it <= ' ' }
-        val pwd = etPassword!!.text.toString().trim { it <= ' ' }
+    private fun login(email: String, pwd: String) {
         (activity as launcher?)!!.globalClass!!.showDialog(activity)
         var request = LoginRequest()
         request.username = email
         request.password = pwd
         TCCStore.instance!!.getLogin(RetrofitEnums.URL_HBL, request, object : LoginCallBack {
             override fun LoginSuccess(response: LoginResponse) {
-                if(!response.token.isNullOrEmpty()) {
+                if (!response.token.isNullOrEmpty()) {
                     (activity as launcher).sharedPreferenceManager.loginData = response
                     getCustomerDetails(email)
-                }else{
-                    ToastUtils.showToastWith(activity,response.message)
+                } else {
+                    ToastUtils.showToastWith(activity, response.message)
                 }
             }
 
@@ -237,30 +252,35 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
             }
         })
     }
+
     fun String.isValidEmail() =
         isNotEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
-    fun getCustomerDetails(email:String){
-        TCCStore.instance!!.getCustomerDetails(RetrofitEnums.URL_HBL,email, object : CustomerDetailsCallBack {
-            override fun  Success(response:  CustomerDetailsResponse) {
-                (activity as launcher).sharedPreferenceManager.customerDetails = response
-                ToastUtils.showToastWith(activity, "Login successfully...")
-                NavHostFragment.findNavController(this@Login).navigate(R.id.login_to_dashboard)
-                (activity as launcher?)!!.globalClass!!.hideLoader()
-            }
+    fun getCustomerDetails(email: String) {
+        TCCStore.instance!!.getCustomerDetails(
+            RetrofitEnums.URL_HBL,
+            email,
+            object : CustomerDetailsCallBack {
+                override fun Success(response: CustomerDetailsResponse) {
+                    (activity as launcher).sharedPreferenceManager.customerDetails = response
+                    ToastUtils.showToastWith(activity, "Login successfully...")
+                    NavHostFragment.findNavController(this@Login).navigate(R.id.login_to_dashboard)
+                    (activity as launcher?)!!.globalClass!!.hideLoader()
+                }
 
-            override fun  Failure(baseResponse: BaseResponse) {
-                ToastUtils.showToastWith(activity, baseResponse.message, "")
-                (activity as launcher?)!!.globalClass!!.hideLoader()
-            }
-        })
+                override fun Failure(baseResponse: BaseResponse) {
+                    ToastUtils.showToastWith(activity, baseResponse.message, "")
+                    (activity as launcher?)!!.globalClass!!.hideLoader()
+                }
+            })
     }
+
     private fun setupGoogleClient() {
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestProfile()
-                .build()
+            .requestProfile()
+            .build()
         FacebookSdk.sdkInitialize(FacebookSdk.getApplicationContext())
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
@@ -290,16 +310,10 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
         try {
             val account = completedTask.signInAccount
             val email = account!!.email
+            val id = account!!.id
             val first_name = account.displayName
             val last_name = account.familyName
-            //            String fcm = SharedPreferenceManager.getInstance(LoginActivity.this).getFcmToken();
-            val app = "consumer"
-            val password = "Dusky123"
-            //            String gmailToken = account.getId();
-            val gmail = "google"
-            Log.i("GoogleMail", " gmail login email success fully$email")
-
-
+            registrations(email, id, first_name, last_name)
             // Signed in successfully, show authenticated UI.
         } catch (e: IndexOutOfBoundsException) {
             Log.e("ExceptionError", " = " + e.message)
@@ -331,6 +345,46 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
         ToastUtils.showToastWith(activity, connectionResult.errorMessage, "")
     }
 
+    private fun registrations(
+        email: String?,
+        id: String?,
+        first_name: String?,
+        last_name: String?
+    ) {
+        (activity as launcher?)!!.globalClass!!.showDialog(activity)
+        var request = RegistrationRequest()
+        request.email = email!!
+        request.firstName = first_name!!
+        request.lastName = last_name!!
+        request.billing.phone = "xxxx"
+        request.password = id!!
+        request.username = email.substring(0, email.indexOf("@"));
+        TCCStore.instance!!.getRegister(RetrofitEnums.URL_HBL, request, object :
+            RegistrationCallBack {
+            override fun Success(response: RegistrationResponse) {
+                var json = Gson().toJson(response)
+                var jsonObj = JSONObject(json)
+                if (!response.id.toString()
+                        .isNullOrEmpty()
+                ) {
+                    login(email, id)
+                } else if (jsonObj.get("code")
+                        .equals("registration-error-email-exists")
+                ) {
+                    login(email, id)
+                } else {
+                    ToastUtils.showToastWith(activity, "Something went wrong, try again")
+                }
+                (activity as launcher?)!!.globalClass!!.hideLoader()
+            }
+
+            override fun Failure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as launcher?)!!.globalClass!!.hideLoader()
+            }
+        })
+    }
+
     /*Facebook login*/
     private fun getFacebookDetails(token: AccessToken) {
         try {
@@ -344,14 +398,20 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
                     val app = "consumer"
                     val fbToken = token.token
                     val facebook = "facebook"
-                    Log.i("Facebook", token.token + "\\n"
-                            + email + "\\n"
-                            + last_name + "\\n" //                                + fcm + "\\n"
-                            + password + "\\n"
-                            + app + "\\n"
-                            + fbToken)
+                    Log.i(
+                        "Facebook", token.token + "\\n"
+                                + email + "\\n"
+                                + last_name + "\\n" //                                + fcm + "\\n"
+                                + password + "\\n"
+                                + app + "\\n"
+                                + fbToken
+                    )
                 } catch (e: Exception) {
-                    ToastUtils.showToastWith(activity, resources.getString(R.string.somethingWentWrong), "")
+                    ToastUtils.showToastWith(
+                        activity,
+                        resources.getString(R.string.somethingWentWrong),
+                        ""
+                    )
                     Log.e("error", e.message!!)
                 }
             }
