@@ -212,6 +212,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
         this.googleMap = googleMap
         this.googleMap!!.setOnMapClickListener(this)
     }
+
     fun addMarker(latLng: LatLng, title: String?, move: Boolean) {
         googleMap!!.clear()
         val mp = MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_pin))
@@ -295,6 +296,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCa
     }
 
     override fun onConnectionSuspended(i: Int) {}
+
     override fun onConnectionFailed(connectionResult: ConnectionResult) {
         /*
          * Google Play services can resolve some errors it detects.

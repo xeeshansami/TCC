@@ -23,10 +23,11 @@ public class NightTimeUsageAdapter extends RecyclerView.Adapter<NightTimeUsageAd
     private Context context;
 
     // data is passed into the constructor
-    public NightTimeUsageAdapter(Context context, NightTimeUsuageResponse data) {
+    public NightTimeUsageAdapter(Context context, NightTimeUsuageResponse data,ItemClickListener mClickListener) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
+        this.mClickListener=mClickListener;
     }
 
     // inflates the row layout from xml when needed
@@ -42,6 +43,12 @@ public class NightTimeUsageAdapter extends RecyclerView.Adapter<NightTimeUsageAd
         NightTimeUsuageResponse data = mData;
         Glide.with(context).load(data.get(position).getProductImageUrl()).placeholder(R.drawable.logo).into( holder.img);
         holder.txt.setText(data.get(position).getProductName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mClickListener.onItemClick(v,position);
+            }
+        });
     }
     public void filterList(NightTimeUsuageResponse filteredList) {
         mData = filteredList;
@@ -89,6 +96,6 @@ public class NightTimeUsageAdapter extends RecyclerView.Adapter<NightTimeUsageAd
 
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
-        void onItemClick(View view, int position, mFilterDashboard brand);
+        void onItemClick(View view, int position);
     }
 }

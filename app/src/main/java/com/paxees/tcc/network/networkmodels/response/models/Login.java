@@ -9,7 +9,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Login implements Parcelable {
+public class  Login implements Parcelable {
 
     @SerializedName("cn")
     @Expose

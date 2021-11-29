@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_blogs.*
 import kotlinx.android.synthetic.main.fragment_strains.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-class BlogsFragment : Fragment(), View.OnClickListener {
+class BlogsFragment : Fragment(), View.OnClickListener, BlogsAdapter.ItemClickListener {
     var tvCoupons: TextView? = null
     var tvChangePwd: TextView? = null
     var tvMyProfile: TextView? = null
@@ -98,8 +98,13 @@ class BlogsFragment : Fragment(), View.OnClickListener {
         val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         rvBlogs.layoutManager = horizontalLayoutManagaer
         var VideosAdapter = BlogsAdapter(activity as CIFRootActivity, response)
+        VideosAdapter.setClickListener(this)
         rvBlogs.setAdapter(VideosAdapter)
         VideosAdapter.notifyDataSetChanged()
+    }
+
+    override fun onItemClick(view: View?, position: Int) {
+
     }
 
 

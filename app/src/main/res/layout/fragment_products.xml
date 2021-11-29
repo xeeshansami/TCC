@@ -32,38 +32,40 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     >
+
                     <TextView
+                        android:id="@+id/productName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="left"
-                        android:text="@string/black_russain"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_15sdp" />
                     <TextView
+                        android:id="@+id/slug"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:gravity="left"
-                        android:text="@string/indoor_plant"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_10sdp" />
                 </LinearLayout>
 
 
                 <TextView
+                    android:id="@+id/price"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:gravity="left"
-                    android:text="@string/_36"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/_12sdp" />
 
-                <TextView android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/salePrice"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="left"
-                    android:text="@string/_18"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_15sdp" />
             </LinearLayout>
@@ -99,11 +101,12 @@
 
             </LinearLayout>
 
-            <TextView android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/productDesc"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:padding="@dimen/_10sdp"
-                android:text="@string/desc"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/_12sdp" />
         </LinearLayout>
@@ -201,8 +204,13 @@
             <FrameLayout android:id="@+id/appbar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_200sdp"
-                android:background="@drawable/product_top">
+                >
 
+                <ImageView
+                    android:id="@+id/product_Image"
+                    android:scaleType="fitXY"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_200sdp"></ImageView>
                 <LinearLayout android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center_horizontal"
@@ -231,8 +239,8 @@
                             <TextView android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:id="@+id/date"
                                 android:layout_marginLeft="@dimen/_5sdp"
-                                android:text="@string/_24Days"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/_15sdp" />
                         </LinearLayout>
@@ -253,8 +261,8 @@
                             <TextView android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:id="@+id/humidity"
                                 android:layout_marginLeft="@dimen/_5sdp"
-                                android:text="@string/_82Humidity"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/_15sdp" />
                         </LinearLayout>
@@ -276,8 +284,8 @@
                             <TextView android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:id="@+id/weather"
                                 android:layout_marginLeft="@dimen/_5sdp"
-                                android:text="@string/_24Days"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/_15sdp" />
                         </LinearLayout>

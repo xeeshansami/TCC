@@ -26,10 +26,11 @@ public class StrainAdapter extends RecyclerView.Adapter<StrainAdapter.ViewHolder
     private String branchImage;
 
     // data is passed into the constructor
-    public StrainAdapter(Context context, StrainResponse data) {
+    public StrainAdapter(Context context, StrainResponse data,ItemClickListener mClickListener) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
+        this.mClickListener=mClickListener;
     }
 
     // inflates the row layout from xml when needed
@@ -45,6 +46,9 @@ public class StrainAdapter extends RecyclerView.Adapter<StrainAdapter.ViewHolder
         StrainResponse data = mData;
         Glide.with(context).load(data.get(position).getProduct_Image_Url()).into( holder.imageView);
         holder.titleLbl.setText(data.get(position).getProduct_Name());
+        holder.imageView.setOnClickListener(v -> {
+            mClickListener.onItemClick(v,position);
+        });
 //        holder.titleValue.setText(data.get(position).getProduct_id());
     }
 
@@ -65,7 +69,6 @@ public class StrainAdapter extends RecyclerView.Adapter<StrainAdapter.ViewHolder
             titleLbl = itemView.findViewById(R.id.txtPopluarName);
             titleValue = itemView.findViewById(R.id.txtQuantity);
             imageView = itemView.findViewById(R.id.imgid);
-            itemView.setOnClickListener(this);
         }
 
         @Override

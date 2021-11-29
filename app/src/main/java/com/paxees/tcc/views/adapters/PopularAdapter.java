@@ -24,10 +24,11 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
     private Context context;
 
     // data is passed into the constructor
-    public PopularAdapter(Context context, PopularByThisWeekResponse data) {
+    public PopularAdapter(Context context, PopularByThisWeekResponse data, ItemClickListener mClickListener) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
+        this.mClickListener=mClickListener;
     }
 
     // inflates the row layout from xml when needed
@@ -43,6 +44,12 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
         PopularByThisWeekResponse data = mData;
         Glide.with(context).load(data.get(position).getProductImageUrl()).placeholder(R.drawable.logo).into( holder.img);
         holder.txt.setText(data.get(position).getProductName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mClickListener.onItemClick(v,position);
+            }
+        });
     }
     public void filterList(PopularByThisWeekResponse filteredList) {
         mData = filteredList;
@@ -89,6 +96,6 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
 
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
-        void onItemClick(View view, int position, mFilterDashboard brand);
+        void onItemClick(View view, int position);
     }
 }

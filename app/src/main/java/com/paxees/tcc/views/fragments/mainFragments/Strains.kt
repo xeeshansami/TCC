@@ -16,6 +16,7 @@ import com.paxees.tcc.network.enums.RetrofitEnums
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
 import com.paxees.tcc.network.networkmodels.response.baseResponses.StrainResponse
 import com.paxees.tcc.network.store.TCCStore
+import com.paxees.tcc.utils.Constants
 import com.paxees.tcc.utils.SessionManager
 import com.paxees.tcc.utils.ToastUtils
 import com.paxees.tcc.views.adapters.StrainAdapter
@@ -97,8 +98,13 @@ class Strains : Fragment(), View.OnClickListener {
     private fun setStrains(response: StrainResponse?) {
         val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         rvStrains.layoutManager = horizontalLayoutManagaer
-        var VideosAdapter = StrainAdapter(activity, response)
-        rvStrains.setAdapter(VideosAdapter)
+        var VideosAdapter = StrainAdapter(activity, response
+        ) { view, position ->
+                var bundle=Bundle()
+                bundle.putString(Constants.PRODUCT_ID, response?.get(position)!!.Product_id.toString())
+                findNavController().navigate(R.id.navigation_products,bundle)
+        }
+        rvStrains.adapter = VideosAdapter
         VideosAdapter.notifyDataSetChanged()
     }
 

@@ -75,4 +75,6 @@ public class Constants {
     public static final Object CONSUMER_CODE="CONSUMER_CODE";
     @Nullable
     public static final String ORDER_RESPONSE="ORDER_RESPONSE";
+    @Nullable
+    public static final String PRODUCT_ID="PRODUCT_ID";
 }

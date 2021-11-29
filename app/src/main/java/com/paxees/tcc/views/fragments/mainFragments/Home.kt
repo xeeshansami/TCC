@@ -12,6 +12,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.CIFRootActivity
@@ -19,6 +20,7 @@ import com.paxees.tcc.network.ResponseHandlers.callbacks.*
 import com.paxees.tcc.network.enums.RetrofitEnums
 import com.paxees.tcc.network.networkmodels.response.baseResponses.*
 import com.paxees.tcc.network.store.TCCStore
+import com.paxees.tcc.utils.Constants
 import com.paxees.tcc.utils.ToastUtils
 import com.paxees.tcc.views.adapters.NightTimeUsageAdapter
 import com.paxees.tcc.views.adapters.PlantTypeAdapter
@@ -151,7 +153,12 @@ class Home : Fragment(), View.OnClickListener {
     }
 
     private fun setCategories(response: PopularByThisWeekResponse) {
-        var VideosAdapter = PopularAdapter(activity, response)
+        var VideosAdapter = PopularAdapter(activity, response
+        ) { view, position ->
+            var bundle=Bundle()
+            bundle.putString(Constants.PRODUCT_ID, response?.get(position)!!.productId.toString())
+            findNavController().navigate(R.id.navigation_products,bundle)
+        }
         rvPopular.setAdapter(VideosAdapter)
         VideosAdapter.notifyDataSetChanged()
     }
@@ -176,7 +183,11 @@ class Home : Fragment(), View.OnClickListener {
     }
 
     private fun setPlantType(response: PlantsByTypeResponse) {
-        var VideosAdapter = PlantTypeAdapter(activity, response)
+        var VideosAdapter = PlantTypeAdapter(activity, response ) { view, position ->
+            var bundle=Bundle()
+            bundle.putString(Constants.PRODUCT_ID, response?.get(position)!!.categoryId.toString())
+            findNavController().navigate(R.id.navigation_products,bundle)
+        }
         rvPlantsType.adapter = VideosAdapter
         VideosAdapter.notifyDataSetChanged()
         // set up the RecyclerView
@@ -198,7 +209,12 @@ class Home : Fragment(), View.OnClickListener {
 
     private fun setNightTimeUsage(response: NightTimeUsuageResponse) {
         try {
-            var VideosAdapter2 = NightTimeUsageAdapter(activity, response)
+            var VideosAdapter2 = NightTimeUsageAdapter(activity, response
+            ) { view, position ->
+                var bundle=Bundle()
+                bundle.putString(Constants.PRODUCT_ID, response?.get(position)!!.productId.toString())
+                findNavController().navigate(R.id.navigation_products,bundle)
+            }
             rvNightUseage.setAdapter(VideosAdapter2)
             VideosAdapter2.notifyDataSetChanged()
             (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
@@ -232,7 +248,11 @@ class Home : Fragment(), View.OnClickListener {
     }
 
     private fun setProductSearch(response: ProductSearchResponse) {
-        var VideosAdapter = ProductSearchAdapter(activity, response)
+        var VideosAdapter = ProductSearchAdapter(activity, response ) { view, position ->
+            var bundle=Bundle()
+            bundle.putString(Constants.PRODUCT_ID, response?.get(position)!!.id.toString())
+            findNavController().navigate(R.id.navigation_products,bundle)
+        }
         rvPopular.setAdapter(VideosAdapter)
         VideosAdapter.notifyDataSetChanged()
     }

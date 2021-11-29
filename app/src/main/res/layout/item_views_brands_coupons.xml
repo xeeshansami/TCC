@@ -35,7 +35,6 @@
             android:layout_width="@dimen/_100sdp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_5sdp"
-            android:text="@string/medium"
             android:maxLines="10"
             android:gravity="left"
             android:textColor="@color/grey"

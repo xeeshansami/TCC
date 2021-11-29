@@ -6,11 +6,11 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 class PlantsByTypeResponseItem() : Parcelable {
-    @SerializedName("Category-id")
+    @SerializedName("CategoryX-id")
     var categoryId: Int = 0
-    @SerializedName("Category-Image-Url")
+    @SerializedName("CategoryX-Image-Url")
     var categoryImageUrl: String = ""
-    @SerializedName("Category-Name")
+    @SerializedName("CategoryX-Name")
     var categoryName: String = ""
     @SerializedName("Total-Product")
     var totalProduct: Int = 0

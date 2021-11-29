@@ -24,10 +24,11 @@ public class PlantTypeAdapter extends RecyclerView.Adapter<PlantTypeAdapter.View
     private Context context;
 
     // data is passed into the constructor
-    public PlantTypeAdapter(Context context, PlantsByTypeResponse data) {
+    public PlantTypeAdapter(Context context, PlantsByTypeResponse data,ItemClickListener mClickListener) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
+        this.mClickListener=mClickListener;
     }
 
     // inflates the row layout from xml when needed
@@ -43,6 +44,12 @@ public class PlantTypeAdapter extends RecyclerView.Adapter<PlantTypeAdapter.View
         PlantsByTypeResponse data = mData;
         Glide.with(context).load(data.get(position).getCategoryImageUrl()).placeholder(R.drawable.logo).into( holder.img);
         holder.txt.setText(data.get(position).getCategoryName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mClickListener.onItemClick(v,position);
+            }
+        });
     }
     public void filterList(PlantsByTypeResponse filteredList) {
         mData = filteredList;
@@ -90,6 +97,6 @@ public class PlantTypeAdapter extends RecyclerView.Adapter<PlantTypeAdapter.View
 
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
-        void onItemClick(View view, int position, mFilterDashboard brand);
+        void onItemClick(View view, int position);
     }
 }

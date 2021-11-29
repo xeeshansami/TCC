@@ -24,10 +24,11 @@ public class ProductSearchAdapter extends RecyclerView.Adapter<ProductSearchAdap
     private Context context;
 
     // data is passed into the constructor
-    public ProductSearchAdapter(Context context, ProductSearchResponse data) {
+    public ProductSearchAdapter(Context context, ProductSearchResponse data,ItemClickListener mClickListener) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
+        this.mClickListener=mClickListener;
     }
 
     // inflates the row layout from xml when needed
@@ -46,6 +47,12 @@ public class ProductSearchAdapter extends RecyclerView.Adapter<ProductSearchAdap
             holder.txt.setText(data.get(position).getName());
             holder.ratingNumber.setText(data.get(position).getRatingCount() + "");
             holder.ratingNumberAdded.setText(data.get(position).getAverageRating() + "+");
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mClickListener.onItemClick(v,position);
+                }
+            });
         } catch (Exception e) {
             Log.i("Exception",e.getMessage());
         }
@@ -96,6 +103,6 @@ public class ProductSearchAdapter extends RecyclerView.Adapter<ProductSearchAdap
 
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
-        void onItemClick(View view, int position, mFilterDashboard brand);
+        void onItemClick(View view, int position);
     }
 }

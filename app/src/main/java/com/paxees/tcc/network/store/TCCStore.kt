@@ -135,6 +135,12 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
         privateInstanceRetrofit.removeWishlistProd(key).enqueue(RemoveProdBaseHR(callBack))
     }
 
+  //:TODO post removeWishlistProd
+    fun getProduct(url: RetrofitEnums?, key: String?, callBack: ProductCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getProduct(key).enqueue(ProductBaseHR(callBack))
+    }
+
     //:TODO post getForgetPassword
     fun getForgetPassword(url: RetrofitEnums?, key: String?, callBack: ForgetPasswordCallBack?) {
         val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)

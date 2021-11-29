@@ -30,6 +30,7 @@ import com.paxees.tcc.network.networkmodels.response.baseResponses.GetWishlistRe
 import com.paxees.tcc.network.networkmodels.response.baseResponses.ImageResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.PaymentMethodListResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.PriceSummaryResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.ProductResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.SingleLocationDetailsResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.StrainRequestFormResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.StrainRequestTokenResponse;
@@ -113,6 +114,9 @@ public interface APIInterface {
     @GET("wc/v3/wishlist/remove_product/{key}")
     Call<String> removeWishlistProd(@Path("key") String key);
 
+    @GET("wc/v3/products/{key}")
+    Call<ProductResponse> getProduct(@Path("key") String key);
+
     @GET("apiuser/v1/forgotpwd/{useremail}")
     Call<ForgetPasswordResponse> getForgetPassword(@Query("useremail") String useremail);
 
@@ -121,7 +125,6 @@ public interface APIInterface {
 
     @POST("wp/v2/diagnostic")
     Call<DiagnoseResponse> diagnoseCreate(@Header("Authorization") String header, @Body DiagnoseRequest request);
-
 
     @POST("wc/v3/orders")
     Call<CreateOrderResponse> createOrder(@Body CreateOrderRequest request);

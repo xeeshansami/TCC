@@ -7,7 +7,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Category implements Serializable, Parcelable
+public class CategoryX implements Serializable, Parcelable
 {
 
     @SerializedName("category_id")
@@ -22,32 +22,32 @@ public class Category implements Serializable, Parcelable
     @SerializedName("category_icon")
     @Expose
     private String categoryIcon;
-    public final static Creator<Category> CREATOR = new Creator<Category>() {
+    public final static Creator<CategoryX> CREATOR = new Creator<CategoryX>() {
 
 
         @SuppressWarnings({
             "unchecked"
         })
-        public Category createFromParcel(android.os.Parcel in) {
-            return new Category(in);
+        public CategoryX createFromParcel(android.os.Parcel in) {
+            return new CategoryX(in);
         }
 
-        public Category[] newArray(int size) {
-            return (new Category[size]);
+        public CategoryX[] newArray(int size) {
+            return (new CategoryX[size]);
         }
 
     }
     ;
     private final static long serialVersionUID = 4113331170565756982L;
 
-    protected Category(android.os.Parcel in) {
+    protected CategoryX(android.os.Parcel in) {
         this.categoryId = ((String) in.readValue((String.class.getClassLoader())));
         this.categoryName = ((String) in.readValue((String.class.getClassLoader())));
         this.categoryImage = ((String) in.readValue((String.class.getClassLoader())));
         this.categoryIcon = ((String) in.readValue((String.class.getClassLoader())));
     }
 
-    public Category() {
+    public CategoryX() {
     }
 
     public String getCategoryId() {

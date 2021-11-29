@@ -4,7 +4,7 @@ package com.paxees.tcc.network.networkmodels.response.baseResponses
 import com.google.gson.annotations.SerializedName
 
 class DiscoveryResponseItem {
-    @SerializedName("Category-id")
+    @SerializedName("CategoryX-id")
     var categoryId: String = ""
     @SerializedName("Menu-id")
     var menuId: Int = 0
