@@ -85,6 +85,7 @@
                         android:background="@android:color/transparent"
                         android:hint="@string/viewAll"
                         android:maxLines="1"
+                        android:id="@+id/viewAllVideos"
                         android:drawableTint="@color/grey"
                         android:drawableRight="@drawable/ic_baseline_navigate_next_24"
                         android:singleLine="true"

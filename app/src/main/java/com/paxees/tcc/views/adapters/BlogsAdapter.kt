@@ -123,7 +123,7 @@ class BlogsAdapter(context: Context, data: CategoriesResponse) :
         var value2: TextView
         var imageView: ImageView
         override fun onClick(view: View) {
-            if (mClickListener != null) mClickListener!!.onItemClick(view, adapterPosition)
+            if (mClickListener != null) mClickListener!!.onItemClick(view, adapterPosition,mData)
         }
 
         init {
@@ -147,7 +147,7 @@ class BlogsAdapter(context: Context, data: CategoriesResponse) :
 
     // parent activity will implement this method to respond to click events
     interface ItemClickListener {
-        fun onItemClick(view: View?, position: Int)
+        fun onItemClick(view: View?, position: Int,cat:CategoriesResponse)
     }
 
     // data is passed into the constructor

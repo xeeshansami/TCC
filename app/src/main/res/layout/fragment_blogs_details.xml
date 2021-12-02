@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/NestedScrollBarStyle">
+
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        tools:context=".controllers.launcher">
+
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_5sdp"
+            app:layout_constraintTop_toBottomOf="parent"
+            android:elevation="@dimen/_10sdp"
+            android:maxHeight="5dip"
+            android:progress="10"
+            app:layout_constraintTop_toTopOf="@+id/ivForm"
+            android:progressDrawable="@drawable/progress"
+            android:scaleY="0.2"
+            android:visibility="gone"
+            />
+
+        <WebView
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            android:id="@+id/ivForm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:alpha="100"
+            android:fillViewport="true"
+            />
+        <include android:id="@+id/toolbar"
+            layout="@layout/toolbar"></include>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

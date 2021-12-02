@@ -1,9 +1,15 @@
 package com.paxees.tcc.views.fragments.mainFragments
 
+import android.annotation.SuppressLint
+import android.graphics.Bitmap
+import android.net.http.SslError
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.*
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
@@ -21,10 +27,11 @@ import com.paxees.tcc.utils.SessionManager
 import com.paxees.tcc.utils.ToastUtils
 import com.paxees.tcc.views.adapters.BlogsAdapter
 import kotlinx.android.synthetic.main.fragment_blogs.*
+import kotlinx.android.synthetic.main.fragment_blogs_details.*
 import kotlinx.android.synthetic.main.fragment_strains.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-class BlogsFragment : Fragment(), View.OnClickListener, BlogsAdapter.ItemClickListener {
+class BlogsDetailsFragment : Fragment() ,View.OnClickListener{
     var tvCoupons: TextView? = null
     var tvChangePwd: TextView? = null
     var tvMyProfile: TextView? = null
@@ -39,13 +46,19 @@ class BlogsFragment : Fragment(), View.OnClickListener, BlogsAdapter.ItemClickLi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_blogs, container, false)
+        return inflater.inflate(R.layout.fragment_blogs_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
         onBackPressed()
+        try {
+            if (requireArguments() != null && requireArguments().containsKey(Constants.WEBVIEW_LINK)) {
+                requireArguments().getString(Constants.WEBVIEW_LINK)?.let { webview(it) }
+            }
+        } catch (e: IllegalStateException) {
+        }
     }
 
     fun onBackPressed(){
@@ -60,13 +73,12 @@ class BlogsFragment : Fragment(), View.OnClickListener, BlogsAdapter.ItemClickLi
         sessionManager = SessionManager(activity)
         backBtn.setOnClickListener(this)
         header.text = getText(R.string.Blog)
-        rvStrainsFunc()
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.backBtn -> {
-                switchFragment(R.id.navigation_home)
+                findNavController().navigateUp()
             }
         }
     }
@@ -78,36 +90,60 @@ class BlogsFragment : Fragment(), View.OnClickListener, BlogsAdapter.ItemClickLi
         graph.startDestination = startDestId
         navController.graph = graph
     }
-    private fun rvStrainsFunc() {
-        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
-        // set up the RecyclerView
-        TCCStore.instance!!.getCategories(RetrofitEnums.URL_HBL, object :
-            CategoryCallBack {
-            override fun CategorySuccess(response: CategoriesResponse?) {
-                setCategories(response!!)
-                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+    @SuppressLint("SetJavaScriptEnabled", "JavascriptInterface")
+    private fun webview(html: String) {
+        ivForm.settings.javaScriptEnabled = true;
+        ivForm.getSettings().builtInZoomControls = true;
+        ivForm.getSettings().displayZoomControls = true;
+        ivForm.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY;
+        ivForm.settings.pluginState = WebSettings.PluginState.ON;
+        ivForm.webChromeClient = object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView?, progress: Int) {
+                try {
+                    if (progressBar != null) {
+                        progressBar.progress = progress
+                    }
+                } catch (e: java.lang.NullPointerException) {
+                }
+            }
+        }
+        ivForm.webViewClient = object : WebViewClient() {
+            override fun onReceivedSslError(
+                view: WebView?,
+                handler: SslErrorHandler?,
+                error: SslError?
+            ) {
+                super.onReceivedSslError(view, handler, error)
+                handler!!.proceed();
+            }
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+
             }
 
-            override fun  CategoryFailure(baseResponse: BaseResponse) {
-                ToastUtils.showToastWith(activity, baseResponse.message, "")
-                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+
+            override fun onLoadResource(view: WebView?, url: String) {
+                super.onLoadResource(view, url);
+                Log.i("URLS", url.toString())
+
             }
-        })
-    }
 
-    private fun setCategories(response: CategoriesResponse) {
-        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        rvBlogs.layoutManager = horizontalLayoutManagaer
-        var VideosAdapter = BlogsAdapter(activity as CIFRootActivity, response)
-        VideosAdapter.setClickListener(this)
-        rvBlogs.setAdapter(VideosAdapter)
-        VideosAdapter.notifyDataSetChanged()
-    }
 
-    override fun onItemClick(view: View?, position: Int,cat:CategoriesResponse) {
-        var bundle=Bundle()
-        bundle.putString(Constants.WEBVIEW_LINK,cat[position].link)
-        findNavController().navigate(R.id.navigation_blogs_to_navigation_fragment_blogs_details,bundle)
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+                progressBar.visibility = View.VISIBLE;
+            }
+
+            override fun onReceivedError(
+                view: WebView?,
+                request: WebResourceRequest?,
+                error: WebResourceError?
+            ) {
+                super.onReceivedError(view, request, error)
+            }
+        }
+
+        ivForm.loadUrl(html)
     }
 
 

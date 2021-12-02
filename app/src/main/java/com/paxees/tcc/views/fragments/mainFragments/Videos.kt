@@ -59,6 +59,7 @@ class Videos : Fragment(), View.OnClickListener {
 
     fun init(view: View?) {
         sessionManager = SessionManager(activity)
+        viewAllVideos.setOnClickListener(this)
         backBtn.setOnClickListener(this)
         header.text = getText(R.string.Videos)
         getVideosList()
@@ -68,6 +69,9 @@ class Videos : Fragment(), View.OnClickListener {
         when (v.id) {
             R.id.backBtn -> {
                 switchFragment(R.id.navigation_home)
+            }
+            R.id.viewAllVideos -> {
+            findNavController().navigate(R.id.navigation_allVideos)
             }
         }
     }

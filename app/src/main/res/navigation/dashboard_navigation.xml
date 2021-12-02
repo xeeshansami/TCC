@@ -24,6 +24,14 @@
         android:name="com.paxees.tcc.views.fragments.mainFragments.BlogsFragment"
         android:label="BlogsFragment"
         tools:layout="@layout/fragment_blogs">
+        <action
+            android:id="@+id/navigation_blogs_to_navigation_fragment_blogs_details"
+            app:destination="@id/navigation_fragment_blogs_details"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
     </fragment>
     <fragment
         android:id="@+id/navigation_discovery"
@@ -56,7 +64,16 @@
         android:id="@+id/navigation_videos"
         android:name="com.paxees.tcc.views.fragments.mainFragments.Videos"
         android:label="Videos"
-        tools:layout="@layout/fragment_videos"></fragment>
+        tools:layout="@layout/fragment_videos">
+        <action
+            android:id="@+id/navigation_allVideos"
+            app:destination="@id/navigation_videoList"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpToInclusive="true"></action>
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_myorders"
@@ -71,6 +88,7 @@
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right"
             app:popUpToInclusive="true"></action>
+
     </fragment>
 
     <fragment
@@ -418,11 +436,24 @@
             app:popExitAnim="@android:anim/slide_out_right"
             app:popUpToInclusive="true"></action>
     </fragment>
+    <fragment
+        android:id="@+id/navigation_videoList"
+        android:name="com.paxees.tcc.views.fragments.mainFragments.VideosList"
+        android:label="VideosList"
+        tools:layout="@layout/fragment_videos_list">
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_congratulations_screen"
         android:name="com.paxees.tcc.views.fragments.drawerMenusFragments.Congratulation"
         android:label="Congratulation"
         tools:layout="@layout/fragment_congratulations">
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_fragment_blogs_details"
+        android:name="com.paxees.tcc.views.fragments.mainFragments.BlogsDetailsFragment"
+        android:label="BlogsDetailsFragment"
+        tools:layout="@layout/fragment_blogs_details">
     </fragment>
 </navigation>

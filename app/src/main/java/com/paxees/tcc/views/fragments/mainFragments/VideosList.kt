@@ -4,47 +4,48 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.CIFRootActivity
-import com.paxees.tcc.network.ResponseHandlers.callbacks.CategoryCallBack
+import com.paxees.tcc.controllers.launcher
+import com.paxees.tcc.models.mFilterDashboard
+import com.paxees.tcc.network.ResponseHandlers.callbacks.VideosListCallBack
 import com.paxees.tcc.network.enums.RetrofitEnums
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
-import com.paxees.tcc.network.networkmodels.response.models.CategoriesResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.VideosListResponse
 import com.paxees.tcc.network.store.TCCStore
-import com.paxees.tcc.utils.Constants
 import com.paxees.tcc.utils.SessionManager
 import com.paxees.tcc.utils.ToastUtils
-import com.paxees.tcc.views.adapters.BlogsAdapter
-import kotlinx.android.synthetic.main.fragment_blogs.*
-import kotlinx.android.synthetic.main.fragment_strains.*
+import com.paxees.tcc.views.adapters.VideosAdapter
+import kotlinx.android.synthetic.main.fragment_create_account.*
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_videos.*
 import kotlinx.android.synthetic.main.toolbar.*
+import java.util.*
 
-class BlogsFragment : Fragment(), View.OnClickListener, BlogsAdapter.ItemClickListener {
-    var tvCoupons: TextView? = null
-    var tvChangePwd: TextView? = null
-    var tvMyProfile: TextView? = null
-    var tvReferAFriend: TextView? = null
-    var tvCouponsRedemption: TextView? = null
-    var tvLogout: TextView? = null
+
+class VideosList : Fragment(), View.OnClickListener {
     var sessionManager: SessionManager? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_blogs, container, false)
+        return inflater.inflate(R.layout.fragment_videos_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
+        init(view)
         onBackPressed()
     }
 
@@ -56,11 +57,11 @@ class BlogsFragment : Fragment(), View.OnClickListener, BlogsAdapter.ItemClickLi
         })
     }
 
-    fun init() {
+    fun init(view: View?) {
         sessionManager = SessionManager(activity)
         backBtn.setOnClickListener(this)
-        header.text = getText(R.string.Blog)
-        rvStrainsFunc()
+        header.text = getText(R.string.Videos)
+        getVideosList()
     }
 
     override fun onClick(v: View) {
@@ -72,43 +73,38 @@ class BlogsFragment : Fragment(), View.OnClickListener, BlogsAdapter.ItemClickLi
     }
 
     private fun switchFragment(startDestId: Int) {
+//        val fragmentContainer = view?.findViewById<View>(R.id.nav_host)
+//        val navController = Navigation.findNavController(fragmentContainer!!)
         val navController = findNavController()
         val inflater = navController.navInflater
         val graph = navController.graph
         graph.startDestination = startDestId
         navController.graph = graph
     }
-    private fun rvStrainsFunc() {
-        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+
+    fun videos(response: VideosListResponse) {
         // set up the RecyclerView
-        TCCStore.instance!!.getCategories(RetrofitEnums.URL_HBL, object :
-            CategoryCallBack {
-            override fun CategorySuccess(response: CategoriesResponse?) {
-                setCategories(response!!)
+        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        rvForYou.layoutManager = horizontalLayoutManagaer
+        var videosAdapter = VideosAdapter((activity as CIFRootActivity), response)
+        rvForYou.adapter = videosAdapter
+        videosAdapter.notifyDataSetChanged()
+    }
+
+
+    private fun getVideosList() {
+        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+        TCCStore.instance!!.getVideosList(RetrofitEnums.URL_HBL, object :
+            VideosListCallBack {
+            override fun Success(response: VideosListResponse) {
+                videos(response)
                 (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
             }
 
-            override fun  CategoryFailure(baseResponse: BaseResponse) {
+            override fun Failure(baseResponse: BaseResponse) {
                 ToastUtils.showToastWith(activity, baseResponse.message, "")
                 (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
             }
         })
     }
-
-    private fun setCategories(response: CategoriesResponse) {
-        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        rvBlogs.layoutManager = horizontalLayoutManagaer
-        var VideosAdapter = BlogsAdapter(activity as CIFRootActivity, response)
-        VideosAdapter.setClickListener(this)
-        rvBlogs.setAdapter(VideosAdapter)
-        VideosAdapter.notifyDataSetChanged()
-    }
-
-    override fun onItemClick(view: View?, position: Int,cat:CategoriesResponse) {
-        var bundle=Bundle()
-        bundle.putString(Constants.WEBVIEW_LINK,cat[position].link)
-        findNavController().navigate(R.id.navigation_blogs_to_navigation_fragment_blogs_details,bundle)
-    }
-
-
 }

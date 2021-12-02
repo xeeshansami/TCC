@@ -55,7 +55,12 @@ class Products : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         init()
         onBackPressed()
-        requireArguments().getString(Constants.PRODUCT_ID)?.let { getProduct(it) }
+        try {
+            if (requireArguments() != null && requireArguments().containsKey(Constants.PRODUCT_ID)) {
+                requireArguments().getString(Constants.PRODUCT_ID)?.let { getProduct(it) }
+            }
+        } catch (e: IllegalStateException) {
+        }
     }
 
     private fun getProduct(key: String) {
@@ -80,19 +85,19 @@ class Products : Fragment(), View.OnClickListener {
     }
 
     private fun setProductItems(response: ProductResponse?) {
-        date.text = getDate()+"\nDay"
-        humidity.text = 65.toString()+"%\nHumidity"
-        weather.text = 73.toString()+"%\nWeather"
+        date.text = getDate() + "\nDay"
+        humidity.text = 65.toString() + "%\nHumidity"
+        weather.text = 73.toString() + "%\nWeather"
         productName.text = response!!.name
         slug.text = response!!.slug
-        if(response!!.sale_price.isNullOrEmpty()){
+        if (response!!.sale_price.isNullOrEmpty()) {
             salePrice.text = "$10"
-        }else{
+        } else {
             salePrice.text = "$" + response!!.sale_price
         }
-        if(response!!.price.isNullOrEmpty()){
+        if (response!!.price.isNullOrEmpty()) {
             price.text = "$20"
-        }else{
+        } else {
             price.text = "$" + response!!.price
         }
         productDesc.text = response!!.short_description
@@ -162,28 +167,36 @@ class Products : Fragment(), View.OnClickListener {
         growthtAdapter!!.notifyDataSetChanged()
         growthtAdapter2!!.notifyDataSetChanged()
     }
-    private fun getShareKey(userID: String,prodId: String) {
-        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
-        TCCStore.instance!!.getWishlistShareKeyByUser(RetrofitEnums.URL_HBL,userID.toInt(), object :
-            WishlistShareKeyByUserCallBack {
-            override fun Success(response: WishlistShareKeyByUserResponse) {
-                addToWishlist(response[0].shareKey,prodId)
-            }
 
-            override fun Failure(baseResponse: BaseResponse) {
-                ToastUtils.showToastWith(activity, baseResponse.message, "")
-                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
-            }
-        })
-    }
-    private fun addToWishlist(sharekey: String, prodId: String) {
-        var request= AddToWishlistRequest()
-        request.productId=prodId.toInt()
+    private fun getShareKey(userID: String, prodId: String) {
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
-        TCCStore.instance!!.AddToWishlist(RetrofitEnums.URL_HBL,sharekey,request, object :
+        TCCStore.instance!!.getWishlistShareKeyByUser(
+            RetrofitEnums.URL_HBL,
+            userID.toInt(),
+            object :
+                WishlistShareKeyByUserCallBack {
+                override fun Success(response: WishlistShareKeyByUserResponse) {
+                    addToWishlist(response[0].shareKey, prodId)
+                }
+
+                override fun Failure(baseResponse: BaseResponse) {
+                    ToastUtils.showToastWith(activity, baseResponse.message, "")
+                    (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+                }
+            })
+    }
+
+    private fun addToWishlist(sharekey: String, prodId: String) {
+        var request = AddToWishlistRequest()
+        request.productId = prodId.toInt()
+        (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)
+        TCCStore.instance!!.AddToWishlist(RetrofitEnums.URL_HBL, sharekey, request, object :
             AddToWishlistCallBack {
             override fun Success(response: AddToWishlistResponse) {
-                ToastUtils.showToastWith(activity,"Product has been added to wishlist successfully")
+                ToastUtils.showToastWith(
+                    activity,
+                    "Product has been added to wishlist successfully"
+                )
                 (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
             }
 
@@ -201,7 +214,10 @@ class Products : Fragment(), View.OnClickListener {
             }
 
             R.id.starBtn -> {
-                getShareKey((activity as CIFRootActivity).sharedPreferenceManager.customerDetails[0].id.toString(), productItems!!.id.toString())
+                getShareKey(
+                    (activity as CIFRootActivity).sharedPreferenceManager.customerDetails[0].id.toString(),
+                    productItems!!.id.toString()
+                )
             }
             R.id.orderItems -> {
                 addToCart(productItems!!.id.toString())
