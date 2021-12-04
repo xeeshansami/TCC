@@ -11,7 +11,8 @@ import com.paxees.tcc.models.Plants
 import kotlinx.android.synthetic.main.item_views_diagnose.view.*
 import java.util.*
 
-class RecyclerViewAdapter(context: Context, data: ArrayList<Plants>, pos: Int) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
+class RecyclerViewAdapter(context: Context, data: ArrayList<Plants>, pos: Int, value: String) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
+    private var value = ""
     private var row_index = 0
     private val mData: ArrayList<Plants>
     private var view: View? = null
@@ -19,7 +20,9 @@ class RecyclerViewAdapter(context: Context, data: ArrayList<Plants>, pos: Int) :
     private var mClickListener: ItemClickListener? = null
     private val context: Context
     private var pos = 0
-
+    init {
+        this.value=value
+    }
     // inflates the row layout from xml when needed
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         view = if (pos == 1) {
@@ -41,16 +44,19 @@ class RecyclerViewAdapter(context: Context, data: ArrayList<Plants>, pos: Int) :
             row_index = position
             notifyDataSetChanged()
         }
+        if(animal.plantValue==value){
+            holder.plantsId.background = context.resources.getDrawable(R.drawable.bg_border_square_green)
+        }
         if (pos == 0 || pos == 1) {
             if (row_index == position) {
                 this.mClickListener?.onItemClick(view, position,animal.plantValue!!)
-                holder.plantsId.background = context.resources.getDrawable(R.drawable.bg_border_square_green)
+//                holder.plantsId.background = context.resources.getDrawable(R.drawable.bg_border_square_green)
             } else {
                 holder.plantsId.background = context.resources.getDrawable(R.drawable.bg_border_square_black)
             }
         } else if (pos == 2) {
             if (row_index == position) {
-                this.mClickListener?.onItemClick(view, position,animal.plantValue!!)
+//                this.mClickListener?.onItemClick(view, position,animal.plantValue!!)
                 holder.plantsId.background = context.resources.getDrawable(R.drawable.bg_border_square_green_diagnose)
             } else {
                 holder.plantsId.background = context.resources.getDrawable(R.drawable.bg_border_square_diagnose)

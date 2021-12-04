@@ -142,7 +142,7 @@ class Home : Fragment(), View.OnClickListener {
             PopularByThisWeekCallBack {
             override fun PopularByThisWeekSuccess(response: PopularByThisWeekResponse) {
                 setCategories(response)
-                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+
             }
 
             override fun PopularByThisWeekFailure(baseResponse: BaseResponse) {
@@ -161,6 +161,7 @@ class Home : Fragment(), View.OnClickListener {
         }
         rvPopular.setAdapter(VideosAdapter)
         VideosAdapter.notifyDataSetChanged()
+        (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
     }
 
     private fun rvPlantsType() {

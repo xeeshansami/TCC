@@ -85,7 +85,6 @@ class Strains : Fragment(), View.OnClickListener {
             StrainCallBack {
             override fun Success(response: StrainResponse?) {
                 setStrains(response!!)
-                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
             }
 
             override fun Failure(baseResponse: BaseResponse) {
@@ -106,6 +105,7 @@ class Strains : Fragment(), View.OnClickListener {
         }
         rvStrains.adapter = VideosAdapter
         VideosAdapter.notifyDataSetChanged()
+        (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
     }
 
 

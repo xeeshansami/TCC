@@ -102,6 +102,7 @@ class Videos : Fragment(), View.OnClickListener {
         rvTraining.adapter = videosAdapter
         rvNewVideos.adapter = videosAdapter
         videosAdapter.notifyDataSetChanged()
+        (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
     }
 
 
@@ -111,7 +112,7 @@ class Videos : Fragment(), View.OnClickListener {
             VideosListCallBack {
             override fun Success(response: VideosListResponse) {
                 videos(response)
-                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+
             }
 
             override fun Failure(baseResponse: BaseResponse) {

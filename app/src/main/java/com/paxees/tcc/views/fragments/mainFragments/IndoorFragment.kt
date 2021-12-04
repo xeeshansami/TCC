@@ -49,7 +49,6 @@ class IndoorFragment : Fragment(), View.OnClickListener {
                 response.get(0).categoryId.let {
                     getIndoorProducts(it)
                 }
-                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
             }
 
             override fun Failure(baseResponse: BaseResponse) {
@@ -64,7 +63,7 @@ class IndoorFragment : Fragment(), View.OnClickListener {
             ProductSearchCallBack {
             override fun Success(response: ProductSearchResponse) {
                 setProdcutSearch(response)
-                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+
             }
 
             override fun Failure(baseResponse: BaseResponse) {
@@ -125,7 +124,7 @@ class IndoorFragment : Fragment(), View.OnClickListener {
         })
     }
     private fun setProdcutSearch(response: ProductSearchResponse) {
-        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         rvIndoor.layoutManager = horizontalLayoutManagaer
         var VideosAdapter = DiscoveryAdapter(
             activity,
@@ -137,6 +136,7 @@ class IndoorFragment : Fragment(), View.OnClickListener {
             })
         rvIndoor.setAdapter(VideosAdapter)
         VideosAdapter.notifyDataSetChanged()
+        (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
     }
 
     override fun onClick(v: View) {

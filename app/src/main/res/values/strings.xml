@@ -72,7 +72,8 @@
     <string name="nearestBrands">Neatest Brands</string>
     <string name="categories">Categories</string>
     <string name="search_address">Search places...</string>
-    <string name="google_places_key">AIzaSyCI9T0hhOjg_4uSLHSe52uStt8SEBSsB44</string>
+<!--    <string name="google_places_key">AIzaSyCI9T0hhOjg_4uSLHSe52uStt8SEBSsB44</string>-->
+    <string name="google_places_key">AIzaSyA17O4pkxre0tLA4JNMRwyw7gAWxi2Q1Zs</string>
     <string name="imhere">Your location</string>
     <string name="GetStarted">Get Started</string>
     <string name="welcome">Welcome</string>
@@ -206,4 +207,5 @@
     <string name="deliver_to">Deliver to</string>
     <string name="final_review">Final Review</string>
     <string name="AllVideos">All Videos</string>
+    <string name="DiagnoseList"><![CDATA[DIagnose List -->>]]></string>
 </resources>

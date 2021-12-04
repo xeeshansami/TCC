@@ -5,6 +5,7 @@ import com.paxees.tcc.network.ResponseHandlers.callbacks.*
 import com.paxees.tcc.network.ResponseHandlers.handler.*
 import com.paxees.tcc.network.enums.RetrofitEnums
 import com.paxees.tcc.network.networkmodels.request.*
+import com.paxees.tcc.network.networkmodels.response.models.DiagnoseResponse
 import com.paxees.tcc.network.retrofitBuilder.RetrofitBuilder.getRetrofitInstance
 import com.paxees.tcc.network.timeoutInterface.IOnConnectionTimeoutListener
 import com.paxees.tcc.utils.GlobalClass
@@ -278,6 +279,17 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
             .enqueue(UpdateProfileBaseHR(callBack))
     }
 
+ //:TODO post getSelectedDiagnose
+    fun getSelectedDiagnose(
+        url: RetrofitEnums?,
+        userID: String?,
+        callBack: DiagnoseCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.getSelectedDiagnose(userID)
+            .enqueue(DiagnoseBaseHR(callBack))
+    }
+
     //:TODO post getRegister
     fun getRegister(
         url: RetrofitEnums?,
@@ -297,6 +309,17 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
     ) {
         val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
         privateInstanceRetrofit.diagnoseCreate(header, request).enqueue(DiagnoseBaseHR(callBack))
+    }
+    //:TODO post editDiagnose
+    fun editDiagnose(
+        url: RetrofitEnums?,
+        id:String,
+        header: String,
+        request: DiagnoseRequest?,
+        callBack: DiagnoseCallBack?
+    ) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.editDiagnose(id,header, request).enqueue(DiagnoseBaseHR(callBack))
     }
 
 //:TODO post createOrder
@@ -390,6 +413,12 @@ open class TCCStore : Application(), IOnConnectionTimeoutListener {
     fun getStrains(url: RetrofitEnums?, callBack: StrainCallBack?) {
         val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
         privateInstanceRetrofit.strains.enqueue(StrainBaseHR(callBack))
+    }
+
+    //:TODO getDignoseList
+    fun getDiagnoseList(url: RetrofitEnums?, callBack: DiagnoseListCallBack?) {
+        val privateInstanceRetrofit = getRetrofitInstance(GlobalClass.applicationContext!!, url!!)
+        privateInstanceRetrofit.diagnoseList.enqueue(DiagnoseListBaseHR(callBack))
     }
 
     override fun onConnectionTimeout() {}

@@ -23,6 +23,7 @@ import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandByCatego
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BrandDetailResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.ChangePasswordResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.CreateOrderResponse;
+import com.paxees.tcc.network.networkmodels.response.baseResponses.DiagnoseListResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.DiscoveryResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.ForgetPasswordResponse;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.GetPaymentMethodListOfConsumerResponse;
@@ -126,6 +127,9 @@ public interface APIInterface {
     @POST("wp/v2/diagnostic")
     Call<DiagnoseResponse> diagnoseCreate(@Header("Authorization") String header, @Body DiagnoseRequest request);
 
+    @POST("wp/v2/diagnostic/{userid}")
+    Call<DiagnoseResponse> editDiagnose(@Path("userid") String userid,@Header("Authorization") String header, @Body DiagnoseRequest request);
+
     @POST("wc/v3/orders")
     Call<CreateOrderResponse> createOrder(@Body CreateOrderRequest request);
 
@@ -205,6 +209,14 @@ public interface APIInterface {
 
     @GET("strain/strain-list")
     Call<StrainResponse> getStrains();
+
+    @GET("wp/v2/diagnostic/")
+    Call<DiagnoseListResponse> getDiagnoseList();
+
+    @GET("wp/v2/diagnostic/{userid}")
+    Call<DiagnoseResponse> getSelectedDiagnose(@Path("userid") String userid);
+
+
 
     @POST("branddetails.php")
     Call<BrandDetailResponse> getBrandsDetails(@Body BrandDetailsRequest request);

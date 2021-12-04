@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.paxees.tcc.R
@@ -23,6 +24,10 @@ import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.SessionManager
 import com.paxees.tcc.utils.ToastUtils
 import kotlinx.android.synthetic.main.fragment_diagnose10.*
+import kotlinx.android.synthetic.main.fragment_diagnose10.noBtn
+import kotlinx.android.synthetic.main.fragment_diagnose10.yesBtn
+import kotlinx.android.synthetic.main.fragment_diagnose8.*
+import kotlinx.android.synthetic.main.fragment_diagnose9.*
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.header
@@ -39,8 +44,10 @@ class Diagnose10 : Fragment(), View.OnClickListener {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_diagnose10, container, false)
     }
@@ -56,12 +63,27 @@ class Diagnose10 : Fragment(), View.OnClickListener {
         yesBtn.setOnClickListener(this)
         noBtn.setOnClickListener(this)
         header.text = ""
+        if (!(activity as CIFRootActivity).sharedPreferenceManager.diagnose.meta.olderlowerLeavesAffected.isNullOrEmpty()) {
+            when ((activity as CIFRootActivity).sharedPreferenceManager.diagnose.meta.olderlowerLeavesAffected) {
+                "Yes" -> {
+                    yesBtn.setTextColor(ContextCompat.getColor(activity as CIFRootActivity, R.color.white))
+                    yesBtn.background =
+                        resources.getDrawable(R.drawable.const_bg_border_square_green_2)
+                }
+                "No" -> {
+                    noBtn.setTextColor(ContextCompat.getColor(activity as CIFRootActivity, R.color.white))
+                    noBtn.background =
+                        resources.getDrawable(R.drawable.const_bg_border_square_green_2)
+                }
+
+            }
+        }
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.backBtn -> {
-                findNavController().navigateUp()
+                findNavController().popBackStack()
             }
             R.id.yesBtn -> {
                 gotoNextScreens("Yes")
@@ -72,10 +94,11 @@ class Diagnose10 : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun gotoNextScreens(value:String) {
-        (activity as CIFRootActivity).dignoseRequest!!.meta.olderlowerLeavesAffected=value
+    private fun gotoNextScreens(value: String) {
+        (activity as CIFRootActivity).dignoseRequest!!.meta.olderlowerLeavesAffected = value
         login()
     }
+
     private fun login() {
         val email = "theclonetest"
         val pwd = "TheCloneTest1@3\$5"
@@ -85,7 +108,11 @@ class Diagnose10 : Fragment(), View.OnClickListener {
         request.password = pwd
         TCCStore.instance!!.getLogin(RetrofitEnums.URL_HBL, request, object : LoginCallBack {
             override fun LoginSuccess(response: LoginResponse) {
-                getDianoseCreated(response.token)
+                if ((activity as CIFRootActivity).sharedPreferenceManager.diagnose.id!= 0) {
+                    editDiagnose((activity as CIFRootActivity).sharedPreferenceManager.diagnose.id.toString(),response.token)
+                } else {
+                    getDianoseCreated(response.token)
+                }
             }
 
             override fun LoginFailure(baseResponse: BaseResponse) {
@@ -94,20 +121,40 @@ class Diagnose10 : Fragment(), View.OnClickListener {
             }
         })
     }
+
     private fun getDianoseCreated(token: String) {
         TCCStore.instance!!.diagnoseCreate(RetrofitEnums.URL_HBL,
-            "Bearer $token",(activity as CIFRootActivity).dignoseRequest, object :
-            DiagnoseCallBack {
-            override fun Success(response: DiagnoseResponse) {
-                ToastUtils.showToastWith(activity,"Diagnosed completed successfully!")
-                findNavController().navigate(R.id.diagnose10_to_diagonse11)
-                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
-            }
+            "Bearer $token", (activity as CIFRootActivity).dignoseRequest, object :
+                DiagnoseCallBack {
+                override fun Success(response: DiagnoseResponse) {
+                    (activity as CIFRootActivity)!!.sharedPreferenceManager.diagnose= DiagnoseResponse()
+                    ToastUtils.showToastWith(activity, "Diagnosed completed successfully!")
+                    findNavController().navigate(R.id.diagnose10_to_diagonse11)
+                    (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+                }
 
-            override fun Failure(baseResponse: BaseResponse) {
-                ToastUtils.showToastWith(activity, baseResponse.message, "")
-                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
-            }
-        })
+                override fun Failure(baseResponse: BaseResponse) {
+                    ToastUtils.showToastWith(activity, baseResponse.message, "")
+                    (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+                }
+            })
+    }
+
+    private fun editDiagnose(id: String, token: String) {
+        TCCStore.instance!!.editDiagnose(RetrofitEnums.URL_HBL, id,
+            "Bearer $token", (activity as CIFRootActivity).dignoseRequest, object :
+                DiagnoseCallBack {
+                override fun Success(response: DiagnoseResponse) {
+                    (activity as CIFRootActivity)!!.sharedPreferenceManager.diagnose= DiagnoseResponse()
+                    ToastUtils.showToastWith(activity, "Edited diagnose successfully!")
+                    findNavController().navigate(R.id.diagnose10_to_diagonse11)
+                    (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+                }
+
+                override fun Failure(baseResponse: BaseResponse) {
+                    ToastUtils.showToastWith(activity, baseResponse.message, "")
+                    (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+                }
+            })
     }
 }

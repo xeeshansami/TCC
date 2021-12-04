@@ -10,7 +10,12 @@ import androidx.navigation.fragment.findNavController
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.CIFRootActivity
 import com.paxees.tcc.utils.SessionManager
+import kotlinx.android.synthetic.main.fragment_diagnose4.*
 import kotlinx.android.synthetic.main.fragment_diagnose5.*
+import kotlinx.android.synthetic.main.fragment_diagnose5.diaglosePageNoTv
+import kotlinx.android.synthetic.main.fragment_diagnose5.diagnosebtn1
+import kotlinx.android.synthetic.main.fragment_diagnose5.diagnosebtn2
+import kotlinx.android.synthetic.main.fragment_diagnose5.diagnosebtn3
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.header
 
@@ -45,12 +50,25 @@ class Diagnose5 : Fragment(), View.OnClickListener {
         diagnosebtn3.setOnClickListener(this)
         header.text = ""
         diaglosePageNoTv.text = "5/8"
+        if (!(activity as CIFRootActivity).sharedPreferenceManager.diagnose.meta.whatGrowMediumAreYouUsing.isNullOrEmpty()) {
+            when ((activity as CIFRootActivity).sharedPreferenceManager.diagnose.meta.whatKindOfLightsAreYouUsing) {
+                "Vegetation" -> {
+                    diagnosebtn1.background = resources.getDrawable(R.drawable.const_bg_border_square_green)
+                }
+                "Flowering" -> {
+                    diagnosebtn2.background = resources.getDrawable(R.drawable.const_bg_border_square_green)
+                }
+                "Harvesting" -> {
+                    diagnosebtn3.background = resources.getDrawable(R.drawable.const_bg_border_square_green)
+                }
+            }
+        }
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.backBtn -> {
-                findNavController().navigateUp()
+                findNavController().popBackStack()
             }
             R.id.diagnosebtn1 -> {
                 gotoNextScreens("Vegetation")

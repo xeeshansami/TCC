@@ -27,8 +27,10 @@ class Diagnose3 : Fragment(), View.OnClickListener {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_diagnose3, container, false)
     }
@@ -47,12 +49,28 @@ class Diagnose3 : Fragment(), View.OnClickListener {
         diagnosebtn4.setOnClickListener(this)
         header.text = ""
         diaglosePageNoTv.text = "3/8"
+        if (!(activity as CIFRootActivity).sharedPreferenceManager.diagnose.meta.whatKindOfLightsAreYouUsing.isNullOrEmpty()) {
+            when ((activity as CIFRootActivity).sharedPreferenceManager.diagnose.meta.whatKindOfLightsAreYouUsing) {
+                "HID" -> {
+                    diagnosebtn1.background = resources.getDrawable(R.drawable.const_bg_border_square_green)
+                }
+                "LID" -> {
+                    diagnosebtn2.background = resources.getDrawable(R.drawable.const_bg_border_square_green)
+                }
+                "LID" -> {
+                    diagnosebtn3.background = resources.getDrawable(R.drawable.const_bg_border_square_green)
+                }
+                "CFL" -> {
+                    diagnosebtn4.background = resources.getDrawable(R.drawable.const_bg_border_square_green)
+                }
+            }
+        }
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.backBtn -> {
-                findNavController().navigateUp()
+                findNavController().popBackStack()
             }
             R.id.diagnosebtn1 -> {
                 gotoNextScreens("HID")
@@ -69,8 +87,8 @@ class Diagnose3 : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun gotoNextScreens(value:String) {
-        (activity as CIFRootActivity).dignoseRequest!!.meta.whatKindOfLightsAreYouUsing=value
+    private fun gotoNextScreens(value: String) {
+        (activity as CIFRootActivity).dignoseRequest!!.meta.whatKindOfLightsAreYouUsing = value
         findNavController().navigate(R.id.diagnose3_to_diagonse4)
     }
 

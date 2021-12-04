@@ -85,7 +85,7 @@ class BlogsFragment : Fragment(), View.OnClickListener, BlogsAdapter.ItemClickLi
             CategoryCallBack {
             override fun CategorySuccess(response: CategoriesResponse?) {
                 setCategories(response!!)
-                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+
             }
 
             override fun  CategoryFailure(baseResponse: BaseResponse) {
@@ -102,6 +102,7 @@ class BlogsFragment : Fragment(), View.OnClickListener, BlogsAdapter.ItemClickLi
         VideosAdapter.setClickListener(this)
         rvBlogs.setAdapter(VideosAdapter)
         VideosAdapter.notifyDataSetChanged()
+        (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
     }
 
     override fun onItemClick(view: View?, position: Int,cat:CategoriesResponse) {

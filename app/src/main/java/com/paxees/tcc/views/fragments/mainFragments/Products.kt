@@ -74,7 +74,7 @@ class Products : Fragment(), View.OnClickListener {
                     growthAdapter(it!!.metaData)
                 }
                 setProductItems(response)
-                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+
             }
 
             override fun Failure(baseResponse: BaseResponse) {
@@ -103,6 +103,7 @@ class Products : Fragment(), View.OnClickListener {
         productDesc.text = response!!.short_description
         Glide.with(requireContext()).load(response!!.yoastHeadJson.ogImage[0].url)
             .placeholder(R.drawable.logo).into(product_Image)
+        (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
     }
 
     fun onBackPressed() {

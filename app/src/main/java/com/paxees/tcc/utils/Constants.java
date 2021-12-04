@@ -10,6 +10,8 @@ public class Constants {
     public static final long API_WRITE_TIMEOUT = 15000;
     public static final int RC_SIGN_IN = 1122;
     public static final String STRIP_KEY = "Bearer sk_test_lWIOYLjp3fBuFPJiUTLOhSZh00DhWRHj6p";
+    public static final String DIAGNOSE_LIST_RESPONSE = "DIAGNOSE_LIST_RESPONSE";
+    public static final String DIAGNOSE_LIST_RESPONSE_ID = "DIAGNOSE_LIST_RESPONSE_ID";
     public static final String CATEGORIES = "CATEGORIES";
     public static final String BRAND = "BRAND";
     public static final String BRAND_OPEN = "BRAND_OPEN";

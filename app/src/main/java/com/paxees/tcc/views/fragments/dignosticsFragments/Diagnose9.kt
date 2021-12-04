@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.paxees.tcc.R
@@ -43,12 +44,25 @@ class Diagnose9 : Fragment(), View.OnClickListener {
         yesBtn.setOnClickListener(this)
         noBtn.setOnClickListener(this)
         header.text = ""
+        if (!(activity as CIFRootActivity).sharedPreferenceManager.diagnose.meta.doYouPhBalanceYourWater.isNullOrEmpty()) {
+            when ((activity as CIFRootActivity).sharedPreferenceManager.diagnose.meta.doYouPhBalanceYourWater) {
+                "Yes" -> {
+                    yesBtn.setTextColor(ContextCompat.getColor(activity as CIFRootActivity, R.color.white))
+                    yesBtn.background = resources.getDrawable(R.drawable.const_bg_border_square_green_2)
+                }
+                "No" -> {
+                    noBtn.setTextColor(ContextCompat.getColor(activity as CIFRootActivity, R.color.white))
+                    noBtn.background = resources.getDrawable(R.drawable.const_bg_border_square_green_2)
+                }
+
+            }
+        }
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.backBtn -> {
-                findNavController().navigateUp()
+                findNavController().popBackStack()
             }
             R.id.yesBtn -> {
                 gotoNextScreens("Yes")

@@ -10,7 +10,13 @@ import androidx.navigation.fragment.findNavController
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.CIFRootActivity
 import com.paxees.tcc.utils.SessionManager
+import kotlinx.android.synthetic.main.fragment_diagnose4.*
 import kotlinx.android.synthetic.main.fragment_diagnose6.*
+import kotlinx.android.synthetic.main.fragment_diagnose6.diaglosePageNoTv
+import kotlinx.android.synthetic.main.fragment_diagnose6.diagnosebtn1
+import kotlinx.android.synthetic.main.fragment_diagnose6.diagnosebtn2
+import kotlinx.android.synthetic.main.fragment_diagnose6.diagnosebtn3
+import kotlinx.android.synthetic.main.fragment_diagnose6.diagnosebtn4
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.header
 
@@ -46,12 +52,28 @@ class Diagnose6 : Fragment(), View.OnClickListener {
         diagnosebtn4.setOnClickListener(this)
         header.text = ""
         diaglosePageNoTv.text = "6/8"
+        if (!(activity as CIFRootActivity).sharedPreferenceManager.diagnose.meta.howOftenDoYouWaterPlant.isNullOrEmpty()) {
+            when ((activity as CIFRootActivity).sharedPreferenceManager.diagnose.meta.howOftenDoYouWaterPlant) {
+                "Not So Often" -> {
+                    diagnosebtn1.background = resources.getDrawable(R.drawable.const_bg_border_square_green)
+                }
+                "Often" -> {
+                    diagnosebtn2.background = resources.getDrawable(R.drawable.const_bg_border_square_green)
+                }
+                "Daily" -> {
+                    diagnosebtn3.background = resources.getDrawable(R.drawable.const_bg_border_square_green)
+                }
+                "Every 12 hours" -> {
+                    diagnosebtn4.background = resources.getDrawable(R.drawable.const_bg_border_square_green)
+                }
+            }
+        }
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.backBtn -> {
-                findNavController().navigateUp()
+                findNavController().popBackStack()
             }
             R.id.diagnosebtn1 -> {
                 gotoNextScreens("Not So Often")

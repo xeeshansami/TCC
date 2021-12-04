@@ -50,6 +50,12 @@ class SharedCIFViewModel : ViewModel() {
         mList.clear()
         // All Models
         mList.add(
+            DrawerModel(
+                context.getString(R.string.title_home),
+                DrawerItem.ITEM_LINEUP
+            )
+        )
+        mList.add(
                 DrawerModel(
                         context.getString(R.string.discovry),
                         DrawerItem.ITEM_LINEUP

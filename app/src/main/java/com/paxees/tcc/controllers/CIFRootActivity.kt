@@ -30,6 +30,7 @@ import com.paxees.tcc.network.enums.RetrofitEnums
 import com.paxees.tcc.network.networkmodels.request.DiagnoseRequest
 import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
 import com.paxees.tcc.network.networkmodels.response.baseResponses.GetAddToCartResponse
+import com.paxees.tcc.network.networkmodels.response.models.DiagnoseResponse
 import com.paxees.tcc.network.store.TCCStore
 import com.paxees.tcc.utils.GlobalClass
 import com.paxees.tcc.utils.RecyclerTouchListener
@@ -295,6 +296,10 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
     fun changeStartDestination(category: String) {
         /*24 pages of models*/
         when (category) {
+            getString(R.string.title_home) -> {
+                switchFragment(R.id.navigation_home)
+                drawer_layout.closeDrawer(Gravity.START, true)
+            }
             getString(R.string.discovry) -> {
                 switchFragment(R.id.navigation_discovery)
                 drawer_layout.closeDrawer(Gravity.START, true)
@@ -323,6 +328,7 @@ class CIFRootActivity : AppCompatActivity(), DrawerLayout.DrawerListener, View.O
             }
             getString(R.string.Diagnose) -> {
                 switchFragment(R.id.navigation_diagnose1)
+                sharedPreferenceManager.diagnose= DiagnoseResponse()
                 drawer_layout.closeDrawer(Gravity.START, true)
             }
 

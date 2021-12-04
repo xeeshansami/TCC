@@ -49,7 +49,6 @@ class RecommendationFragment : Fragment(), View.OnClickListener {
                 response.get(2).categoryId.let {
                     getIndoorProducts(it)
                 }
-                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
             }
 
             override fun Failure(baseResponse: BaseResponse) {
@@ -64,7 +63,7 @@ class RecommendationFragment : Fragment(), View.OnClickListener {
             ProductSearchCallBack {
             override fun Success(response: ProductSearchResponse) {
                 setProdcutSearch(response)
-                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+
             }
 
             override fun Failure(baseResponse: BaseResponse) {
@@ -93,7 +92,7 @@ class RecommendationFragment : Fragment(), View.OnClickListener {
         })
     }
     private fun setProdcutSearch(response: ProductSearchResponse) {
-        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         rvRecommendation.layoutManager = horizontalLayoutManagaer
         var VideosAdapter = DiscoveryAdapter(
             activity,
@@ -105,6 +104,7 @@ class RecommendationFragment : Fragment(), View.OnClickListener {
             })
         rvRecommendation.setAdapter(VideosAdapter)
         VideosAdapter.notifyDataSetChanged()
+        (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
     }
     private fun getShareKey(userID: String,prodId: String) {
         (activity as CIFRootActivity?)!!.globalClass!!.showDialog(activity)

@@ -10,7 +10,13 @@ import androidx.navigation.fragment.findNavController
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.CIFRootActivity
 import com.paxees.tcc.utils.SessionManager
+import kotlinx.android.synthetic.main.fragment_diagnose3.*
 import kotlinx.android.synthetic.main.fragment_diagnose4.*
+import kotlinx.android.synthetic.main.fragment_diagnose4.diaglosePageNoTv
+import kotlinx.android.synthetic.main.fragment_diagnose4.diagnosebtn1
+import kotlinx.android.synthetic.main.fragment_diagnose4.diagnosebtn2
+import kotlinx.android.synthetic.main.fragment_diagnose4.diagnosebtn3
+import kotlinx.android.synthetic.main.fragment_diagnose4.diagnosebtn4
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.header
 
@@ -46,12 +52,28 @@ class Diagnose4 : Fragment(), View.OnClickListener {
         diagnosebtn4.setOnClickListener(this)
         header.text = ""
         diaglosePageNoTv.text = "4/8"
+        if (!(activity as CIFRootActivity).sharedPreferenceManager.diagnose.meta.whatGrowMediumAreYouUsing.isNullOrEmpty()) {
+            when ((activity as CIFRootActivity).sharedPreferenceManager.diagnose.meta.whatGrowMediumAreYouUsing) {
+                "Soil" -> {
+                    diagnosebtn1.background = resources.getDrawable(R.drawable.const_bg_border_square_green)
+                }
+                "Soil/Coco Mix" -> {
+                    diagnosebtn2.background = resources.getDrawable(R.drawable.const_bg_border_square_green)
+                }
+                "Coco" -> {
+                    diagnosebtn3.background = resources.getDrawable(R.drawable.const_bg_border_square_green)
+                }
+                "Hydroponics" -> {
+                    diagnosebtn4.background = resources.getDrawable(R.drawable.const_bg_border_square_green)
+                }
+            }
+        }
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.backBtn -> {
-                findNavController().navigateUp()
+                findNavController().popBackStack()
             }
             R.id.diagnosebtn1 -> {
                 gotoNextScreens("Soil")

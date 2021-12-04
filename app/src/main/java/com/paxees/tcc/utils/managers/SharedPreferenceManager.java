@@ -14,6 +14,7 @@ import com.paxees.tcc.network.networkmodels.response.baseResponses.DataXX;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.DataXXX;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.GetExistingConsumerList;
 import com.paxees.tcc.network.networkmodels.response.baseResponses.LoginResponse;
+import com.paxees.tcc.network.networkmodels.response.models.DiagnoseResponse;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class SharedPreferenceManager {
     Object object = new Object();
     //Store and Retrieve
     public static final String COUNT = "COUNT";
+    public static final String DIAGNOSE_KEY = "DIAGNOSE_KEY";
     public static final String OBJECT_KEY = "OBJECT_KEY";
     public static final String DARK_MODE = "DARK_MODE";
     public static final String LOGIN_KEY = "LOGIN_KEY";
@@ -177,6 +179,27 @@ public class SharedPreferenceManager {
             Gson gson = new Gson();
             String string = sSharedPreferences.getString(LOGIN_KEY, json);
             Type type = new TypeToken<LoginResponse>() {
+            }.getType();
+            companyList = gson.fromJson(string, type);
+            return companyList;
+        }
+        return companyList;
+    }
+    public void setDiagnose(DiagnoseResponse data) {
+        Gson gson = new Gson();
+        String json = gson.toJson(data);
+        SharedPreferences.Editor editor = sSharedPreferences.edit();
+        editor.putString(DIAGNOSE_KEY, json);
+        editor.commit();
+    }
+
+    public DiagnoseResponse getDiagnose() {
+        DiagnoseResponse companyList = new DiagnoseResponse();
+        String json = new Gson().toJson(companyList);
+        if (sSharedPreferences != null) {
+            Gson gson = new Gson();
+            String string = sSharedPreferences.getString(DIAGNOSE_KEY, json);
+            Type type = new TypeToken<DiagnoseResponse>() {
             }.getType();
             companyList = gson.fromJson(string, type);
             return companyList;

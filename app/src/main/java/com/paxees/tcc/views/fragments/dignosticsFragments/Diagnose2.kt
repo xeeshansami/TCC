@@ -14,6 +14,7 @@ import com.paxees.tcc.models.Plants
 import com.paxees.tcc.utils.SessionManager
 import com.paxees.tcc.views.adapters.RecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_diagnose2.*
+import kotlinx.android.synthetic.main.fragment_diagnose2.diaglosePageNoTv
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.header
 import java.util.ArrayList
@@ -23,6 +24,7 @@ class Diagnose2 : Fragment(), View.OnClickListener, RecyclerViewAdapter.ItemClic
     var tvChangePwd: TextView? = null
     var tvMyProfile: TextView? = null
     var tvReferAFriend: TextView? = null
+    var adapter: RecyclerViewAdapter? = null
     var tvCouponsRedemption: TextView? = null
     var tvLogout: TextView? = null
     var sessionManager: SessionManager? = null
@@ -46,18 +48,22 @@ class Diagnose2 : Fragment(), View.OnClickListener, RecyclerViewAdapter.ItemClic
         backBtn.setOnClickListener(this)
         header.text = ""
         diaglosePageNoTv.text = "2/8"
-        setGrowArea()
+        if (!(activity as CIFRootActivity).sharedPreferenceManager.diagnose.meta.whatIsTheSpaceOfYourGrowAreaSqFt.isNullOrEmpty()) {
+            setGrowArea((activity as CIFRootActivity).sharedPreferenceManager.diagnose.meta.whatIsTheSpaceOfYourGrowAreaSqFt)
+        } else{
+            setGrowArea("")
+        }
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.backBtn -> {
-              findNavController().navigateUp()
+              findNavController().popBackStack()
             }
         }
     }
 
-    fun setGrowArea() {
+    fun setGrowArea(value:String) {
         val rec: ArrayList<Plants> = ArrayList<Plants>()
         val txt = ArrayList<String>()
         txt.add("<100")
@@ -74,12 +80,11 @@ class Diagnose2 : Fragment(), View.OnClickListener, RecyclerViewAdapter.ItemClic
             filterDashboard.plantValue=txt[i].toString()
             rec.add(filterDashboard)
         }
-//        val horizontalLayoutManagaer = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         val horizontalLayoutManagaer = GridLayoutManager(activity, 3)
         rvGrowArea!!.layoutManager = horizontalLayoutManagaer
-        var adapter = RecyclerViewAdapter(requireActivity(), rec,2)
-        rvGrowArea.setAdapter(adapter)
-        adapter.setClickListener(this)
+        adapter = RecyclerViewAdapter(requireActivity(), rec,2,value)
+        rvGrowArea.adapter = adapter
+        adapter!!.setClickListener(this)
         adapter!!.notifyDataSetChanged()
     }
 

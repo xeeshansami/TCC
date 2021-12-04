@@ -5,12 +5,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.paxees.tcc.R
+import com.paxees.tcc.controllers.CIFRootActivity
+import com.paxees.tcc.network.ResponseHandlers.callbacks.DiagnoseCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.DiagnoseListCallBack
+import com.paxees.tcc.network.ResponseHandlers.callbacks.ProductSearchCallBack
+import com.paxees.tcc.network.enums.RetrofitEnums
+import com.paxees.tcc.network.networkmodels.response.baseResponses.BaseResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.DiagnoseListResponse
+import com.paxees.tcc.network.networkmodels.response.baseResponses.DiagnoseListResponseItem
+import com.paxees.tcc.network.networkmodels.response.baseResponses.ProductSearchResponse
+import com.paxees.tcc.network.store.TCCStore
+import com.paxees.tcc.utils.Constants
 import com.paxees.tcc.utils.SessionManager
+import com.paxees.tcc.utils.ToastUtils
+import com.paxees.tcc.views.adapters.DiagnoseAdapter
+import com.paxees.tcc.views.adapters.DiscoveryAdapter
 import kotlinx.android.synthetic.main.fragment_diagnose10.*
+import kotlinx.android.synthetic.main.fragment_diagnose11.*
+import kotlinx.android.synthetic.main.fragment_indoor.*
+import kotlinx.android.synthetic.main.fragment_indoor.rvIndoor
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.header
 
@@ -26,8 +45,10 @@ class Diagnose11 : Fragment(), View.OnClickListener {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_diagnose11, container, false)
     }
@@ -40,11 +61,42 @@ class Diagnose11 : Fragment(), View.OnClickListener {
     fun init(view: View?) {
         sessionManager = SessionManager(activity)
         backBtn.setOnClickListener(this)
-        headerRight.visibility=View.VISIBLE
-        headerRight.text="Home"
+        headerRight.visibility = View.VISIBLE
+        headerRight.text = "Home"
         headerRight.setOnClickListener(this)
         starBtn.setOnClickListener(this)
         header.text = ""
+        getDiagnoseList()
+    }
+
+    private fun getDiagnoseList() {
+        (activity as CIFRootActivity).globalClass?.showDialog(activity)
+        TCCStore.instance!!.getDiagnoseList(RetrofitEnums.URL_HBL, object :
+            DiagnoseListCallBack {
+            override fun DiagnoseListSuccess(response: DiagnoseListResponse?) {
+                setDiagnoseListResponse(response!!)
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+
+            override fun DiagnoseListFailure(baseResponse: BaseResponse) {
+                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                (activity as CIFRootActivity?)!!.globalClass!!.hideLoader()
+            }
+        })
+    }
+
+    private fun setDiagnoseListResponse(response: ArrayList<DiagnoseListResponseItem>) {
+        val horizontalLayoutManagaer =
+            LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        rvDiagnoseList.layoutManager = horizontalLayoutManagaer
+        var adapter = DiagnoseAdapter(
+            activity,
+            response, DiagnoseAdapter.ItemClickListener { view, position, response ->
+                val bundle = bundleOf(Constants.DIAGNOSE_LIST_RESPONSE_ID to response.id.toString())
+                switchFragment(R.id.navigation_diagnose1, bundle)
+            })
+        rvDiagnoseList.setAdapter(adapter)
+        adapter.notifyDataSetChanged()
     }
 
     override fun onClick(v: View) {
@@ -54,18 +106,23 @@ class Diagnose11 : Fragment(), View.OnClickListener {
             }
             R.id.headerRight -> {
 //                switchFragment(R.id.navigation_home)
-                findNavController().navigate(R.id.navigation_home,null, NavOptions.Builder().setPopUpTo(findNavController().graph.startDestination, true).build())
+                findNavController().navigate(
+                    R.id.navigation_home,
+                    null,
+                    NavOptions.Builder()
+                        .setPopUpTo(findNavController().graph.startDestination, true).build()
+                )
             }
         }
     }
-    private fun switchFragment(startDestId: Int) {
-//        val fragmentContainer = view?.findViewById<View>(R.id.nav_host)
-//        val navController = Navigation.findNavController(fragmentContainer!!)
-        val navController = findNavController()
-        val inflater = navController.navInflater
-        val graph = navController.graph
-        graph.startDestination = startDestId
-        navController.graph = graph
+
+    private fun switchFragment(startDestId: Int, bundle: Bundle) {
+        findNavController().navigate(
+            startDestId,
+            bundle,
+            NavOptions.Builder().setPopUpTo(findNavController().graph.startDestination, true)
+                .build()
+        )
     }
 
 }

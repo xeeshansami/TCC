@@ -10,7 +10,13 @@ import androidx.navigation.fragment.findNavController
 import com.paxees.tcc.R
 import com.paxees.tcc.controllers.CIFRootActivity
 import com.paxees.tcc.utils.SessionManager
+import kotlinx.android.synthetic.main.fragment_diagnose6.*
 import kotlinx.android.synthetic.main.fragment_diagnose7.*
+import kotlinx.android.synthetic.main.fragment_diagnose7.diaglosePageNoTv
+import kotlinx.android.synthetic.main.fragment_diagnose7.diagnosebtn1
+import kotlinx.android.synthetic.main.fragment_diagnose7.diagnosebtn2
+import kotlinx.android.synthetic.main.fragment_diagnose7.diagnosebtn3
+import kotlinx.android.synthetic.main.fragment_diagnose7.diagnosebtn4
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.header
 
@@ -46,12 +52,28 @@ class Diagnose7 : Fragment(), View.OnClickListener {
         diagnosebtn4.setOnClickListener(this)
         header.text = ""
         diaglosePageNoTv.text = "7/8"
+        if (!(activity as CIFRootActivity).sharedPreferenceManager.diagnose.meta.areYouUsingAnyNutrients.isNullOrEmpty()) {
+            when ((activity as CIFRootActivity).sharedPreferenceManager.diagnose.meta.areYouUsingAnyNutrients) {
+                "Yes" -> {
+                    diagnosebtn1.background = resources.getDrawable(R.drawable.const_bg_border_square_green)
+                }
+                "Enter What Brand?" -> {
+                    diagnosebtn2.background = resources.getDrawable(R.drawable.const_bg_border_square_green)
+                }
+                "Your Nutrient Cycle" -> {
+                    diagnosebtn3.background = resources.getDrawable(R.drawable.const_bg_border_square_green)
+                }
+                "no" -> {
+                    diagnosebtn4.background = resources.getDrawable(R.drawable.const_bg_border_square_green)
+                }
+            }
+        }
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.backBtn -> {
-                findNavController().navigateUp()
+                findNavController().popBackStack()
             }
             R.id.diagnosebtn1 -> {
                 gotoNextScreens("Yes")

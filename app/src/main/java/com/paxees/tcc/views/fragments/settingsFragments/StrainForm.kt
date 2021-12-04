@@ -258,7 +258,7 @@ class StrainForm : Fragment(), View.OnClickListener {
         }
         val horizontalLayoutManagaer = GridLayoutManager(activity, 5)
         rvPlantsInterested!!.layoutManager = horizontalLayoutManagaer
-        var adapter = RecyclerViewAdapter(requireActivity(), rec, 0)
+        var adapter = RecyclerViewAdapter(requireActivity(), rec, 0, "")
         adapter.setClickListener(object : RecyclerViewAdapter.ItemClickListener {
             override fun onItemClick(view: View?, position: Int, value: String) {
                 plantsInterested = value
@@ -283,7 +283,7 @@ class StrainForm : Fragment(), View.OnClickListener {
         }
         val horizontalLayoutManagaer = GridLayoutManager(activity, 5)
         rvSeedsInterested!!.layoutManager = horizontalLayoutManagaer
-        var adapter = RecyclerViewAdapter(requireActivity(), rec, 0)
+        var adapter = RecyclerViewAdapter(requireActivity(), rec, 0, "")
         adapter.setClickListener(object : RecyclerViewAdapter.ItemClickListener {
             override fun onItemClick(view: View?, position: Int, value: String) {
                 seedsInterested = value
@@ -308,7 +308,7 @@ class StrainForm : Fragment(), View.OnClickListener {
         val horizontalLayoutManagaer =
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         rvfindInterested!!.layoutManager = horizontalLayoutManagaer
-        var adapter = RecyclerViewAdapter(requireActivity(), rec, 1)
+        var adapter = RecyclerViewAdapter(requireActivity(), rec, 1, "")
         adapter.setClickListener(object : RecyclerViewAdapter.ItemClickListener {
             override fun onItemClick(view: View?, position: Int, value: String) {
                 findInterested = value
