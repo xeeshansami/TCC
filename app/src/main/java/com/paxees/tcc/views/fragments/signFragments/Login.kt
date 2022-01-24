@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Paint
 import android.os.Bundle
 import android.text.TextUtils
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.facebook.*
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -47,6 +49,10 @@ import kotlinx.android.synthetic.main.fragment_login.emailEt
 import kotlinx.android.synthetic.main.fragment_login.etPassword
 import kotlinx.android.synthetic.main.fragment_login.mainLoginLayout
 import org.json.JSONObject
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
+import java.util.*
+
 
 class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
     private var callbackManager: CallbackManager? = null
@@ -59,7 +65,7 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false)
@@ -82,7 +88,6 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
         checkBackground()
         gmailConnect()
         setupGoogleClient()
-        facebook()
     }
 
     @SuppressLint("WrongConstant")
@@ -103,7 +108,10 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
             }
             R.id.gmailBtn -> signIn()
             R.id.forgetPwd -> forgetPwd()
-            R.id.facebookBtn -> facebookBtnLogin!!.performClick()
+            R.id.facebookBtn -> {
+                facebookBtnLogin!!.performClick()
+                facebook(v)
+            }
             R.id.signupBtn -> register()
             R.id.backBtn -> {
                 switchFragment(R.id.login)
@@ -195,23 +203,24 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
     }
 
     /*facebookLogin*/
-    fun facebook() {
+    fun facebook(view: View) {
+        LoginManager.getInstance().logInWithReadPermissions(this,
+            Arrays.asList("email"));
+        printHashKey(activity as launcher)
         callbackManager = CallbackManager.Factory.create()
-        facebookBtnLogin!!.setReadPermissions("email", "public_profile")
+        facebookBtnLogin!!.setReadPermissions("email")
         facebookBtnLogin!!.registerCallback(
             callbackManager,
             object : FacebookCallback<LoginResult> {
                 override fun onSuccess(loginResult: LoginResult) {
                     val request =
-                        GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken()) { `object`, response ->
+                        GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken()) { objects, response ->
                             (activity as launcher?)!!.globalClass!!.hideLoader()
-                            Log.i(
-                                "Facebook", """
-     facebook response$response
-     ${loginResult.accessToken}
-     """.trimIndent()
-                            )
-                            //                        getFacebookDetails(loginResult.getAccessToken());
+                            Log.i("Facebook", "facebook response${response.rawResponse}${loginResult.accessToken}")
+                            val email = objects.optString("email")
+                            val name =objects.optString("name")
+                            val pwd = objects.optString("id")
+                            getFacebookDetails(email,name,pwd);
                         }
                     val parameters = Bundle()
                     parameters.putString("fields", "id,name,email")
@@ -231,6 +240,23 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
             })
     }
 
+    fun printHashKey(pContext: Context) {
+        try {
+            val info = pContext.packageManager.getPackageInfo(pContext.packageName,
+                PackageManager.GET_SIGNATURES)
+            for (signature in info.signatures) {
+                val md: MessageDigest = MessageDigest.getInstance("SHA")
+                md.update(signature.toByteArray())
+                val hashKey: String = String(android.util.Base64.encode(md.digest(), 0))
+                Log.i("HASHKEY", "printHashKey() Hash Key: $hashKey")
+            }
+        } catch (e: NoSuchAlgorithmException) {
+            Log.e("HASHKEY", "printHashKey()", e)
+        } catch (e: java.lang.Exception) {
+            Log.e("HASHKEY", "printHashKey()", e)
+        }
+    }
+
     private fun login(email: String, pwd: String) {
         (activity as launcher?)!!.globalClass!!.showDialog(activity)
         var request = LoginRequest()
@@ -240,6 +266,7 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
             override fun LoginSuccess(response: LoginResponse) {
                 if (!response.token.isNullOrEmpty()) {
                     (activity as launcher).sharedPreferenceManager.loginData = response
+                    ToastUtils.showToastWith(activity, "Login successfully...")
                     getCustomerDetails(email)
                 } else {
                     ToastUtils.showToastWith(activity, response.message)
@@ -263,7 +290,6 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
             object : CustomerDetailsCallBack {
                 override fun Success(response: CustomerDetailsResponse) {
                     (activity as launcher).sharedPreferenceManager.customerDetails = response
-                    ToastUtils.showToastWith(activity, "Login successfully...")
                     NavHostFragment.findNavController(this@Login).navigate(R.id.login_to_dashboard)
                     (activity as launcher?)!!.globalClass!!.hideLoader()
                 }
@@ -349,14 +375,14 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
         email: String?,
         id: String?,
         first_name: String?,
-        last_name: String?
+        last_name: String?,
     ) {
         (activity as launcher?)!!.globalClass!!.showDialog(activity)
         var request = RegistrationRequest()
         request.email = email!!
         request.firstName = first_name!!
         request.lastName = last_name!!
-        request.billing.phone = "xxxx"
+        request.billing.phone = "923412030258"
         request.password = id!!
         request.username = email.substring(0, email.indexOf("@"));
         TCCStore.instance!!.getRegister(RetrofitEnums.URL_HBL, request, object :
@@ -368,10 +394,6 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
                         .isNullOrEmpty()
                 ) {
                     login(email, id)
-                } else if (jsonObj.get("code")
-                        .equals("registration-error-email-exists")
-                ) {
-                    login(email, id)
                 } else {
                     ToastUtils.showToastWith(activity, "Something went wrong, try again")
                 }
@@ -379,42 +401,20 @@ class Login : Fragment(), View.OnClickListener, GoogleApiClient.OnConnectionFail
             }
 
             override fun Failure(baseResponse: BaseResponse) {
-                ToastUtils.showToastWith(activity, baseResponse.message, "")
+                if (baseResponse.code.toString().contains("registration-error-email-exists")) {
+                    login(email, id)
+                } else {
+                    ToastUtils.showToastWith(activity, baseResponse.message, "")
+                }
                 (activity as launcher?)!!.globalClass!!.hideLoader()
             }
         })
     }
 
     /*Facebook login*/
-    private fun getFacebookDetails(token: AccessToken) {
+    private fun getFacebookDetails(email: String, name: String, pwd: String) {
         try {
-            val request = GraphRequest.newMeRequest(token) { `object`, response ->
-                try {
-                    val email = `object`.optString("email")
-                    val first_name = `object`.optString("first_name")
-                    val last_name = `object`.optString("last_name")
-                    //                        String fcm = SharedPreferenceManager.getInstance(LoginActivity.this).getFcmToken();
-                    val password = "Dusky123"
-                    val app = "consumer"
-                    val fbToken = token.token
-                    val facebook = "facebook"
-                    Log.i(
-                        "Facebook", token.token + "\\n"
-                                + email + "\\n"
-                                + last_name + "\\n" //                                + fcm + "\\n"
-                                + password + "\\n"
-                                + app + "\\n"
-                                + fbToken
-                    )
-                } catch (e: Exception) {
-                    ToastUtils.showToastWith(
-                        activity,
-                        resources.getString(R.string.somethingWentWrong),
-                        ""
-                    )
-                    Log.e("error", e.message!!)
-                }
-            }
+            registrations(email, pwd, name,"")
         } catch (e: IndexOutOfBoundsException) {
             Log.e("ExceptionError", " = " + e.message)
         } catch (e: NumberFormatException) {

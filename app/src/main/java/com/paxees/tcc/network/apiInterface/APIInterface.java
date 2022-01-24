@@ -119,7 +119,7 @@ public interface APIInterface {
     Call<ProductResponse> getProduct(@Path("key") String key);
 
     @GET("apiuser/v1/forgotpwd/{useremail}")
-    Call<ForgetPasswordResponse> getForgetPassword(@Query("useremail") String useremail);
+    Call<ForgetPasswordResponse> getForgetPassword(@Path("useremail") String useremail);
 
     @GET("single/location/203")
     Call<SingleLocationDetailsResponse> getSingleLocationDetails(/*@Path("userid") String userid*/);

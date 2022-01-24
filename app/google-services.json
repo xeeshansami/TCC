@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "9298055393",
-    "project_id": "tcc82331",
-    "storage_bucket": "tcc82331.appspot.com"
+    "project_number": "679647622263",
+    "project_id": "tccapp-87416",
+    "storage_bucket": "tccapp-87416.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:9298055393:android:1e7c5e409ca63de71ae7a0",
+        "mobilesdk_app_id": "1:679647622263:android:364d3e131dab2850510272",
         "android_client_info": {
           "package_name": "com.paxees.tcc"
         }
       },
       "oauth_client": [
         {
-          "client_id": "9298055393-eb5ov8lq9ugh390ebu03qrnuc9g1fm49.apps.googleusercontent.com",
+          "client_id": "679647622263-daharv17h6orths9i5tp291d3n0v2imh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.paxees.tcc",
-            "certificate_hash": "1ff70cbf63aa6daed1d738f326fad58cdf984868"
+            "certificate_hash": "3ac806a89d5901954ee4185b46f2815ef174604c"
           }
         },
         {
-          "client_id": "9298055393-sfpoq6gboa58od54ejpioedrpc8da9fv.apps.googleusercontent.com",
+          "client_id": "679647622263-uigqis8fustqpjer2gvvuphcqi5n9opm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDqnVCoqK4YKCi-o6JWhq6G0AW0VNKK0PY"
+          "current_key": "AIzaSyAQSB3Ojgf-X6YIvyZY31V1kcnoKd6qkw0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "9298055393-sfpoq6gboa58od54ejpioedrpc8da9fv.apps.googleusercontent.com",
+              "client_id": "679647622263-uigqis8fustqpjer2gvvuphcqi5n9opm.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

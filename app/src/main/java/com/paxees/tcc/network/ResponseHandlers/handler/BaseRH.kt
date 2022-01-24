@@ -20,11 +20,15 @@ abstract class BaseRH<T> : Callback<T> {
             var jsonResponse = JSONObject(body)
             var code = jsonResponse.get("code") as String
             var message = jsonResponse.get("message") as String
-            ToastUtils.normalShowToast(
-                globalClass.applicationContext,
-                "Something went wrong with\nCode: $code \nMessage: $message\nplease try again",
-                3000
-            )
+            var baseResponse=BaseResponse()
+            baseResponse.code=code
+            baseResponse.message=message
+            onFailure(baseResponse!!)
+//            ToastUtils.normalShowToast(
+//                globalClass.applicationContext,
+//                "Something went wrong with\nCode: $code \nMessage: $message\nplease try again",
+//                3000
+//            )
             globalClass.hideLoader()
         }
     }

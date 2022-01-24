@@ -60,7 +60,6 @@
             android:id="@+id/emailEt"
             android:textSize="@dimen/_15sdp"
             android:textStyle="bold"
-            android:text="@string/emailValue"
             android:hint="@string/sampleEmail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,7 +111,6 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:text="@string/pwdVallue"
                 android:singleLine="true"
                 android:hint="@string/samplePassword"
                 />
@@ -178,6 +176,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30sdp" >
                     <Button
+                        android:onClick="onClick"
                         android:text="@string/facebook"
                         android:id="@+id/facebookBtn"
                         android:layout_margin="@dimen/_3sdp"
